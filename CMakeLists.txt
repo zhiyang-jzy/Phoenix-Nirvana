@@ -1,0 +1,16 @@
+cmake_minimum_required(VERSION 3.24)
+project(phoenix_nirvana)
+
+set(CMAKE_CXX_STANDARD 17)
+
+include_directories(include)
+file(GLOB phoenix_src src/phoenix/*.cpp src/phoenix/utils/*.cpp src/phoenix/core/*.cpp)
+
+
+find_package(ZLIB)
+find_package(Eigen3)
+find_package(spdlog)
+
+
+add_executable(phoenix_nirvana ${phoenix_src})
+target_link_libraries(phoenix_nirvana ZLIB::ZLIB Eigen3::Eigen spdlog::spdlog)

@@ -10,7 +10,8 @@ file(GLOB phoenix_src src/phoenix/*.cpp src/phoenix/utils/*.cpp src/phoenix/core
 find_package(ZLIB)
 find_package(Eigen3)
 find_package(spdlog)
+find_package(Embree)
 
 
 add_executable(phoenix_nirvana ${phoenix_src})
-target_link_libraries(phoenix_nirvana ZLIB::ZLIB Eigen3::Eigen spdlog::spdlog)
+target_link_libraries(phoenix_nirvana ZLIB::ZLIB Eigen3::Eigen spdlog::spdlog embree)

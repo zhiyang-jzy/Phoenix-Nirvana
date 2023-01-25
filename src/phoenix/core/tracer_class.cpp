@@ -43,26 +43,28 @@ namespace Phoenix {
         rtcCommitScene(scene_);
     }
 
-    RTCRayHit Tracer::TraceRay(const Ray &ray) {
+    TracerHit Tracer::TraceRay(const Ray &ray) {
         struct RTCIntersectContext context{};
         rtcInitIntersectContext(&context);
 
-        struct RTCRayHit rayhit{};
-        rayhit.ray.org_x = ray.orig.x();
-        rayhit.ray.org_y = ray.orig.y();
-        rayhit.ray.org_z = ray.orig.z();
-        rayhit.ray.dir_x = ray.dir.x();
-        rayhit.ray.dir_y = ray.dir.y();
-        rayhit.ray.dir_z = ray.dir.z();
-        rayhit.ray.tnear = ray.t_near;
-        rayhit.ray.tfar = ray.t_far;
-        rayhit.ray.mask = -1;
-        rayhit.ray.flags = 0;
-        rayhit.hit.geomID = RTC_INVALID_GEOMETRY_ID;
-        rayhit.hit.instID[0] = RTC_INVALID_GEOMETRY_ID;
+        struct RTCRayHit ray_hit{};
+        ray_hit.ray.org_x = ray.orig.x();
+        ray_hit.ray.org_y = ray.orig.y();
+        ray_hit.ray.org_z = ray.orig.z();
+        ray_hit.ray.dir_x = ray.dir.x();
+        ray_hit.ray.dir_y = ray.dir.y();
+        ray_hit.ray.dir_z = ray.dir.z();
+        ray_hit.ray.tnear = ray.t_near;
+        ray_hit.ray.tfar = ray.t_far;
+        ray_hit.ray.mask = -1;
+        ray_hit.ray.flags = 0;
+        ray_hit.hit.geomID = RTC_INVALID_GEOMETRY_ID;
+        ray_hit.hit.instID[0] = RTC_INVALID_GEOMETRY_ID;
 
-        rtcIntersect1(scene_, &context, &rayhit);
+        rtcIntersect1(scene_, &context, &ray_hit);
 
-        return rayhit;
+        return {ray_hit.hit.geomID != RTC_INVALID_GEOMETRY_ID, ray_hit.ray.tfar, {ray_hit.hit.u, ray_hit.hit.v},
+                {ray_hit.hit.Ng_x, ray_hit.hit.Ng_y, ray_hit.hit.Ng_z}, ray_hit.hit.geomID, ray_hit.hit.primID};
+
     }
 }

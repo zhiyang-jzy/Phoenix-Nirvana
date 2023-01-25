@@ -8,4 +8,13 @@ namespace Phoenix{
         float t_near;
         float t_far;
     };
+
+    struct TracerHit{
+        bool is_hit;
+        float t_far;
+        Vector2f uv;
+        Vector3f normal;
+        uint geo_id;
+        uint prim_id;
+    };
 }

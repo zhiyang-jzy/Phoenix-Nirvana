@@ -4,7 +4,8 @@ project(phoenix_nirvana)
 set(CMAKE_CXX_STANDARD 17)
 
 include_directories(include)
-file(GLOB phoenix_src src/phoenix/*.cpp src/phoenix/utils/*.cpp src/phoenix/core/*.cpp)
+file(GLOB phoenix_src src/phoenix/*.cpp src/phoenix/utils/*.cpp src/phoenix/core/*.cpp src/phoenix/cameras/*.cpp
+        src/phoenix/samplers/*.cpp )
 
 
 find_package(ZLIB)

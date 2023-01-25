@@ -15,7 +15,7 @@ namespace Phoenix{
     public:
         Tracer();
         uint AddSphere(const Vector3f& center,float radius);
-        RTCRayHit TraceRay(const Ray& ray);
+        TracerHit TraceRay(const Ray& ray);
         void FinishAdd();
     };
 

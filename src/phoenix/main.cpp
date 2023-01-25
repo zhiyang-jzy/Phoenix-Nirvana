@@ -6,7 +6,8 @@
 #include "phoenix/core/tracer_class.h"
 #include "phoenix/core/object_class.h"
 #include "phoenix/core/camera_class.h"
-
+#include "phoenix/core/scene_class.h"
+#include "phoenix/core/integrator.h"
 using namespace std;
 using namespace Phoenix;
 
@@ -24,20 +25,24 @@ int main() {
     p.Set("height", height);
     p.Set("fov",34.2f);
     auto camera = std::dynamic_pointer_cast<Camera>(PhoenixObjectFactory::CreateInstance("pinhole", p));
+    auto sampler = std::dynamic_pointer_cast<Sampler>(PhoenixObjectFactory::CreateInstance("independent",p));
+    auto scene = make_shared<Scene>();
+    auto integrator = std::dynamic_pointer_cast<Integrator>(PhoenixObjectFactory::CreateInstance("test", p));
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             Ray ray;
             camera->GenerateRay({j,i},ray);
             auto res = tracer.TraceRay(ray);
-            if(res.is_hit)
-            {
-                s.coeffRef(i,j) = Vector3f(1,1,1);
-            }
-            else{
-                s.coeffRef(i,j) = Vector3f(0,0,0);
-            }
-            //s.coeffRef(i, j) = Vector3f(i, j, 0);
+            auto color = integrator->Li(scene,sampler,ray);
+//            if(res.is_hit)
+//            {
+//                s.coeffRef(i,j) = Vector3f(1,1,1);
+//            }
+//            else{
+//                s.coeffRef(i,j) = Vector3f(0,0,0);
+//            }
+            s.coeffRef(i, j) = color;
         }
     }
 

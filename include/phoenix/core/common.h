@@ -16,3 +16,5 @@ typedef Eigen::Vector2i Vector2i;
 
 constexpr float kEpsilon = 1e-4f;
 constexpr float kFInf = std::numeric_limits<float>::infinity();
+
+const float kPi = acos(-1.f);

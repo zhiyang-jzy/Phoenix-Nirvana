@@ -12,24 +12,23 @@ using namespace Phoenix;
 
 int main() {
     Phoenix::PathTool ft;
-    int width = 400, height = 400;
+    int width = 256, height = 256;
     Bitmap s(width, height);
     ImageTool image_tool;
     Tracer tracer;
 
-    tracer.AddSphere(Vector3f(0, 0, -5), 2);
+    tracer.AddSphere(Vector3f(0, 0, -10), 2);
     tracer.FinishAdd();
     PropertyList p;
-    p.Set("width",width);
-    p.Set("height",height);
+    p.Set("width", width);
+    p.Set("height", height);
+    p.Set("fov",34.2f);
     auto camera = std::dynamic_pointer_cast<Camera>(PhoenixObjectFactory::CreateInstance("pinhole", p));
 
-    for(int i=0;i<height;i++)
-    {
-        for(int j=0;j<width;j++)
-        {
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
             Ray ray;
-            camera->GenerateRay({i,j},ray);
+            camera->GenerateRay({j,i},ray);
             auto res = tracer.TraceRay(ray);
             if(res.is_hit)
             {
@@ -38,6 +37,7 @@ int main() {
             else{
                 s.coeffRef(i,j) = Vector3f(0,0,0);
             }
+            //s.coeffRef(i, j) = Vector3f(i, j, 0);
         }
     }
 

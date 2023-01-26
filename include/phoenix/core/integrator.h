@@ -4,6 +4,7 @@
 #include "scene_class.h"
 #include "sampler_class.h"
 #include "common_struct.h"
+#include "shape_class.h"
 
 namespace Phoenix{
     class Integrator:public PhoenixObject{

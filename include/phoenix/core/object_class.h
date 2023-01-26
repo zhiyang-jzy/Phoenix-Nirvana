@@ -1,5 +1,6 @@
 #pragma once
 #include "phoenix/core/common.h"
+#include <spdlog/spdlog.h>
 #include <any>
 #include <optional>
 namespace Phoenix{
@@ -61,12 +62,19 @@ namespace Phoenix{
             //            if (!m_constructors || m_constructors->find(name) == m_constructors->end())
             //                throw NoriException("A constructor for class \"%s\" could not be found!", name);
             return (*constructors_)[name](propList);
-
         }
+        static bool Exist(const string& name){return constructors_->count(name);}
 
     private:
         static std::map<std::string, Constructor>* constructors_;
     };
+    inline void CheckFactoryExist(const string& key)
+    {
+        if(!PhoenixObjectFactory::Exist(key)){
+            spdlog::error("No such object {}",key);
+            exit(0);
+        }
+    }
 
 #define PHOENIX_REGISTER_CLASS(cls, name) \
     shared_ptr<cls> cls ##_create(const PropertyList &list) { \

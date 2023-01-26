@@ -9,9 +9,9 @@ namespace Phoenix {
         float fov_;
     public:
         explicit PinholeCamera(PropertyList properties) {
-            output_size_.x() = properties.Get<int>("width").value_or(800);
-            output_size_.y() = properties.Get<int>("height").value_or(800);
-            fov_ = DegToRad(properties.Get<float>("fov").value_or(45));
+            output_size_.x() = properties.Get<long long>("width").value_or(800);
+            output_size_.y() = properties.Get<long long>("height").value_or(800);
+            fov_ = DegToRad(properties.Get<double>("fov").value_or(45.0));
             scale_ = tan(fov_ * 0.5f);
             aspect_ = output_size_.x() / float(output_size_.y());
             inv_output_size_ = {1.f / output_size_.x(), 1.f / output_size_.y()};

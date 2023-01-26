@@ -1,0 +1,23 @@
+
+
+[camera]
+type = "pinhole"
+fov = 34.2
+width = 400
+height = 400
+
+[integrator]
+type = "test"
+
+[sampler]
+type = "independent"
+
+[[shapes]]
+type = "sphere"
+center = [0,0,-10]
+radius = 2.0
+
+#[[shapes]]
+#type = "sphere"
+#center = [1,1,-10]
+#radius = 3.0

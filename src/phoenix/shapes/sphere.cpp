@@ -9,7 +9,7 @@ namespace Phoenix{
     public:
         Sphere(PropertyList properties){
             center_ = properties.Get<Vector3f>("center").value_or(Vector3f(0,0,0));
-            radius_ = properties.Get<float>("radius").value_or(1.f);
+            radius_ = properties.Get<double>("radius").value_or(1.);
             base_color_ = properties.Get<Vector3f>("color").value_or(Vector3f(1,1,1));
         }
         [[nodiscard]] string ToString()const override{return "sphere";}

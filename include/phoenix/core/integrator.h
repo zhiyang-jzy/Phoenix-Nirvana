@@ -5,6 +5,8 @@
 #include "sampler_class.h"
 #include "common_struct.h"
 #include "shape_class.h"
+#include "emitter_class.h"
+#include "bsdf_class.h"
 
 namespace Phoenix{
     class Integrator:public PhoenixObject{

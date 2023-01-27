@@ -1,30 +1,36 @@
 #include "phoenix/core/shape_class.h"
 #include "phoenix/core/scene_class.h"
-namespace Phoenix{
 
-    class Sphere : public Shape{
+namespace Phoenix {
+
+    class Sphere : public Shape {
     private:
         Vector3f center_;
         float radius_;
     public:
-        Sphere(PropertyList properties){
-            center_ = properties.Get<Vector3f>("center").value_or(Vector3f(0,0,0));
+        Sphere(PropertyList properties) {
+            center_ = properties.Get<Vector3f>("center").value_or(Vector3f(0, 0, 0));
             radius_ = properties.Get<double>("radius").value_or(1.);
-            base_color_ = properties.Get<Vector3f>("color").value_or(Vector3f(1,1,1));
-        }
-        [[nodiscard]] string ToString()const override{return "sphere";}
-        void AddToScene(Scene &scene)override
-        {
-            uint id = scene.tracer().AddSphere(center_,radius_);
-            scene.SetDict(id, shared_ptr<Shape>(this));
+            area_ = 4.f * kPi * radius_ * radius_;
         }
 
-        Vector3f GetColor(const TracerHit& hit)override{
-            return base_color_;
+        [[nodiscard]] string ToString() const override { return "sphere"; }
+
+        vector<uint> AddToTracer(Tracer &tracer) override {
+            uint id = tracer.AddSphere(center_, radius_);
+            return {id};
         }
+
+        void SamplePosition(PositionSampleRecord &rec, Vector2f sample) override {
+            auto v = SquareToUniformSphere(sample).normalized();
+            rec.point = center_ + radius_ * v;
+            rec.normal = v;
+            rec.pdf = 1.f / area_;
+        }
+
 
     };
 
-    PHOENIX_REGISTER_CLASS(Sphere,"sphere");
+    PHOENIX_REGISTER_CLASS(Sphere, "sphere");
 
 }

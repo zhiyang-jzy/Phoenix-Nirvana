@@ -64,7 +64,7 @@ namespace Phoenix {
         rtcIntersect1(scene_, &context, &ray_hit);
 
         return {ray_hit.hit.geomID != RTC_INVALID_GEOMETRY_ID, ray_hit.ray.tfar, {ray_hit.hit.u, ray_hit.hit.v},
-                {ray_hit.hit.Ng_x, ray_hit.hit.Ng_y, ray_hit.hit.Ng_z}, ray_hit.hit.geomID, ray_hit.hit.primID};
+                {ray_hit.hit.Ng_x, ray_hit.hit.Ng_y, ray_hit.hit.Ng_z},ray.At(ray_hit.ray.tfar) ,ray_hit.hit.geomID, ray_hit.hit.primID};
 
     }
 }

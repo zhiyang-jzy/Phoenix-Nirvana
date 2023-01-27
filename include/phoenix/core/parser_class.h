@@ -10,6 +10,7 @@ namespace Phoenix{
         static void ProcessCamera(const toml::parse_result& scene_config, Renderer& render);
         static void ProcessIntegrator(const toml::parse_result& scene_config, Renderer& render);
         static void ProcessObjects(const toml::parse_result& scene_config, Renderer& render);
+        static void ProcessEmitters(const toml::parse_result& scene_config, Renderer& render);
         static void ProcessSampler(const toml::parse_result& scene_config, Renderer& render);
     };
 }

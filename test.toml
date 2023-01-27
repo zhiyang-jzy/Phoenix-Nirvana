@@ -1,4 +1,5 @@
 
+sample_count = 256
 
 [camera]
 type = "pinhole"
@@ -7,17 +8,34 @@ width = 400
 height = 400
 
 [integrator]
-type = "test"
+type = "base"
 
 [sampler]
 type = "independent"
 
+[[emitters]]
+type = "area"
+radiance = [1,1,1]
+
+[emitters.shape]
+type = "sphere"
+center = [-1,-1,-7]
+radius = 0.5
+
+
 [[shapes]]
 type = "sphere"
 center = [0,0,-10]
-radius = 2.0
+radius = 1.0
+[shapes.bsdf]
+type = "diffuse"
+basecolor = [1,1,1]
 
-#[[shapes]]
-#type = "sphere"
-#center = [1,1,-10]
-#radius = 3.0
+[[shapes]]
+type = "sphere"
+center = [2,2,-10]
+radius = 0.5
+
+[shapes.bsdf]
+type = "diffuse"
+basecolor = [1,1,1]

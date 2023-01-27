@@ -28,7 +28,7 @@ namespace Phoenix {
             Vector3f dir(x, y, -1);
             dir.normalize();
 
-            ray = {orig, dir, kEpsilon, kFInf};
+            ray = Ray(orig, dir);
         }
 
         [[nodiscard]] string ToString() const override { return "pinhole camera"; }

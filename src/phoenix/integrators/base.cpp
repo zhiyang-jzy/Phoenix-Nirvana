@@ -3,6 +3,15 @@
 
 namespace Phoenix {
 
+    bool check(const Vector3f& v){
+        for (int i=0; i<3; ++i) {
+            float value = v.coeff(i);
+            if (value < 0 || !std::isfinite(value))
+                return false;
+        }
+        return true;
+    }
+
     class Base : public Integrator {
     private:
         float russian_ = 0.95;
@@ -57,10 +66,11 @@ namespace Phoenix {
             auto bsdf_v = bsdf->Eval(rec);
             Ray light_ray(hit.basic.point, hit.frame.ToWorld(rec.wo).normalized());
 
-            if(sampler->Next1D()<russian_)
-                return res+ Li(scene, sampler, light_ray) * bsdf_v / pdf / russian_;
-            return res;
-
+            if (sampler->Next1D() < russian_)
+                res += color.cwiseProduct(Li(scene, sampler, light_ray)) * bsdf_v / pdf / russian_;
+            if(check(res))
+                return res;
+            return {0,0,0};
         }
     };
 

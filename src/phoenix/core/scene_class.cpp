@@ -19,6 +19,7 @@ namespace Phoenix {
 
     Interaction Scene::Trace(const Ray &ray) {
         TracerHit basic = tracer_.TraceRay(ray);
+        basic.normal = basic.normal.normalized();
         Interaction interaction;
         interaction.basic = basic;
         interaction.shape = nullptr;
@@ -32,6 +33,7 @@ namespace Phoenix {
             } else {
                 interaction.hit_type = HitType::Emitter;
                 interaction.emitter = emitter_dict_[basic.geo_id];
+                interaction.frame = Frame(basic.normal);
             }
         }
         return interaction;

@@ -1,11 +1,11 @@
 
-sample_count = 256
+sample_count = 1024
 
 [camera]
 type = "pinhole"
 fov = 34.2
-width = 400
-height = 400
+width = 256
+height = 256
 
 [integrator]
 type = "base"
@@ -26,16 +26,16 @@ radius = 0.5
 [[shapes]]
 type = "sphere"
 center = [0,0,-10]
-radius = 1.0
+radius = 2.0
 [shapes.bsdf]
 type = "diffuse"
 basecolor = [1,1,1]
 
-[[shapes]]
-type = "sphere"
-center = [2,2,-10]
-radius = 0.5
-
-[shapes.bsdf]
-type = "diffuse"
-basecolor = [1,1,1]
+#[[shapes]]
+#type = "sphere"
+#center = [2,2,-10]
+#radius = 0.5
+#
+#[shapes.bsdf]
+#type = "diffuse"
+#basecolor = [1,1,1]

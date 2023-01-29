@@ -6,6 +6,10 @@ type = "pinhole"
 fov = 34.2
 width = 1024
 height = 1024
+orig = [0,0,0]
+up = [0,1,0]
+target = [0,0,-1]
+
 
 [integrator]
 type = "base"

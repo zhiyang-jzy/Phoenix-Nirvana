@@ -4,6 +4,7 @@
 
 #include "phoenix/core/common.h"
 #include "bitmap_class.h"
+#include "ext/cppm.hpp"
 
 namespace Phoenix {
     class ImageBlock : public Eigen::Array<Vector3f, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> {
@@ -32,7 +33,10 @@ namespace Phoenix {
     };
 
     class BlockGenerator {
+    private:
+        shared_ptr<cppm::pm> bar_;
     public:
+
         BlockGenerator(const Vector2i &size, int blockSize=kBlockSize);
 
         bool Next(ImageBlock &block);

@@ -2,6 +2,7 @@
 #include <tbb/parallel_for.h>
 #include <tbb/blocked_range2d.h>
 #include <chrono>
+#include "ext/cppm.hpp"
 
 namespace Phoenix {
     typedef std::chrono::high_resolution_clock clock;
@@ -9,10 +10,12 @@ namespace Phoenix {
 
     void Renderer::Render() {
         int width = pic_size_.x(), height = pic_size_.y();
+
         auto current_time = clock::now();
         spdlog::info("render start");
         if (!multi_thread_) {
             Ray ray;
+            cppm::pm bar(width*height);
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     {
@@ -22,11 +25,13 @@ namespace Phoenix {
                             camera_->GenerateRay(sample, ray);
                             res += integrator_->Li(scene_, sampler_, ray);
                         }
+                        bar.update();
                         res /= sample_count_;
                         bitmap_->coeffRef(i, j) = res;
                     }
                 }
             }
+            bar.finish();
         } else {
             BlockGenerator blockGenerator(pic_size_);
             result_ = make_shared<ImageBlock>(pic_size_);

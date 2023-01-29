@@ -8,6 +8,7 @@ int main() {
     Renderer render;
     Parser::Parse("test.toml",render);
     ImageTool img_tool;
+    render.SetMultiThread(true);
     render.Render();
     img_tool.write_exr(*render.bitmap(),"first.exr");
     int c;

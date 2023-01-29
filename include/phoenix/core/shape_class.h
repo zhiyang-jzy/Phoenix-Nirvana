@@ -4,6 +4,7 @@
 #include "phoenix/core/common_struct.h"
 #include "tracer_class.h"
 
+
 #include "bsdf_class.h"
 namespace Phoenix{
     class Scene;

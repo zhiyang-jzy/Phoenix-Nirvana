@@ -2,7 +2,7 @@
 #include "phoenix/core/sampler_class.h"
 
 namespace Phoenix{
-    class Independent :public Sampler{
+    class StdRandom : public Sampler{
     private:
         std::random_device device_;
         std::shared_ptr<std::mt19937> gen_;
@@ -10,7 +10,11 @@ namespace Phoenix{
 
     public:
 
-        Independent(const PropertyList& properties){
+        StdRandom(const PropertyList& properties){
+            gen_ = std::make_shared<std::mt19937>(device_());
+            dis_ = std::make_shared<std::uniform_real_distribution<>>(0.0,1.0);
+        }
+        StdRandom(){
             gen_ = std::make_shared<std::mt19937>(device_());
             dis_ = std::make_shared<std::uniform_real_distribution<>>(0.0,1.0);
         }
@@ -29,7 +33,10 @@ namespace Phoenix{
             auto a1 = t(s),a2=t(s);
             return {a1,a2};
         }
+        shared_ptr<Sampler> Clone() override{
+            return make_shared<StdRandom>();
+        }
 
     };
-    PHOENIX_REGISTER_CLASS(Independent,"independent");
+    PHOENIX_REGISTER_CLASS(StdRandom, "std_random");
 }

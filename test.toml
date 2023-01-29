@@ -1,17 +1,17 @@
 
-sample_count = 1024
+sample_count = 512
 
 [camera]
 type = "pinhole"
 fov = 34.2
-width = 256
-height = 256
+width = 1024
+height = 1024
 
 [integrator]
 type = "base"
 
 [sampler]
-type = "independent"
+type = "pcg_random"
 
 [[emitters]]
 type = "area"
@@ -19,23 +19,23 @@ radiance = [1,1,1]
 
 [emitters.shape]
 type = "sphere"
-center = [-1,-1,-7]
-radius = 0.5
+center = [-5,-5,-7]
+radius = 5.0
 
 
 [[shapes]]
 type = "sphere"
 center = [0,0,-10]
-radius = 2.0
+radius = 1.0
+[shapes.bsdf]
+type = "diffuse"
+basecolor = [1,1,0]
+
+[[shapes]]
+type = "sphere"
+center = [2,2,-10]
+radius = 0.5
+
 [shapes.bsdf]
 type = "diffuse"
 basecolor = [1,1,1]
-
-#[[shapes]]
-#type = "sphere"
-#center = [2,2,-10]
-#radius = 0.5
-#
-#[shapes.bsdf]
-#type = "diffuse"
-#basecolor = [1,1,1]

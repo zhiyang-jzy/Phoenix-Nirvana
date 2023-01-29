@@ -18,7 +18,7 @@ namespace Phoenix {
 
         }
 
-        void GenerateRay(const Vector2f sample, Ray &ray) override {
+        void GenerateRay(const Vector2f sample, Ray &ray)const  override {
 
             auto orig = Vector3f(0, 0, 0);
 

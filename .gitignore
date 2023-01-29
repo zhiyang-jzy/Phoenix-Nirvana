@@ -2,3 +2,4 @@ cmake-build-debug/
 *.exr
 .idea
 cmake-build-release
+cmake-build-release-

@@ -6,6 +6,7 @@
 #include "sampler_class.h"
 #include "integrator.h"
 #include "bitmap_class.h"
+#include "image_block_class.h"
 
 namespace Phoenix{
     class Renderer{
@@ -15,8 +16,12 @@ namespace Phoenix{
         shared_ptr<Sampler> sampler_;
         shared_ptr<Bitmap> bitmap_;
         shared_ptr<Integrator> integrator_;
+        shared_ptr<ImageBlock> result_;
         Vector2i pic_size_;
         int sample_count_;
+        bool multi_thread_;
+    private:
+        void RenderBlock(shared_ptr<Sampler> sampler, ImageBlock &block);
     public:
 
         Renderer();
@@ -28,6 +33,7 @@ namespace Phoenix{
         void SetSampleCount(int sample_count){sample_count_=sample_count;}
         shared_ptr<Bitmap> bitmap(){return bitmap_;}
         shared_ptr<Scene> scene(){return scene_;}
+        void SetMultiThread(bool bIsOpen){ multi_thread_ = bIsOpen;}
 
     public:
         void Render();

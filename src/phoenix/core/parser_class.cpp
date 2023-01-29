@@ -133,8 +133,17 @@ namespace Phoenix {
     }
 
     void Parser::ProcessSampler(const toml::parse_result &scene_config, Renderer &render) {
-        auto sampler = std::dynamic_pointer_cast<Sampler>(PhoenixObjectFactory::CreateInstance("independent", {}));
+//        auto sampler = std::dynamic_pointer_cast<Sampler>(PhoenixObjectFactory::CreateInstance("independent", {}));
+//        render.SetSampler(sampler);
+        CheckKeyExist(scene_config,"sampler");
+        auto sampler_info = scene_config["sampler"].as_table();
+        string name = (*sampler_info)["type"].value_or("");
+        CheckFactoryExist(name);
+        PropertyList integrator_properties = GenProperList(sampler_info);
+        auto sampler = std::dynamic_pointer_cast<Sampler>(
+                PhoenixObjectFactory::CreateInstance(name, integrator_properties));
         render.SetSampler(sampler);
+
     }
 
     void Parser::ProcessEmitters(const toml::parse_result &scene_config, Renderer &render) {

@@ -25,7 +25,7 @@ namespace Phoenix {
             return "base integrator";
         }
 
-        Color3f Li(shared_ptr<Scene> scene, shared_ptr<Sampler> sampler, const Ray &ray) override {
+        Color3f Li(shared_ptr<Scene> scene, shared_ptr<Sampler> sampler, const Ray &ray)const  override {
             auto hit = scene->Trace(ray);
             Vector3f res(0, 0, 0);
             if (!hit.basic.is_hit)

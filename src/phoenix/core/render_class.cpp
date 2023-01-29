@@ -31,18 +31,22 @@ namespace Phoenix {
             BlockGenerator blockGenerator(pic_size_);
             result_ = make_shared<ImageBlock>(pic_size_);
             result_->Clear();
-            tbb::blocked_range<int> range(0, blockGenerator.GetBlockCount());
-            auto render_func = [&](const tbb::blocked_range<int> &range) {
-                ImageBlock block(Vector2i(BlockGenerator::kBlockSize, BlockGenerator::kBlockSize));
-                for (int i = range.begin(); i < range.end(); ++i) {
-                    blockGenerator.Next(block);
-                    sampler_->Prepare(block);
-                    RenderBlock(sampler_, block);
-                    result_->Put(block);
-                }
-            };
-            tbb::parallel_for(range, render_func,tbb::auto_partitioner{});
-            spdlog::info("write");
+            std::thread render_thread([&] {
+                //tbb::task_scheduler_init init(thread_count_);
+                tbb::blocked_range<int> range(0, blockGenerator.GetBlockCount());
+                auto map = [&](const tbb::blocked_range<int> &range) {
+                    ImageBlock block(Vector2i(BlockGenerator::kBlockSize, BlockGenerator::kBlockSize));
+                    std::shared_ptr<Sampler> sampler(sampler_->Clone());
+                    for (int i = range.begin(); i < range.end(); ++i) {
+                        blockGenerator.Next(block);
+                        sampler->Prepare(block);
+                        RenderBlock(sampler, block);
+                        result_->Put(block);
+                    }
+                };
+                tbb::parallel_for(range, map);
+            });
+            render_thread.join();
             bitmap_ = result_->ToBitmap();
         }
         auto end_time = clock::now();

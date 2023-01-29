@@ -27,11 +27,11 @@ namespace Phoenix{
         void AddEmitter(const shared_ptr<Emitter> emitter);
         void SetDict(uint id,shared_ptr<Shape> shape);
         void SetDict(uint id,shared_ptr<Emitter> emitter);
-        Tracer& tracer(){return tracer_;}
+        Tracer& tracer() {return tracer_;}
         void FinishAdd(){tracer_.FinishAdd();}
-        shared_ptr<Emitter> SampleEmitter(float& pdf,Vector2f sample);
+        shared_ptr<Emitter> SampleEmitter(float& pdf,Vector2f sample)const ;
 
-        Interaction Trace(const Ray &ray);
+        Interaction Trace(const Ray &ray)const ;
 
     };
 }

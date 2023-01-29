@@ -1,5 +1,5 @@
 
-sample_count = 512
+sample_count = 256
 
 [camera]
 type = "pinhole"

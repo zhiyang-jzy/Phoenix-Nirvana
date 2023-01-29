@@ -17,7 +17,7 @@ namespace Phoenix {
         shape_dict_[id] = std::move(shape);
     }
 
-    Interaction Scene::Trace(const Ray &ray) {
+    Interaction Scene::Trace(const Ray &ray)const  {
         TracerHit basic = tracer_.TraceRay(ray);
         basic.normal = basic.normal.normalized();
         Interaction interaction;
@@ -27,12 +27,13 @@ namespace Phoenix {
         if (basic.is_hit) {
             if (shape_dict_.count(basic.geo_id)) {
                 interaction.hit_type = HitType::Shape;
-                interaction.shape = shape_dict_[basic.geo_id];
+                interaction.shape = shape_dict_.at(basic.geo_id);
+
                 interaction.frame = Frame(basic.normal);
 
             } else {
                 interaction.hit_type = HitType::Emitter;
-                interaction.emitter = emitter_dict_[basic.geo_id];
+                interaction.emitter = emitter_dict_.at(basic.geo_id);
                 interaction.frame = Frame(basic.normal);
             }
         }
@@ -48,7 +49,7 @@ namespace Phoenix {
         emitter_dict_[id] = emitter;
     }
 
-    shared_ptr<Emitter> Scene::SampleEmitter(float &pdf, Vector2f sample) {
+    shared_ptr<Emitter> Scene::SampleEmitter(float &pdf, Vector2f sample) const {
         pdf = 1.0;
         return emitters_[0];
     }

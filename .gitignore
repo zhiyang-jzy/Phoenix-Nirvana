@@ -3,3 +3,5 @@ cmake-build-debug/
 .idea
 cmake-build-release
 cmake-build-release-
+build
+.DS_Store

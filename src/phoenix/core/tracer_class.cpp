@@ -43,7 +43,7 @@ namespace Phoenix {
         rtcCommitScene(scene_);
     }
 
-    TracerHit Tracer::TraceRay(const Ray &ray) {
+    TracerHit Tracer::TraceRay(const Ray &ray)const {
         struct RTCIntersectContext context{};
         rtcInitIntersectContext(&context);
 

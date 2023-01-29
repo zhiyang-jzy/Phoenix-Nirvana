@@ -14,6 +14,6 @@ namespace Phoenix{
         [[nodiscard]] PClassType GetClassType()const override{
             return PClassType::PIntegrator;
         }
-        virtual Vector3f Li(shared_ptr<Scene> scene,shared_ptr<Sampler> sampler,const Ray& ray)=0;
+        virtual Vector3f Li(shared_ptr<Scene> scene,shared_ptr<Sampler> sampler,const Ray& ray)const =0;
     };
 }

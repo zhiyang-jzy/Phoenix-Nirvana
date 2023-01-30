@@ -27,7 +27,7 @@ namespace Phoenix {
 
         Color3f Li(shared_ptr<Scene> scene, shared_ptr<Sampler> sampler, const Ray &ray)const  override {
             auto hit = scene->Trace(ray);
-            Vector3f res(0, 0, 0);
+            Color3f res(0, 0, 0);
             if (!hit.basic.is_hit)
                 return {0, 0, 0};
             if (hit.hit_type == HitType::Emitter) {
@@ -68,7 +68,7 @@ namespace Phoenix {
 
             if (sampler->Next1D() < russian_)
                 res += color.cwiseProduct(Li(scene, sampler, light_ray)) * bsdf_v / pdf / russian_;
-            if(check(res))
+            if(res.isValid())
                 return res;
             return {0,0,0};
         }

@@ -1,6 +1,9 @@
 #pragma once
 
+#include <utility>
+
 #include "common.h"
+#include "vector_class.h"
 
 namespace Phoenix {
     class Shape;
@@ -19,11 +22,66 @@ namespace Phoenix {
         float t_near;
         float t_far;
         Ray()=default;
-        Ray(Vector3f ori,Vector3f di):orig(ori),dir(di){t_near=kEpsilon,t_far=kFInf;}
-        Vector3f At(float t) const {
-            return orig + dir * t;
-        }
+        Ray(Vector3f ori,Vector3f di);
+        Vector3f At(float t) const;
     };
+
+
+    struct Transform {
+    public:
+
+        Transform() :
+                m_transform(Eigen::Matrix4f::Identity()),
+                m_inverse(Eigen::Matrix4f::Identity()) { }
+
+
+        explicit Transform(const Eigen::Matrix4f &trafo):m_transform(trafo),m_inverse(trafo.inverse()){}
+
+
+        Transform(Eigen::Matrix4f trafo, Eigen::Matrix4f inv)
+                : m_transform(std::move(trafo)), m_inverse(std::move(inv)) { }
+
+
+        [[nodiscard]] const Eigen::Matrix4f &getMatrix() const {
+            return m_transform;
+        }
+
+
+        [[nodiscard]] const Eigen::Matrix4f &getInverseMatrix() const {
+            return m_inverse;
+        }
+
+
+        [[nodiscard]] Transform inverse() const {
+            return {m_inverse, m_transform};
+        }
+        Transform operator*(const Transform &t) const;
+
+
+        Vector3f operator*(const Vector3f &v) const {
+            return m_transform.topLeftCorner<3,3>() * v;
+        }
+
+
+        Normal3f operator*(const Normal3f &n) const {
+            return m_inverse.topLeftCorner<3, 3>().transpose() * n;
+        }
+
+
+        Point3f operator*(const Point3f &p) const {
+            Vector4f result = m_transform * Vector4f(p[0], p[1], p[2], 1.0f);
+            return result.head<3>() / result.w();
+        }
+
+
+
+        std::string toString() const;
+    private:
+        Eigen::Matrix4f m_transform;
+        Eigen::Matrix4f m_inverse;
+    };
+
+
 
     inline void CoordinateSystem(const Vector3f &a, Vector3f &b, Vector3f &c) {
         if (std::abs(a.x()) > std::abs(a.y())) {
@@ -109,8 +167,8 @@ namespace Phoenix {
         bool is_hit;
         float t_far;
         Vector2f uv;
-        Vector3f normal;
-        Vector3f point;
+        Normal3f normal;
+        Point3f point;
         uint geo_id;
         uint prim_id;
     };

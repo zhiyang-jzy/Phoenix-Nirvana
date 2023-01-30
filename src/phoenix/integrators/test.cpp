@@ -20,7 +20,7 @@ namespace Phoenix{
             auto hit = scene->Trace(ray);
             if(!hit.basic.is_hit)
                 return {0,0,0};
-            return hit.basic.normal;
+            //return hit.basic.normal;
         }
     };
 

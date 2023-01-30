@@ -31,7 +31,7 @@ namespace Phoenix{
             auto &t = *dis_;
 
             auto a1 = t(s),a2=t(s);
-            return {a1,a2};
+            return Vector2f(a1,a2);
         }
         shared_ptr<Sampler> Clone() override{
             return make_shared<StdRandom>();

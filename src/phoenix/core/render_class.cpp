@@ -19,7 +19,7 @@ namespace Phoenix {
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     {
-                        Vector3f res(0, 0, 0);
+                        Color3f res(0, 0, 0);
                         for (int k = 0; k < sample_count_; k++) {
                             Vector2f sample = Vector2f(i, j) + sampler_->Next2D();
                             camera_->GenerateRay(sample, ray);
@@ -72,7 +72,7 @@ namespace Phoenix {
 
         for (int y = 0; y < size.y(); ++y) {
             for (int x = 0; x < size.x(); ++x) {
-                Vector3f res(0, 0, 0);
+                Color3f res(0, 0, 0);
                 for (uint32_t i = 0; i < sample_count_; ++i) {
                     Vector2f pixelSample =
                             Vector2f((float) (x + offset.x()), (float) (y + offset.y())) + sampler->Next2D();

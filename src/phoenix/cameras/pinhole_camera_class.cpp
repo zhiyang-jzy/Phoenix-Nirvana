@@ -16,16 +16,25 @@ namespace Phoenix {
             aspect_ = output_size_.x() / float(output_size_.y());
             inv_output_size_ = {1.f / output_size_.x(), 1.f / output_size_.y()};
 
+
+            orig_ = properties.Get<Vector3f>("orig").value();
+            target_ = properties.Get<Vector3f>("target").value();
+            up_ = properties.Get<Vector3f>("up").value();
+
+            look_at_ = CalcLookAt(orig_, target_, up_);
+
+
         }
 
-        void GenerateRay(const Vector2f sample, Ray &ray)const  override {
+        void GenerateRay(const Vector2f sample, Ray &ray) const override {
 
-            auto orig = Vector3f(0, 0, 0);
+            auto orig = look_at_.inverse() * Point3f(0, 0, 0);
 
-            float x = (sample.x()*inv_output_size_.x()-0.5f)*2.f*aspect_*scale_;
-            float y = (sample.y()*inv_output_size_.y()-0.5f)*2.f*scale_ ;
+            float x = (sample.x() * inv_output_size_.x() - 0.5f) * 2.f * aspect_ * scale_;
+            float y = (sample.y() * inv_output_size_.y() - 0.5f) * 2.f * scale_;
 
             Vector3f dir(x, y, -1);
+            dir = look_at_.inverse() * dir;
             dir.normalize();
 
             ray = Ray(orig, dir);

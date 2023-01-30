@@ -13,7 +13,7 @@ namespace Phoenix {
 
 
     Vector3f ConvertToVector3f(const vector<double> &v) {
-        return {v[0], v[1], v[2]};
+        return Vector3f(v[0], v[1], v[2]);
     }
 
     PropertyList GenProperList(const toml::impl::wrap_node<toml::table> *table) {

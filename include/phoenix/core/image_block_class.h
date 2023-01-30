@@ -5,9 +5,10 @@
 #include "phoenix/core/common.h"
 #include "bitmap_class.h"
 #include "ext/cppm.hpp"
+#include "vector_class.h"
 
 namespace Phoenix {
-    class ImageBlock : public Eigen::Array<Vector3f, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> {
+    class ImageBlock : public Eigen::Array<Color3f, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> {
     protected:
         Vector2i offset_, size_;
         mutable std::mutex mutex_;

@@ -41,7 +41,7 @@ namespace Phoenix {
             {
                 EmitterQueryRecord rec(hit.basic.point);
                 float pdf;
-                auto emitter = scene->SampleEmitter(pdf, sampler->Next2D());
+                auto emitter = scene->SampleEmitter(pdf, sampler->Next1D());
                 auto emitter_color = emitter->Sample(rec, sampler->Next2D());
                 float cos_theta = hit.basic.normal.dot(rec.wi);
                 float cos_theta1 = (-rec.wi).dot(rec.n);

@@ -1,4 +1,6 @@
 #include "phoenix/core/scene_class.h"
+
+#include <utility>
 #include "phoenix/core/common.h"
 #include "phoenix/core/shape_class.h"
 #include "phoenix/core/emitter_class.h"
@@ -40,17 +42,27 @@ namespace Phoenix {
         return interaction;
     }
 
-    void Scene::AddEmitter(const shared_ptr<Emitter> emitter) {
+    void Scene::AddEmitter(const shared_ptr<Emitter>& emitter) {
         emitters_.push_back(emitter);
+        auto area = emitter->area();
+        dpdf_.Append(area);
         emitter->AddToScene(*this);
     }
 
     void Scene::SetDict(uint id, shared_ptr<Emitter> emitter) {
-        emitter_dict_[id] = emitter;
+        emitter_dict_[id] = std::move(emitter);
     }
 
-    shared_ptr<Emitter> Scene::SampleEmitter(float &pdf, Vector2f sample) const {
-        pdf = 1.0;
-        return emitters_[0];
+    shared_ptr<Emitter> Scene::SampleEmitter(float &pdf, float sample) const {
+        auto index = dpdf_.Sample(sample,pdf);
+        return emitters_[index];
+    }
+
+    Scene::Scene() {
+        dpdf_.Clear();
+    }
+
+    void Scene::PostProcess() {
+        dpdf_.Normalize();
     }
 }

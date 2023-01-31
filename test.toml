@@ -1,11 +1,12 @@
 
-sample_count = 32
+sample_count = 16
 
 [camera]
 type = "pinhole"
 fov = 34.0
 width = 256
 height = 256
+
 orig = [2,3,5]
 up = [0,1,0]
 target = [0,0,0]

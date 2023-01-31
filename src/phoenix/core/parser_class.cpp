@@ -84,6 +84,7 @@ namespace Phoenix {
         ProcessEmitters(scene_config,render);
         ProcessObjects(scene_config, render);
         ProcessSampler(scene_config, render);
+        render.scene()->PostProcess();
 
     }
 

@@ -27,12 +27,13 @@ namespace Phoenix {
     class Emitter : public PhoenixObject {
     public:
         Color3f radiance_;
+        float area_;
 
         PClassType GetClassType() const override { return PClassType::PEmitter; }
 
-        virtual Color3f Eval(const EmitterQueryRecord &record) const = 0;
+        [[nodiscard]] virtual Color3f Eval(const EmitterQueryRecord &record) const = 0;
         virtual Color3f Sample(EmitterQueryRecord& rec,Vector2f sample)const = 0;
-
+        virtual float area() =0;
         virtual void AddToScene(Scene &scene) = 0;
     };
 }

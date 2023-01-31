@@ -9,6 +9,10 @@ namespace Phoenix{
             radiance_ = properties.Get<Vector3f>("radiance").value_or(Vector3f(1,1,1));
         }
 
+        float area() override{
+            return shape_->area();
+        }
+
         [[nodiscard]] string ToString()const override{return "area light";}
 
         void AddChild(shared_ptr<PhoenixObject> child) override{

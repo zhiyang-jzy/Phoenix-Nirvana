@@ -1,9 +1,13 @@
-#include "phoenix/utils/imgae_tool_class.h"
+#include "phoenix/utils/image_tool_class.h"
 #define TINYEXR_USE_MINIZ 0
 #include <zlib.h>
 #define TINYEXR_IMPLEMENTATION
 #include "ext/tinyexr.h"
 #include <spdlog/spdlog.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include "ext/stb_image.h"
+
+
 namespace Phoenix{
 
     ImageTool::ImageTool(){
@@ -34,9 +38,9 @@ namespace Phoenix{
 
         // Split RGBRGBRGB... into R, G and B layer
         for (int i = 0; i < width * height; i++) {
-            images[0][i] = rgb[3 * i + 0];
-            images[1][i] = rgb[3 * i + 1];
-            images[2][i] = rgb[3 * i + 2];
+            images[0][i] = rgb[4 * i + 0];
+            images[1][i] = rgb[4 * i + 1];
+            images[2][i] = rgb[4 * i + 2];
         }
 
         float *image_ptr[3];
@@ -80,10 +84,35 @@ namespace Phoenix{
         }
         spdlog::info("Saved exr file to {} \n", file_path.c_str());
 
-
         free(header.channels);
         free(header.pixel_types);
         free(header.requested_pixel_types);
     }
+
+    std::shared_ptr<Bitmap> ImageTool::LoadImage(const std::string& filename) {
+        auto file_path = current_path_/filename;
+        int channels,width,height;
+        auto data = stbi_load(file_path.c_str(),&width,&height,&channels,STBI_default);
+        return LoadImage(data,width,height,channels);
+
+    }
+
+    std::shared_ptr<Bitmap> ImageTool::LoadImage(unsigned char *data, int width, int height, int channels) {
+        auto bitmap = std::make_shared<Bitmap>(width,height);
+        int byte_per_scanline = channels*width;
+        constexpr float color_scale = 1.f/255.f;
+        Color4f now_color(1,1,1,1);
+        for(uint i=0;i<width;i++){
+            for(uint j=0;j<height;j++){
+                auto pixel = data+j*byte_per_scanline+i*channels;
+                for(uint k=0;k<channels;k++){
+                    now_color[k]=static_cast<float>(pixel[k])*color_scale;
+                }
+                bitmap->SetColor(j,i,now_color);
+            }
+        }
+        return bitmap;
+    }
+
 
 }

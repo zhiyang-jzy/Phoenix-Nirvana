@@ -31,7 +31,7 @@ namespace Phoenix {
         auto result = make_shared<Bitmap>(size_.x(), size_.y());
         for (int y = 0; y < size_.y(); ++y)
             for (int x = 0; x < size_.x(); ++x)
-                result->coeffRef(y, x) = coeff(y, x);
+                result->SetColor(y, x, coeff(y,x));
         return result;
     }
 

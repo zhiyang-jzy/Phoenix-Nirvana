@@ -3,6 +3,7 @@
 #include <spdlog/spdlog.h>
 #include <iostream>
 #include <magic_enum.hpp>
+#include <utility>
 
 #include "ext/toml.hpp"
 #include "phoenix/utils/file_tool_class.h"
@@ -14,6 +15,13 @@ namespace Phoenix {
 
     Vector3f ConvertToVector3f(const vector<double> &v) {
         return Vector3f(v[0], v[1], v[2]);
+    }
+    string GenFileName(string name){
+        string outputName = std::move(name);
+        size_t lastdot = outputName.find_last_of('.');
+        if (lastdot != std::string::npos)
+            outputName.erase(lastdot, std::string::npos);
+        return outputName;
     }
 
     PropertyList GenProperList(const toml::impl::wrap_node<toml::table> *table) {
@@ -67,14 +75,14 @@ namespace Phoenix {
 
 
     void Parser::Parse(const string &filename, Renderer &render) {
-        PathTool path_tool;
-        auto file_path = path_tool.get_file_path(filename);
+        auto file_path = path_tool_.GetFilePath(filename);
         if (!exists(file_path)) {
             spdlog::error("no such file: {} ", absolute(file_path).string());
             exit(0);
         }
+        file_name_ = GenFileName(file_path.filename().string());
+        path_tool_.SetCurrentPath(file_path.parent_path());
         spdlog::info("reading scene from {}", absolute(file_path).string());
-
         auto scene_config = toml::parse_file(file_path.string());
 
         render.SetSampleCount(scene_config["sample_count"].value_or(16));

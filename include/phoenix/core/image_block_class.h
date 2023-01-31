@@ -13,7 +13,7 @@ namespace Phoenix {
         Vector2i offset_, size_;
         mutable std::mutex mutex_;
     public:
-        ImageBlock(Vector2i size);
+        explicit ImageBlock(Vector2i size);
 
         void SetOffset(Vector2i offset) { offset_ = std::move(offset); }
 
@@ -25,7 +25,7 @@ namespace Phoenix {
 
         Vector2i GetSize() const { return size_; }
 
-        void SetSize(Vector2i size){size_=size;};
+        void SetSize(Vector2i size){size_=std::move(size);};
 
         void Clear() { setConstant(Color3f(0, 0, 0)); }
 
@@ -38,7 +38,7 @@ namespace Phoenix {
         shared_ptr<cppm::pm> bar_;
     public:
 
-        BlockGenerator(const Vector2i &size, int blockSize=kBlockSize);
+        explicit BlockGenerator(const Vector2i &size, int blockSize=kBlockSize);
 
         bool Next(ImageBlock &block);
         [[nodiscard]] int GetBlockCount() const { return blocks_left_; }

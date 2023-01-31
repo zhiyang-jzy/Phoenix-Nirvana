@@ -14,7 +14,7 @@ find_package(spdlog)
 find_package(Embree)
 find_package(magic_enum CONFIG REQUIRED)
 find_package(TBB CONFIG REQUIRED tbb)
-
+find_package(assimp CONFIG REQUIRED)
 
 add_executable(phoenix_nirvana ${phoenix_src})
-target_link_libraries(phoenix_nirvana ZLIB::ZLIB Eigen3::Eigen spdlog::spdlog embree magic_enum::magic_enum TBB::tbb)
+target_link_libraries(phoenix_nirvana ZLIB::ZLIB Eigen3::Eigen spdlog::spdlog embree magic_enum::magic_enum TBB::tbb assimp::assimp)

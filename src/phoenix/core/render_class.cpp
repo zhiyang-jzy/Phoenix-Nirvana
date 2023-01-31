@@ -27,7 +27,7 @@ namespace Phoenix {
                         }
                         bar.update();
                         res /= sample_count_;
-                        bitmap_->coeffRef(i, j) = res;
+                        bitmap_->SetColor(i,j,res);
                     }
                 }
             }

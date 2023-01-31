@@ -7,7 +7,7 @@ namespace Phoenix{
         current_path_ = std::filesystem::current_path();
     }
 
-    PathTool::path PathTool::current_path() {
+    PathTool::path PathTool::current_path()const  {
         return current_path_;
     }
 }

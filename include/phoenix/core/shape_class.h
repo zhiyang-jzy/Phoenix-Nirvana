@@ -20,7 +20,7 @@ namespace Phoenix{
         shared_ptr<Bsdf> bsdf_;
     public:
         float area_;
-        PClassType GetClassType()const override {return PClassType::PShape;}
+        [[nodiscard]] PClassType GetClassType()const override {return PClassType::PShape;}
         virtual vector<uint> AddToTracer(Tracer &tracer) =0;
         virtual shared_ptr<Bsdf> bsdf(){return bsdf_;}
         virtual float area(){return area_;}

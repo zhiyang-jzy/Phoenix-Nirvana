@@ -4,19 +4,25 @@
 #include <utility>
 namespace Phoenix {
 
-    Mesh::Mesh(vector<Vertex> vertices, vector<uint> indices, shared_ptr<Texture> texture) : vertices_(std::move(vertices)),
+    Mesh::Mesh(vector<Vertex> vertices, vector<uint> indices, map<TextureType,shared_ptr<Texture> > textures) : vertexes_(std::move(vertices)),
                                                                                              indices_(std::move(indices)),
-                                                                                             texture_(std::move(texture)) {
+                                                                                             textures_(std::move(textures)) {
         PostProcess();
+
     }
 
     void Mesh::PostProcess() {
+
+        std::for_each(vertexes_.begin(), vertexes_.end(), [&](const auto &item) {
+            vertices_.push_back(item.position);
+        });
+
         area_ = 0;
         dpdf_.Clear();
         auto vertex_count = indices_.size();
         for (int i = 0; i < vertex_count; i += 3) {
-            auto a = vertices_[indices_[i]].position, b = vertices_[indices_[i + 1]].position,
-                    c = vertices_[indices_[i + 2]].position;
+            auto a = vertexes_[indices_[i]].position, b = vertexes_[indices_[i + 1]].position,
+                    c = vertexes_[indices_[i + 2]].position;
             float area = (c - a).cross(b - a).norm() * 0.5f;
             area_ += area;
             dpdf_.Append(area);
@@ -27,6 +33,7 @@ namespace Phoenix {
     }
 
     Model::Model() {
+        dpdf_.Clear();
 
     }
 
@@ -43,5 +50,10 @@ namespace Phoenix {
             dpdf_.Append(area);
         });
         dpdf_.Normalize();
+    }
+
+    void Model::SamplePosition(PositionSampleRecord &pos_rec, Vector2f sample) {
+        float mesh_pdf;
+        auto index = dpdf_.Sample(sample.x(),mesh_pdf);
     }
 }

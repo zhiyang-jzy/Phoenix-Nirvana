@@ -5,7 +5,7 @@
 namespace Phoenix{
     struct Vertex {
         Point3f position;
-        Vector3f normal;
+        Normal3f normal;
         Vector2f texcoord;
         Vector3f tangent;
         Vector3f b_tangent;
@@ -16,15 +16,17 @@ namespace Phoenix{
         float area_;
         DiscretePdf dpdf_;
     public:
-        vector<Vertex> vertices_;
+        vector<Vertex> vertexes_;
         vector<uint> indices_;
-        shared_ptr<Texture> texture_;
-        Mesh(vector<Vertex> vertices,vector<uint> indices,shared_ptr<Texture> texture);
+        vector<Point3f> vertices_;
+        map<TextureType,shared_ptr<Texture> > textures_;
     public:
+        Mesh(vector<Vertex> vertices,vector<uint> indices,map<TextureType,shared_ptr<Texture> > textures);
         void PostProcess();
-        float area(){return area_;};
-    };
+        float area() const{return area_;};
 
+    };
+    struct PositionSampleRecord;
     class Model{
     public:
         std::vector<shared_ptr<Mesh> > meshes_;
@@ -35,5 +37,6 @@ namespace Phoenix{
         Model();
         void AddMesh(const shared_ptr<Mesh>& mesh);
         void PostProcess();
+        void SamplePosition(PositionSampleRecord& pos_rec,Vector2f sample);
     };
 }

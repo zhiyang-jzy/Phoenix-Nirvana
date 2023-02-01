@@ -4,7 +4,7 @@
 #define TINYEXR_IMPLEMENTATION
 #include "ext/tinyexr.h"
 #include <spdlog/spdlog.h>
-#define STB_IMAGE_IMPLEMENTATION
+//#define STB_IMAGE_IMPLEMENTATION
 #include "ext/stb_image.h"
 
 

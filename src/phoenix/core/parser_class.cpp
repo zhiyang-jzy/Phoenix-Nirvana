@@ -82,6 +82,8 @@ namespace Phoenix {
         }
         file_name_ = GenFileName(file_path.filename().string());
         path_tool_.SetCurrentPath(file_path.parent_path());
+        std::filesystem::current_path(file_path.parent_path());
+        spdlog::info("now path: {}",std::filesystem::current_path().string());
         spdlog::info("reading scene from {}", absolute(file_path).string());
         auto scene_config = toml::parse_file(file_path.string());
 

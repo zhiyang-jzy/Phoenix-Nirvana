@@ -1,0 +1,35 @@
+
+sample_count = 1
+
+[camera]
+type = "pinhole"
+fov = 34.0
+width = 256
+height = 256
+
+orig = [0,0,4]
+up = [0,1,0]
+target = [0,0,0]
+
+
+[integrator]
+type = "test"
+
+[sampler]
+type = "pcg_random"
+
+[[emitters]]
+type = "area"
+radiance = [1,1,1]
+
+[emitters.shape]
+type = "obj"
+filename = "meshes/cbox_luminaire.obj"
+
+[[shapes]]
+type = "obj"
+filename = "meshes/cbox_luminaire.obj"
+
+[shapes.bsdf]
+type = "diffuse"
+basecolor = [1,1,1]

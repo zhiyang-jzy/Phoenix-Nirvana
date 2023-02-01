@@ -8,8 +8,8 @@ int main() {
 
     Renderer render;
     Parser parser;
-    parser.Parse("scene/simple_test/test.toml",render);
-    
+    parser.Parse("scene/cbox/cbox.toml",render);
+
     render.SetMultiThread(false);
     render.Render();
     ImageTool img_tool(parser.GetParentPath());

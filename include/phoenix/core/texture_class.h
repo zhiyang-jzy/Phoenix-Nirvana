@@ -4,6 +4,9 @@
 #include "bitmap_class.h"
 
 namespace Phoenix {
+    enum class TextureType{
+        Diffuse
+    };
     class Texture {
     public:
         [[nodiscard]] virtual Color4f GetColor(const Vector2f &uv) const { return {1, 1, 0, 1}; }

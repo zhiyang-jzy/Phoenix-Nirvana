@@ -3,6 +3,7 @@
 #include "discrete_pdf_class.h"
 #include "texture_class.h"
 namespace Phoenix{
+    struct PositionSampleRecord;
     struct Vertex {
         Point3f position;
         Normal3f normal;
@@ -20,13 +21,14 @@ namespace Phoenix{
         vector<uint> indices_;
         vector<Point3f> vertices_;
         map<TextureType,shared_ptr<Texture> > textures_;
+        void SamplePosition(PositionSampleRecord &pos_rec, Vector2f sample);
     public:
         Mesh(vector<Vertex> vertices,vector<uint> indices,map<TextureType,shared_ptr<Texture> > textures);
         void PostProcess();
         float area() const{return area_;};
 
     };
-    struct PositionSampleRecord;
+
     class Model{
     public:
         std::vector<shared_ptr<Mesh> > meshes_;

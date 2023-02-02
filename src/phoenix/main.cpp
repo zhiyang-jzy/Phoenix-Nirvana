@@ -10,7 +10,7 @@ int main() {
     Parser parser;
     parser.Parse("scene/cbox/cbox.toml",render);
 
-    render.SetMultiThread(false);
+    render.SetMultiThread(true);
     render.Render();
     ImageTool img_tool(parser.GetParentPath());
     img_tool.write_exr(*render.bitmap(),parser.file_name().append(".exr"));

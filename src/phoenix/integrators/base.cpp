@@ -3,8 +3,8 @@
 
 namespace Phoenix {
 
-    bool check(const Vector3f& v){
-        for (int i=0; i<3; ++i) {
+    bool check(const Vector3f &v) {
+        for (int i = 0; i < 3; ++i) {
             float value = v.coeff(i);
             if (value < 0 || !std::isfinite(value))
                 return false;
@@ -25,7 +25,7 @@ namespace Phoenix {
             return "base integrator";
         }
 
-        Color3f Li(shared_ptr<Scene> scene, shared_ptr<Sampler> sampler, const Ray &ray)const  override {
+        Color3f Li(shared_ptr<Scene> scene, shared_ptr<Sampler> sampler, const Ray &ray) const override {
             auto hit = scene->Trace(ray);
             Color3f res(0, 0, 0);
             if (!hit.basic.is_hit)
@@ -43,14 +43,13 @@ namespace Phoenix {
                 float pdf;
                 auto emitter = scene->SampleEmitter(pdf, sampler->Next1D());
                 auto emitter_color = emitter->Sample(rec, sampler->Next2D());
-                float cos_theta = hit.basic.normal.dot(rec.wi);
                 float cos_theta1 = (-rec.wi).dot(rec.n);
 
-                BSDFQueryRecord bsdf_rec(hit.frame.ToLocal(-rec.wi), hit.frame.ToLocal(-ray.dir));
+                BSDFQueryRecord bsdf_rec(hit.frame.ToLocal(rec.wi), hit.frame.ToLocal(-ray.dir));
                 float bsdf_v = bsdf->Eval(bsdf_rec);
                 auto shadow_hit = scene->Trace(rec.shadow_ray);
                 if (shadow_hit.basic.is_hit) {
-                    if (shadow_hit.emitter == emitter) {
+                    if (shadow_hit.emitter == emitter && (shadow_hit.basic.point - rec.p).norm() < kEpsilon) {
                         auto dis = (rec.ref - rec.p).norm();
                         dis *= dis;
                         res += emitter_color * bsdf_v * cos_theta1 / pdf / (dis);
@@ -68,9 +67,9 @@ namespace Phoenix {
 
             if (sampler->Next1D() < russian_)
                 res += color.cwiseProduct(Li(scene, sampler, light_ray)) * bsdf_v / pdf / russian_;
-            if(res.isValid())
+            if (res.isValid())
                 return res;
-            return {0,0,0};
+            return {0, 0, 0};
         }
     };
 

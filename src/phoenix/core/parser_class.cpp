@@ -66,11 +66,13 @@ namespace Phoenix {
         return bsdf;
     }
 
-    void CheckKeyExist(const toml::parse_result &result, const string &key) {
+    bool CheckKeyExist(const toml::parse_result &result, const string &key) {
         if (!result.contains(key)) {
             spdlog::error("scene file has no key {}", key);
-            exit(0);
+            return false;
+            //exit(0);
         }
+        return true;
     }
 
 
@@ -99,7 +101,8 @@ namespace Phoenix {
     }
 
     void Parser::ProcessCamera(const toml::parse_result &scene_config, Renderer &render) {
-        CheckKeyExist(scene_config, "camera");
+        if(!CheckKeyExist(scene_config, "camera"))
+            return;
         auto camera_info = scene_config["camera"].as_table();
         string name = (*camera_info)["type"].value_or("");
         CheckFactoryExist(name);
@@ -112,7 +115,8 @@ namespace Phoenix {
     }
 
     void Parser::ProcessIntegrator(const toml::parse_result &scene_config, Renderer &render) {
-        CheckKeyExist(scene_config, "integrator");
+        if(!CheckKeyExist(scene_config, "integrator"))
+            exit(0);
         auto camera_info = scene_config["integrator"].as_table();
         string name = (*camera_info)["type"].value_or("");
         CheckFactoryExist(name);
@@ -125,7 +129,8 @@ namespace Phoenix {
 
     void Parser::ProcessObjects(const toml::parse_result &scene_config, Renderer &render) {
         auto scene = render.scene();
-        CheckKeyExist(scene_config, "shapes");
+        if(!CheckKeyExist(scene_config, "shapes"))
+            return;
         auto objects = scene_config["shapes"].as_array();
         objects->for_each([&](auto &v) {
             auto value = v.as_table();
@@ -146,7 +151,8 @@ namespace Phoenix {
     void Parser::ProcessSampler(const toml::parse_result &scene_config, Renderer &render) {
 //        auto sampler = std::dynamic_pointer_cast<Sampler>(PhoenixObjectFactory::CreateInstance("independent", {}));
 //        render.SetSampler(sampler);
-        CheckKeyExist(scene_config,"sampler");
+        if(!CheckKeyExist(scene_config,"sampler"))
+            exit(0);
         auto sampler_info = scene_config["sampler"].as_table();
         string name = (*sampler_info)["type"].value_or("");
         CheckFactoryExist(name);
@@ -159,7 +165,8 @@ namespace Phoenix {
 
     void Parser::ProcessEmitters(const toml::parse_result &scene_config, Renderer &render) {
         auto scene = render.scene();
-        CheckKeyExist(scene_config, "emitters");
+        if(!CheckKeyExist(scene_config, "emitters"))
+            return ;
         auto emitters = scene_config["emitters"].as_array();
         emitters->for_each([&](auto &v) {
             auto value = v.as_table();

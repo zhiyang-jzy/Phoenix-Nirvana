@@ -30,7 +30,7 @@ namespace Phoenix{
             PositionSampleRecord pos_res;
             shape_->SamplePosition(pos_res,sample);
 
-            rec.n = pos_res.normal;
+            rec.n = pos_res.normal.normalized();
             rec.p = pos_res.point;
             rec.pdf = pos_res.pdf;
             rec.wi = (rec.p-rec.ref).normalized();

@@ -1,5 +1,3 @@
-#include <utility>
-
 #include "common.h"
 #include "scene_class.h"
 #include "camera_class.h"

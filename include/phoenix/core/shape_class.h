@@ -11,7 +11,7 @@ namespace Phoenix{
 
     struct PositionSampleRecord{
         Vector3f point;
-        Vector3f normal;
+        Normal3f normal;
         float pdf;
     };
 

@@ -1,4 +1,5 @@
 #include "phoenix/core/model_class.h"
+#include "phoenix/core/shape_class.h"
 #include <spdlog/spdlog.h>
 
 #include <utility>
@@ -32,6 +33,25 @@ namespace Phoenix {
 
     }
 
+    void Mesh::SamplePosition(PositionSampleRecord &pos_rec, Vector2f sample) {
+        float pdf;
+        auto index = dpdf_.Sample(sample.x(),pdf);
+        index *= 3;
+
+        float alpha = 1 - sqrt(1 - sample.x());
+        float beta = sample.y() * sqrt(1 - sample.x());
+        float theta = 1 - alpha - beta;
+
+        Point3f a(vertices_[indices_[index]]), b(vertices_[indices_[index + 1]]),
+                c(vertices_[indices_[index + 2]]);
+        Normal3f na = vertexes_[indices_[index]].normal,nb = vertexes_[indices_[index+1]].normal,nc = vertexes_[indices_[index+2]].normal;
+
+        pos_rec.point = a * alpha + b * beta + c * theta;
+        pos_rec.pdf = pdf;
+        pos_rec.normal = (na*alpha+nb*beta+nc*theta).normalized();
+
+    }
+
     Model::Model() {
         dpdf_.Clear();
 
@@ -54,6 +74,9 @@ namespace Phoenix {
 
     void Model::SamplePosition(PositionSampleRecord &pos_rec, Vector2f sample) {
         float mesh_pdf;
-        auto index = dpdf_.Sample(sample.x(),mesh_pdf);
+        auto mesh_index = dpdf_.Sample(sample.x(),mesh_pdf);
+        auto mesh = meshes_[mesh_index];
+        mesh->SamplePosition(pos_rec,sample);
+        pos_rec.pdf*=mesh_pdf;
     }
 }

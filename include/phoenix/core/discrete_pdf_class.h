@@ -11,6 +11,7 @@ namespace Phoenix{
         void Normalize();
         void Append(float pdf_value);
         uint Sample(float sample_value, float & pdf) const;
+        float normalization()const {return normalization_;}
         float operator[](uint index)const;
     };
 }

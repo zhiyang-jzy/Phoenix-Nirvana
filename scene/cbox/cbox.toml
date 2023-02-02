@@ -1,9 +1,9 @@
 
-sample_count = 1
+sample_count = 1024
 
 [camera]
 type = "pinhole"
-fov = 34.0
+fov = 39.3077
 width = 256
 height = 256
 
@@ -13,23 +13,81 @@ target = [0,0,0]
 
 
 [integrator]
-type = "test"
+type = "base"
 
 [sampler]
 type = "pcg_random"
 
 [[emitters]]
 type = "area"
-radiance = [1,1,1]
+radiance = [18.387, 13.9873, 6.75357]
 
 [emitters.shape]
 type = "obj"
 filename = "meshes/cbox_luminaire.obj"
+#type = "sphere"
+#center = [0,1,0]
+#radius = 0.5
+
+
+
 
 [[shapes]]
 type = "obj"
-filename = "meshes/cbox_luminaire.obj"
+filename = "meshes/cbox_greenwall.obj"
+
+[shapes.bsdf]
+type = "diffuse"
+basecolor = [0.105421, 0.37798, 0.076425]
+[[shapes]]
+type = "obj"
+filename = "meshes/cbox_back.obj"
 
 [shapes.bsdf]
 type = "diffuse"
 basecolor = [1,1,1]
+
+[[shapes]]
+type = "obj"
+filename = "meshes/cbox_floor.obj"
+
+[shapes.bsdf]
+type = "diffuse"
+basecolor = [1,1,1]
+
+
+[[shapes]]
+type = "obj"
+filename = "meshes/cbox_ceiling.obj"
+
+[shapes.bsdf]
+type = "diffuse"
+basecolor = [1,1,1]
+
+
+[[shapes]]
+type = "obj"
+filename = "meshes/cbox_redwall.obj"
+
+[shapes.bsdf]
+type = "diffuse"
+basecolor = [0.570068, 0.0430135, 0.0443706]
+
+[[shapes]]
+type = "sphere"
+radius = 0.25
+center = [0.5,-0.75,-0.2]
+
+[shapes.bsdf]
+type = "diffuse"
+basecolor = [1,1,1]
+
+[[shapes]]
+type = "sphere"
+radius = 0.5
+center = [-0.3,-0.5,0.2]
+
+[shapes.bsdf]
+type = "diffuse"
+basecolor = [1,1,1]
+

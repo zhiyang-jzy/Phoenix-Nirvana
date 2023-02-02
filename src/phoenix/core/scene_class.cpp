@@ -54,7 +54,13 @@ namespace Phoenix {
     }
 
     shared_ptr<Emitter> Scene::SampleEmitter(float &pdf, float sample) const {
+        if(emitters_.empty())
+        {
+            pdf=0.f;
+            return nullptr;
+        }
         auto index = dpdf_.Sample(sample,pdf);
+        pdf = dpdf_.normalization();
         return emitters_[index];
     }
 

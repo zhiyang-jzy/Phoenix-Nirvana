@@ -11,6 +11,7 @@ namespace Phoenix {
             file_name_ = property_list.Get<string>("filename").value();
             ModelLoader m_loader;
             model_ = m_loader.Load(file_name_);
+            area_ = model_->area_;
 
         }
 
@@ -26,7 +27,7 @@ namespace Phoenix {
         }
 
         void SamplePosition(PositionSampleRecord &rec, Vector2f sample) override {
-
+            model_->SamplePosition(rec,sample);
         }
     };
 

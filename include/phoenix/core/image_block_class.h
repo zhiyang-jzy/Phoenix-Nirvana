@@ -1,6 +1,5 @@
 #pragma once
 
-#include <utility>
 #include <mutex>
 
 #include "phoenix/core/common.h"

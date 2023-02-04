@@ -20,8 +20,8 @@ namespace Phoenix{
     public:
         Color3f base_color_;
         [[nodiscard]] PClassType GetClassType() const override{return PClassType::PBSDF;}
-        virtual Color3f Sample(BSDFQueryRecord& rec,float& pdf,const Vector2f& sample)const = 0;
-        virtual float Eval(const BSDFQueryRecord& rec)=0;
+        virtual void Sample(BSDFQueryRecord& rec, float& pdf, const Vector2f& sample)const = 0;
+        virtual Color3f Eval(const BSDFQueryRecord& rec)=0;
 
     };
 }

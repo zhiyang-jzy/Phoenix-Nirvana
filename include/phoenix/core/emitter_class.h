@@ -18,7 +18,7 @@ namespace Phoenix {
         EmitterQueryRecord(const Vector3f &ref, const Vector3f &p, Vector3f n) :
                 ref(ref), p(p), n(std::move(n)) {
             pdf = .0f;
-            wi = (p - ref).normalized();
+            wi = (ref - p).normalized();
         }
         EmitterQueryRecord(const Vector3f& re):ref(re){}
     };

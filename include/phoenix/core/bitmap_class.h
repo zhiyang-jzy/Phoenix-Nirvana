@@ -1,5 +1,6 @@
 #pragma once
 #include <Eigen/Eigen>
+#include "common.h"
 #include "vector_class.h"
 
 namespace Phoenix{

@@ -11,7 +11,7 @@ file(GLOB phoenix_src src/phoenix/*.cpp src/phoenix/utils/*.cpp src/phoenix/core
 find_package(ZLIB)
 find_package(Eigen3)
 find_package(spdlog)
-find_package(Embree)
+find_package(embree 3 CONFIG REQUIRED)
 find_package(magic_enum CONFIG REQUIRED)
 find_package(TBB CONFIG REQUIRED tbb)
 find_package(assimp CONFIG REQUIRED)

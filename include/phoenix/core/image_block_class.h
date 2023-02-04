@@ -1,10 +1,11 @@
 #pragma once
 
 #include <utility>
+#include <mutex>
 
 #include "phoenix/core/common.h"
+#include "ext/indicators.hpp"
 #include "bitmap_class.h"
-#include "ext/cppm.hpp"
 #include "vector_class.h"
 
 namespace Phoenix {
@@ -34,8 +35,21 @@ namespace Phoenix {
     };
 
     class BlockGenerator {
+
     private:
-        shared_ptr<cppm::pm> bar_;
+        indicators::ProgressBar render_bar_{
+                indicators::option::BarWidth{50},
+                indicators::option::Start{" ["},
+                indicators::option::Fill{"="},
+                indicators::option::Lead{"="},
+                indicators::option::Remainder{"-"},
+                indicators::option::End{"]"},
+                indicators::option::PrefixText{"Rendering"},
+                indicators::option::ForegroundColor{indicators::Color::yellow},
+                indicators::option::ShowElapsedTime{true},
+                indicators::option::ShowRemainingTime{true},
+                indicators::option::FontStyles{std::vector<indicators::FontStyle>{indicators::FontStyle::bold}}
+        };
     public:
 
         explicit BlockGenerator(const Vector2i &size, int blockSize=kBlockSize);

@@ -46,20 +46,13 @@ namespace Phoenix {
         block_ = Vector2i(num_blocks_ / 2);
         steps_left_ = 1;
         num_steps_ = 1;
-        bar_ = make_shared<cppm::pm>(all_blocks_);
 
 
     }
 
     bool BlockGenerator::Next(ImageBlock &block) {
         std::scoped_lock lock(mutex_);
-        bar_->update();
-
-        if (blocks_left_ == 0)
-        {
-            bar_->finish();
-            return false;
-        }
+        render_bar_.set_progress(((all_blocks_-blocks_left_)*100)/all_blocks_);
 
         Vector2i pos = block_ * block_size_;
         block.SetOffset(pos);

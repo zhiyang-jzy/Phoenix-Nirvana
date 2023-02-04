@@ -2,7 +2,8 @@
 #include <tbb/parallel_for.h>
 #include <tbb/blocked_range2d.h>
 #include <chrono>
-#include "ext/cppm.hpp"
+#include "ext/indicators.hpp"
+using namespace indicators;
 
 namespace Phoenix {
     typedef std::chrono::high_resolution_clock clock;
@@ -15,7 +16,20 @@ namespace Phoenix {
         spdlog::info("render start");
         if (!multi_thread_) {
             Ray ray;
-            cppm::pm bar(width*height);
+            indicators::ProgressBar bar{
+                    option::BarWidth{50},
+                    option::Start{" ["},
+                    option::Fill{"="},
+                    option::Lead{"="},
+                    option::Remainder{"-"},
+                    option::End{"]"},
+                    option::PrefixText{"Rendering "},
+                    option::ForegroundColor{Color::yellow},
+                    option::ShowElapsedTime{true},
+                    option::ShowRemainingTime{true},
+                    option::FontStyles{std::vector<FontStyle>{FontStyle::bold}}
+            };
+
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     {
@@ -25,13 +39,12 @@ namespace Phoenix {
                             camera_->GenerateRay(sample, ray);
                             res += integrator_->Li(scene_, sampler_, ray);
                         }
-                        bar.update();
+                        bar.set_progress((i*width+j)*100/(height*width));
                         res /= sample_count_;
                         bitmap_->SetColor(i,j,res);
                     }
                 }
             }
-            bar.finish();
         } else {
             BlockGenerator blockGenerator(pic_size_);
             result_ = make_shared<ImageBlock>(pic_size_);

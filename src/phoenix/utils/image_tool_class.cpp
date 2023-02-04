@@ -6,7 +6,7 @@
 #include <spdlog/spdlog.h>
 //#define STB_IMAGE_IMPLEMENTATION
 #include "ext/stb_image.h"
-
+#undef LoadImage
 
 namespace Phoenix{
 
@@ -75,14 +75,14 @@ namespace Phoenix{
         }
 
         const char *err = nullptr;
-        int ret = SaveEXRImageToFile(&image, &header, file_path.c_str(), &err);
+        int ret = SaveEXRImageToFile(&image, &header, file_path.string().c_str(), &err);
         if (ret != TINYEXR_SUCCESS) {
             spdlog::error("save EXR err: {}",err);
 
             FreeEXRErrorMessage(err); // free's buffer for an error message
             return;
         }
-        spdlog::info("Saved exr file to {} \n", file_path.c_str());
+        spdlog::info("Saved exr file to {} \n", file_path.string());
 
         free(header.channels);
         free(header.pixel_types);
@@ -92,7 +92,7 @@ namespace Phoenix{
     std::shared_ptr<Bitmap> ImageTool::LoadImage(const std::string& filename) {
         auto file_path = current_path_/filename;
         int channels,width,height;
-        auto data = stbi_load(file_path.c_str(),&width,&height,&channels,STBI_default);
+        auto data = stbi_load(file_path.string().c_str(),&width,&height,&channels,STBI_default);
         return LoadImage(data,width,height,channels);
 
     }

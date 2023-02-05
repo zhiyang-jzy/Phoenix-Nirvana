@@ -3,15 +3,6 @@
 
 namespace Phoenix {
 
-    bool check(const Vector3f &v) {
-        for (int i = 0; i < 3; ++i) {
-            float value = v.coeff(i);
-            if (value < 0 || !std::isfinite(value))
-                return false;
-        }
-        return true;
-    }
-
     class Base : public Integrator {
     private:
         float russian_ = 0.95;

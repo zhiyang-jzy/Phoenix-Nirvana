@@ -13,7 +13,7 @@ target = [0,0,0]
 
 
 [integrator]
-type = "ems"
+type = "base_loop"
 
 [sampler]
 type = "pcg_random"

@@ -18,11 +18,16 @@ namespace Phoenix {
             pdf = SquareToCosineHemispherePdf(rec.wo);
         };
 
-        Color3f Eval(const BSDFQueryRecord &rec) override {
+        Color3f Eval(const BSDFQueryRecord &rec)const  override {
             if (Frame::CosTheta(rec.wo) < 0 || Frame::CosTheta(rec.wi) < 0)
                 return 0.f;
             return kInvPi * base_color_;
 
+        }
+        float Pdf(const BSDFQueryRecord &rec) const override{
+            if (Frame::CosTheta(rec.wo) < 0 || Frame::CosTheta(rec.wi) < 0)
+                return 0.f;
+            return SquareToCosineHemispherePdf(rec.wo);
         }
 
 

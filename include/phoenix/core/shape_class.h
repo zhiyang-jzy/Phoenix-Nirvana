@@ -25,6 +25,7 @@ namespace Phoenix{
         virtual shared_ptr<Bsdf> bsdf(){return bsdf_;}
         virtual float area(){return area_;}
         virtual void SamplePosition(PositionSampleRecord& rec,Vector2f sample)=0;
+        virtual Color3f base_color(){return bsdf_->base_color();}
 
         void AddChild(shared_ptr<PhoenixObject> child) override{
             bsdf_ = std::dynamic_pointer_cast<Bsdf>(child);

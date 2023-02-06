@@ -12,7 +12,7 @@ namespace Phoenix{
 
         ImageTool();
         explicit ImageTool(Path current_path);
-        void write_exr(const Bitmap& bitmap, std::string filename);
+        void write_exr(const Bitmap3f& bitmap, std::string filename);
         static std::shared_ptr<Bitmap> LoadImage(unsigned char* data,int width,int height,int channels);
         std::shared_ptr<Bitmap> LoadImage(const std::string& filename);
     };

@@ -15,4 +15,15 @@ namespace Phoenix{
     Color4f Bitmap::GetColor(uint x, uint y) const {
         return this->coeff(x,y);
     }
+
+    Bitmap3f Bitmap::ConvertTo3f() {
+        Bitmap3f res(height_,width_);
+        for(int i=0;i<height_;i++){
+            for(int j=0;j<width_;j++){
+                auto pre = coeff(i,j);
+                res.coeffRef(i,j) = Color3f(pre.x(),pre.y(),pre.z());
+            }
+        }
+        return res;
+    }
 }

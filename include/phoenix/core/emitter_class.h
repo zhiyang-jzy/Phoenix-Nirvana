@@ -35,5 +35,6 @@ namespace Phoenix {
         virtual Color3f Sample(EmitterQueryRecord& rec,Vector2f sample)const = 0;
         virtual float area() =0;
         virtual void AddToScene(Scene &scene) = 0;
+        virtual Color3f radiance(){return radiance_;}
     };
 }

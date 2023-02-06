@@ -4,7 +4,7 @@ namespace Phoenix {
     class Conduct : public Bsdf {
     public:
         explicit Conduct(PropertyList propers) {
-
+            base_color_ = {1,1,1};
         }
 
         [[nodiscard]] string ToString() const override { return "conduct"; }

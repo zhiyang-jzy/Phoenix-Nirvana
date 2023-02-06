@@ -1,11 +1,11 @@
 
-sample_count = 1024
+sample_count = 32
 
 [camera]
 type = "pinhole"
 fov = 39.3077
-width = 512
-height = 512
+width = 1024
+height = 1024
 
 orig = [0,0,4]
 up = [0,1,0]

@@ -17,7 +17,7 @@ namespace Phoenix{
 
     }
 
-    void ImageTool::write_exr(const Bitmap &bitmap, std::string filename) {
+    void ImageTool::write_exr(const Bitmap3f &bitmap, std::string filename) {
         EXRHeader header;
         InitEXRHeader(&header);
 
@@ -38,9 +38,9 @@ namespace Phoenix{
 
         // Split RGBRGBRGB... into R, G and B layer
         for (int i = 0; i < width * height; i++) {
-            images[0][i] = rgb[4 * i + 0];
-            images[1][i] = rgb[4 * i + 1];
-            images[2][i] = rgb[4 * i + 2];
+            images[0][i] = rgb[3 * i + 0];
+            images[1][i] = rgb[3 * i + 1];
+            images[2][i] = rgb[3 * i + 2];
         }
 
         float *image_ptr[3];

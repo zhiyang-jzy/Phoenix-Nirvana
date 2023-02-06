@@ -24,6 +24,8 @@ namespace Phoenix {
                          color.height());
         filter_.setImage("output", reinterpret_cast<void *>(res.data()), oidn::Format::Float3, color.width(),
                          color.height());
+        filter_.set("hdr", true); // beauty image is HDR
+        //filter_.set("cleanAux", true); // auxiliary images will be prefiltered
 
         filter_.commit();
         filter_.execute();

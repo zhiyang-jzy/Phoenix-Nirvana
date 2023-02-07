@@ -34,6 +34,7 @@ namespace Phoenix{
         shared_ptr<Emitter> SampleEmitter(float& pdf, float sample)const ;
         [[nodiscard]] Interaction Trace(const Ray &ray)const ;
         void PostProcess();
+        [[nodiscard]] float EmitterPdf()const{return dpdf_.normalization();}
 
     };
 }

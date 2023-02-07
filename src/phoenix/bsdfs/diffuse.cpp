@@ -21,7 +21,7 @@ namespace Phoenix {
         Color3f Eval(const BSDFQueryRecord &rec)const  override {
             if (Frame::CosTheta(rec.wo) < 0 || Frame::CosTheta(rec.wi) < 0)
                 return 0.f;
-            return kInvPi * base_color_;
+            return kInvPi * base_color_*Frame::CosTheta(rec.wo);
 
         }
         float Pdf(const BSDFQueryRecord &rec) const override{

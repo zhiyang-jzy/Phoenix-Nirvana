@@ -79,27 +79,73 @@ namespace Phoenix {
 
             if (sample.x() < F || isTReflec) {
                 rec.wo = GetReflection(rec);
-
-
             } else {
                 rec.wo = GetRefraction(rec);
             }
+            pdf = 1.f;
         }
 
         Color3f Eval(const BSDFQueryRecord &rec) const override {
-            auto wo = Vector3f(-rec.wi.x(), -rec.wi.y(), rec.wi.z());
-            if (rec.wo.isApprox(wo))
-                return {1, 1, 1};
-            return {0, 0, 0};
+            Vector3f reflec = GetReflection(rec);
+            Vector3f refrac = GetRefraction(rec);
+
+            bool isRefl = rec.wo.isApprox(reflec);
+            bool isRefr = rec.wo.isApprox(reflec);
+
+            float n1 = ext_ior_;
+            float n2 = int_ior_;
+
+            float cosT = rec.wi.z();
+
+            if (cosT < 0) {
+                n1 = int_ior_;
+                n2 = ext_ior_;
+            }
+            float snell = n1 / n2;
+            float F = Fresnel(cosT, n1, n2);
+            if (isRefl)
+                return Color3f(1.f) * F / abs(cosT);
+            else if (isRefr)
+                return snell * snell * Color3f(1.f) * (1 - F) / abs(cosT);
+            else
+                return Color3f(0.0f);
 
         }
 
         float Pdf(const BSDFQueryRecord &rec) const override {
-            auto wo = Vector3f(-rec.wi.x(), -rec.wi.y(), rec.wi.z());
-            if (rec.wo.isApprox(wo))
-                return 1.f;
-            return 0.f;
+            Vector3f n(0, 0, 1);
+            float n1 = ext_ior_;
+            float n2 = int_ior_;
+
+            float cosT = rec.wi.z();
+
+            if (cosT < 0) {
+                n1 = int_ior_;
+                n2 = ext_ior_;
+                n = -n;
+                cosT = -cosT;
+            }
+
+            float F = Fresnel(cosT, n1, n2);
+
+            Vector3f refrac = GetRefraction(rec);
+            Vector3f reflec = GetReflection(rec);
+
+            float prob = 0;
+
+            if (rec.wo.isApprox(refrac) || (rec.wo.isApprox(reflec)))
+                prob = 1.f;
+            else
+                prob = 0.f;
+
+            return prob;
+        }
+
+        bool IsSpecular() const override{
+            return true;
         }
     };
+
+    PHOENIX_REGISTER_CLASS(Dielectric, "dielectric");
 
 }

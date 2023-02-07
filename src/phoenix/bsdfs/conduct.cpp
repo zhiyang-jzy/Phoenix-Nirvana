@@ -17,7 +17,7 @@ namespace Phoenix {
         Color3f Eval(const BSDFQueryRecord &rec) const override {
             auto wo = Vector3f(-rec.wi.x(), -rec.wi.y(), rec.wi.z());
             if (rec.wo.isApprox(wo))
-                return Color3f(1.0) / rec.wo.z();
+                return Color3f(1.0);
             return {0, 0, 0};
 
         }
@@ -27,6 +27,9 @@ namespace Phoenix {
             if (rec.wo.isApprox(wo))
                 return 1.f;
             return 0.f;
+        }
+        bool IsSpecular() const override{
+            return true;
         }
     };
 

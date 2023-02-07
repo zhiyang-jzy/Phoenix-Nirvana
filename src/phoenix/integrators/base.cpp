@@ -35,7 +35,7 @@ namespace Phoenix {
             Ray light_ray(hit.basic.point, hit.frame.ToWorld(rec.wo).normalized());
 
             if (sampler->Next1D() < russian_)
-                res += Li(scene, sampler, light_ray).cwiseProduct(bsdf_v) * Frame::CosTheta(rec.wo)/ pdf / russian_;
+                res += Li(scene, sampler, light_ray).cwiseProduct(bsdf_v)/ pdf / russian_;
             if (res.isValid())
                 return res;
             return {0, 0, 0};

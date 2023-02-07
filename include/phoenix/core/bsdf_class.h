@@ -33,5 +33,7 @@ namespace Phoenix {
 
         virtual Color3f base_color() const { return base_color_; }
 
+        virtual bool IsSpecular()const{return false;}
+
     };
 }

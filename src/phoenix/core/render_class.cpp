@@ -31,9 +31,9 @@ namespace Phoenix {
                 for (int i = range.begin(); i < range.end(); ++i) {
                     blockGenerator.Next(block);
                     sampler->Prepare(block);
-                    RenderBlock(sampler, block, integrator_, sample_count_, result_);
-                    RenderBlock(sampler, block, normal_integrator_, 1, normal_);
-                    RenderBlock(sampler, block, albedo_integrator_, 1, albedo_);
+                    RenderBlock(sampler, block, integrator_, sample_count_, result_, true);
+                    RenderBlock(sampler, block, normal_integrator_, 1, normal_, false);
+                    RenderBlock(sampler, block, albedo_integrator_, 1, albedo_, false);
                 }
             };
             tbb::parallel_for(range, map);
@@ -59,7 +59,7 @@ namespace Phoenix {
 
     void Renderer::RenderBlock(shared_ptr<Sampler> sampler, ImageBlock &block, shared_ptr<Integrator> integrator,
                                uint sample_count,
-                               shared_ptr<ImageBlock> &res) {
+                               shared_ptr<ImageBlock> &res, bool random_offset) {
         Vector2i offset = block.offset();
         Vector2i size = block.GetSize();
         block.Clear();
@@ -69,7 +69,9 @@ namespace Phoenix {
                 Color3f res_color(0, 0, 0);
                 for (uint32_t i = 0; i < sample_count; ++i) {
                     Vector2f pixelSample =
-                            Vector2f((float) (x + offset.x()), (float) (y + offset.y())) + sampler->Next2D();
+                            Vector2f((float) (x + offset.x()), (float) (y + offset.y()));
+                    if(random_offset)
+                        pixelSample+=sampler->Next2D();
                     Ray ray;
                     camera_->GenerateRay(pixelSample, ray);
                     Color3f value = integrator->Li(scene_, sampler, ray);

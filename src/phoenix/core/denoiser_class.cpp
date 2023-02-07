@@ -8,6 +8,8 @@ namespace Phoenix {
         device_.commit();
 
         filter_ = device_.newFilter("RT");
+        albedo_filter_ = device_.newFilter("RT");
+        normal_filter_ = device_.newFilter("RT");
 
 
     }
@@ -16,18 +18,39 @@ namespace Phoenix {
 
         Bitmap3f res(color.width(), color.height());
 
-        filter_.setImage("color", reinterpret_cast<void *>(color.data()), oidn::Format::Float3, color.width(),
+        auto color_ptr = reinterpret_cast<void *>(color.data());
+        auto albedo_ptr = reinterpret_cast<void *>(albedo.data());
+        auto normal_ptr = reinterpret_cast<void *>(normal.data());
+        auto res_ptr = reinterpret_cast<void *>(res.data());
+
+        filter_.setImage("color", color_ptr, oidn::Format::Float3, color.width(),
                          color.height());
-        filter_.setImage("albedo", reinterpret_cast<void *>(albedo.data()), oidn::Format::Float3, color.width(),
+        filter_.setImage("albedo", albedo_ptr, oidn::Format::Float3, color.width(),
                          color.height());
-        filter_.setImage("normal", reinterpret_cast<void *>(normal.data()), oidn::Format::Float3, color.width(),
+        filter_.setImage("normal", normal_ptr, oidn::Format::Float3, color.width(),
                          color.height());
-        filter_.setImage("output", reinterpret_cast<void *>(res.data()), oidn::Format::Float3, color.width(),
+        filter_.setImage("output", res_ptr, oidn::Format::Float3, color.width(),
                          color.height());
         filter_.set("hdr", true); // beauty image is HDR
-        //filter_.set("cleanAux", true); // auxiliary images will be prefiltered
-
+        filter_.set("cleanAux", true); // auxiliary images will be prefiltered
         filter_.commit();
+
+        albedo_filter_.setImage("albedo", albedo_ptr, oidn::Format::Float3, color.width(),
+                         color.height());
+        albedo_filter_.setImage("output", albedo_ptr, oidn::Format::Float3, color.width(),
+                         color.height());
+        albedo_filter_.commit();
+
+
+        normal_filter_.setImage("albedo", normal_ptr, oidn::Format::Float3, color.width(),
+                                color.height());
+        normal_filter_.setImage("output", normal_ptr, oidn::Format::Float3, color.width(),
+                                color.height());
+        normal_filter_.commit();
+
+
+        albedo_filter_.execute();
+        albedo_filter_.execute();
         filter_.execute();
 
         const char *errorMessage;

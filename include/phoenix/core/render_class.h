@@ -29,7 +29,7 @@ namespace Phoenix {
     private:
         void RenderBlock(shared_ptr<Sampler> sampler, ImageBlock &block, shared_ptr<Integrator> integrator,
                          uint sample_count,
-                         shared_ptr<ImageBlock> &res);
+                         shared_ptr<ImageBlock> &res, bool random_offset);
 
     public:
 

@@ -52,6 +52,7 @@ namespace Phoenix {
         explicit Dielectric(PropertyList propers) {
             int_ior_ = 1.5f;
             ext_ior_ = 1.02f;
+            base_color_ = {1, 1, 1};
         }
 
         [[nodiscard]] string ToString() const override { return "conduct"; }
@@ -77,12 +78,18 @@ namespace Phoenix {
 
             bool isTReflec = cons > 1;
 
-            if (sample.x() < F || isTReflec) {
-                rec.wo = GetReflection(rec);
+            if (isTReflec) {
+                rec.wo = GetReflection(rec).normalized();
+                pdf = 1.f;
             } else {
-                rec.wo = GetRefraction(rec);
+                if (sample.x() < F) {
+                    rec.wo = GetReflection(rec).normalized();
+                    pdf = F;
+                } else {
+                    rec.wo = GetRefraction(rec).normalized();
+                    pdf = 1 - F;
+                }
             }
-            pdf = 1.f;
         }
 
         Color3f Eval(const BSDFQueryRecord &rec) const override {
@@ -90,7 +97,7 @@ namespace Phoenix {
             Vector3f refrac = GetRefraction(rec);
 
             bool isRefl = rec.wo.isApprox(reflec);
-            bool isRefr = rec.wo.isApprox(reflec);
+            bool isRefr = rec.wo.isApprox(refrac);
 
             float n1 = ext_ior_;
             float n2 = int_ior_;
@@ -103,12 +110,26 @@ namespace Phoenix {
             }
             float snell = n1 / n2;
             float F = Fresnel(cosT, n1, n2);
-            if (isRefl)
-                return Color3f(1.f) * F / abs(cosT);
-            else if (isRefr)
-                return snell * snell * Color3f(1.f) * (1 - F) / abs(cosT);
-            else
-                return Color3f(0.0f);
+
+            float cons = sqrt(1.0f - (snell * snell) * (1.0f - cosT * cosT));
+
+            bool isTReflec = cons > 1;
+
+            if(isTReflec){
+                if(isRefl){
+                    return {1,1,1};
+                }
+                return {0,0,0};
+            }
+            else{
+                if(isRefl)
+                    return Color3f(1.f) * F;
+                else if(isRefr)
+                    return snell * snell * Color3f(1.f) * (1 - F);
+                else
+                    return {0,0,0};
+            }
+
 
         }
 
@@ -127,21 +148,36 @@ namespace Phoenix {
             }
 
             float F = Fresnel(cosT, n1, n2);
+            float snell = n1 / n2;
 
             Vector3f refrac = GetRefraction(rec);
             Vector3f reflec = GetReflection(rec);
+            bool isRefl = rec.wo.isApprox(reflec);
+            bool isRefr = rec.wo.isApprox(refrac);
 
-            float prob = 0;
 
-            if (rec.wo.isApprox(refrac) || (rec.wo.isApprox(reflec)))
-                prob = 1.f;
-            else
-                prob = 0.f;
 
-            return prob;
+            float cons = sqrt(1.0f - (snell * snell) * (1.0f - cosT * cosT));
+
+            bool isTReflec = cons > 1;
+
+            if(isTReflec){
+                if(isRefl){
+                   return 1.f;
+                }
+                return 0.f;
+            }
+            else{
+                if(isRefl)
+                    return F;
+                else if(isRefr)
+                    return 1-F;
+                else
+                    return 0.f;
+            }
         }
 
-        bool IsSpecular() const override{
+        bool IsSpecular() const override {
             return true;
         }
     };

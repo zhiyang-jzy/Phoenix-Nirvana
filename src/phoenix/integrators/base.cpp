@@ -5,7 +5,7 @@ namespace Phoenix {
 
     class Base : public Integrator {
     private:
-        float russian_ = 0.95;
+        float russian_ = 0.99;
     public:
 
         Base(PropertyList properties) {

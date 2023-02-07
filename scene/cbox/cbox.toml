@@ -4,8 +4,8 @@ sample_count = 256
 [camera]
 type = "pinhole"
 fov = 39.3077
-width = 256
-height = 256
+width = 512
+height = 512
 
 orig = [0,0,4]
 up = [0,1,0]
@@ -13,7 +13,7 @@ target = [0,0,0]
 
 
 [integrator]
-type = "base"
+type = "mis"
 
 [sampler]
 type = "pcg_random"
@@ -88,6 +88,6 @@ radius = 0.5
 center = [-0.3,-0.5,0.2]
 
 [shapes.bsdf]
-type = "conduct"
+type = "dielectric"
 basecolor = [1,1,1]
 

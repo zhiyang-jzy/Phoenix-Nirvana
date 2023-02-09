@@ -27,6 +27,9 @@ namespace Phoenix {
             rec.normal = v;
             rec.pdf = 1.f / area_;
         }
+        void ApplyTransform(const Transform &trans) override{
+
+        }
 
 
     };

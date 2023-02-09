@@ -30,6 +30,7 @@ namespace Phoenix{
         void AddChild(shared_ptr<PhoenixObject> child) override{
             bsdf_ = std::dynamic_pointer_cast<Bsdf>(child);
         }
+        virtual void ApplyTransform(const Transform& trans) = 0;
 
 
     };

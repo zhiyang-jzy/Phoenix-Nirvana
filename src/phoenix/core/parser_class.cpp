@@ -10,6 +10,7 @@ using json = nlohmann::json;
 
 #include "phoenix/core/object_class.h"
 #include "phoenix/core/emitter_class.h"
+#include "phoenix/utils/tool_function.h"
 
 namespace Phoenix {
 
@@ -46,13 +47,66 @@ namespace Phoenix {
         return CreateInstance<Bsdf>(name, property);
     }
 
-    shared_ptr<Shape> ProcessShape(const json& info){
+    Transform ProcessMatrix(const json &info) {
+        auto vec = info["value"].get<vector<float>>();
+        Eigen::Matrix4f mat =  Eigen::Map<Eigen::Matrix4f>(vec.data());
+        return Transform(mat);
+
+    }
+
+    Transform ProcessToWorld(const json &info) {
+        Eigen::Affine3f af = Eigen::Affine3f::Identity();
+        if(info.contains("scale"))
+        {
+            auto vec = info["scale"].get<vector<float>>();
+            Vector3f rot;
+            rot = vec;
+            af.prescale(rot);
+        }
+
+        if(info.contains("rotation"))
+        {
+            auto vec = info["rotation"].get<vector<float>>();
+            std::for_each(vec.begin(), vec.end(), [&](auto &item) {
+                item = DegToRad(item);
+            });
+            af.prerotate(Eigen::AngleAxisf(vec[2],Vector3f::UnitZ()));
+            af.prerotate(Eigen::AngleAxisf(vec[1],Vector3f::UnitY()));
+            af.prerotate(Eigen::AngleAxisf(vec[0],Vector3f::UnitX()));
+
+        }
+        if(info.contains("translate"))
+        {
+            auto vec = info["translate"].get<vector<float>>();
+            Vector3f rot;
+            rot = vec;
+            af.pretranslate(rot);
+        }
+        return Transform(af.matrix());
+    }
+
+
+    Transform ProcessTransform(const json &info) {
+        if (info["type"].get<string>() == "matrix") {
+            return ProcessMatrix(info);
+        }
+        return ProcessToWorld(info);
+    }
+
+    shared_ptr<Shape> ProcessShape(const json &info) {
         auto property = GenPropertyList(info);
         auto name = info["type"].get<string>();
         CheckFactoryExist(name);
-        return CreateInstance<Shape>(name, property);
+        auto shape = CreateInstance<Shape>(name, property);
+        if (info.contains("transform")) {
+            auto transform = ProcessTransform(info["transform"]);
+            shape->ApplyTransform(transform);
+        }
+        return shape;
+
     }
-    shared_ptr<Emitter> ProcessEmitter(const json& info){
+
+    shared_ptr<Emitter> ProcessEmitter(const json &info) {
         auto property = GenPropertyList(info);
         auto name = info["type"].get<string>();
         CheckFactoryExist(name);
@@ -81,8 +135,8 @@ namespace Phoenix {
         ProcessCamera(scene_config, render);
         ProcessIntegrator(scene_config, render);
         ProcessSampler(scene_config, render);
-        ProcessEmitters(scene_config,render);
-        ProcessShapes(scene_config,render);
+        ProcessEmitters(scene_config, render);
+        ProcessShapes(scene_config, render);
 
         render.scene()->PostProcess();
 
@@ -131,11 +185,10 @@ namespace Phoenix {
         if (!info.contains("shapes"))
             return;
         auto objects = info["shapes"];
-        for (auto& el : objects.items()) {
+        for (auto &el: objects.items()) {
             auto shape_info = el.value();
             auto shape = ProcessShape(shape_info);
-            if(!shape_info.contains("bsdf"))
-            {
+            if (!shape_info.contains("bsdf")) {
                 spdlog::error("no bsdf!");
                 exit(0);
             }
@@ -147,16 +200,15 @@ namespace Phoenix {
 
     void Parser::ProcessEmitters(const json &info, Renderer &render) {
         auto scene = render.scene();
-        if(!info.contains("emitters"))
-        {
+        if (!info.contains("emitters")) {
             spdlog::error("no emitter");
             return;
         }
         auto emitters = info["emitters"];
-        for (auto& el : emitters.items()) {
+        for (auto &el: emitters.items()) {
             auto emitter_info = el.value();
             auto emitter = ProcessEmitter(emitter_info);
-            if(emitter_info.contains("shape")){
+            if (emitter_info.contains("shape")) {
                 auto shape = ProcessShape(emitter_info["shape"]);
                 emitter->AddChild(shape);
             }

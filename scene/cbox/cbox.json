@@ -1,24 +1,18 @@
 {
-	"sample_count": 256,
+	"sample_count": 16,
 	"camera": {
 		"type": "pinhole",
 		"fov": 39.3077,
 		"width": 512,
 		"height": 512,
 		"orig": [
-			0,
-			0,
-			4
+			0, 0, 4
 		],
 		"up": [
-			0,
-			1,
-			0
+			0, 1, 0
 		],
 		"target": [
-			0,
-			0,
-			0
+			0, 0, 0
 		]
 	},
 	"integrator": {
@@ -31,9 +25,7 @@
 		{
 			"type": "area",
 			"radiance": [
-				18.387,
-				13.9873,
-				6.75357
+				18.387, 13.9873, 6.75357
 			],
 			"shape": {
 				"type": "obj",
@@ -41,22 +33,7 @@
 				"transform": {
 					"type": "matrix",
 					"value": [
-						1,
-						0,
-						0,
-						0,
-						0,
-						1,
-						0,
-						0,
-						0,
-						0,
-						1,
-						0,
-						0,
-						0,
-						0,
-						1
+						1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
 					]
 				}
 			}
@@ -69,112 +46,79 @@
 			"bsdf": {
 				"type": "diffuse",
 				"basecolor": [
-					0.105421,
-					0.37798,
-					0.076425
+					0.105421, 0.37798, 0.076425
 				]
+			},
+			"transform": {
+				"type": "to_world",
+				"scale": [1,0.5,0.1],
+				"rotation": [90,0,0],
+				"translate": [0.5,0.3,0]
 			}
-		},
-		{
+		}, {
 			"type": "obj",
 			"filename": "meshes/cbox_back.obj",
 			"bsdf": {
 				"type": "diffuse",
 				"basecolor": [
-					1,
-					1,
-					1
+					1, 1, 1
 				]
 			}
-		},
-		{
+		}, {
 			"type": "obj",
 			"filename": "meshes/cbox_floor.obj",
 			"bsdf": {
 				"type": "diffuse",
 				"basecolor": [
-					1,
-					1,
-					1
+					1, 1, 1
 				]
 			}
-		},
-		{
+		}, {
 			"type": "obj",
 			"filename": "meshes/cbox_ceiling.obj",
 			"bsdf": {
 				"type": "diffuse",
 				"basecolor": [
-					1,
-					1,
-					1
+					1, 1, 1
 				]
 			}
-		},
-		{
+		}, {
 			"type": "obj",
 			"filename": "meshes/cbox_redwall.obj",
 			"bsdf": {
 				"type": "diffuse",
 				"basecolor": [
-					0.570068,
-					0.0430135,
-					0.0443706
+					0.570068, 0.0430135, 0.0443706
 				]
 			},
 			"transform": {
 				"type": "matrix",
 				"value": [
-					1,
-					0,
-					0,
-					0,
-					0,
-					1,
-					0,
-					0,
-					0,
-					0,
-					1,
-					0,
-					0,
-					0,
-					0,
-					1
+					1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
 				]
 			}
-		},
-		{
+		}, {
 			"type": "sphere",
 			"radius": 0.25,
 			"center": [
-				0.5,
-				-0.75,
-				-0.2
+				0.5, -0.75, -0.2
 			],
 			"bsdf": {
 				"type": "dielectric",
 				"basecolor": [
-					1,
-					1,
-					1
+					1, 1, 1
 				]
 			}
-		},
-		{
+		}, {
 			"type": "sphere",
 			"radius": 0.5,
 			"center": [
-				-0.3,
-				-0.5,
-				0.2
+				-0.3, -0.5, 0.2
 			],
 			"bsdf": {
 				"type": "dielectric",
 				"basecolor": [
-					1,
-					1,
-					1
+					1, 1, 1
 				]
 			}
 		}

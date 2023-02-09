@@ -29,6 +29,10 @@ namespace Phoenix {
         void SamplePosition(PositionSampleRecord &rec, Vector2f sample) override {
             model_->SamplePosition(rec,sample);
         }
+
+        void ApplyTransform(const Transform &trans) override{
+            model_->ApplyTransform(trans);
+        }
     };
 
     PHOENIX_REGISTER_CLASS(ObjShape, "obj");

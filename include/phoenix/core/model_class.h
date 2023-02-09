@@ -22,6 +22,7 @@ namespace Phoenix{
         vector<Point3f> vertices_;
         map<TextureType,shared_ptr<Texture> > textures_;
         void SamplePosition(PositionSampleRecord &pos_rec, Vector2f sample);
+        void ApplyTransform(const Transform& trans);
     public:
         Mesh(vector<Vertex> vertices,vector<uint> indices,map<TextureType,shared_ptr<Texture> > textures);
         void PostProcess();
@@ -40,5 +41,6 @@ namespace Phoenix{
         void AddMesh(const shared_ptr<Mesh>& mesh);
         void PostProcess();
         void SamplePosition(PositionSampleRecord& pos_rec,Vector2f sample);
+        void ApplyTransform(const Transform& trans);
     };
 }

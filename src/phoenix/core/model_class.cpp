@@ -13,7 +13,7 @@ namespace Phoenix {
     }
 
     void Mesh::PostProcess() {
-
+        vertices_.clear();
         std::for_each(vertexes_.begin(), vertexes_.end(), [&](const auto &item) {
             vertices_.push_back(item.position);
         });
@@ -52,6 +52,20 @@ namespace Phoenix {
 
     }
 
+    void Mesh::ApplyTransform(const Transform &trans) {
+        dpdf_.Clear();
+        vertices_.clear();
+        for(auto& vertex:vertexes_){
+            vertex.position = trans*vertex.position;
+            vertex.normal = trans*vertex.normal;
+            vertex.tangent = trans*vertex.tangent;
+            vertex.b_tangent = trans*vertex.b_tangent;
+        }
+        PostProcess();
+
+
+    }
+
     Model::Model() {
         dpdf_.Clear();
 
@@ -78,5 +92,13 @@ namespace Phoenix {
         auto mesh = meshes_[mesh_index];
         mesh->SamplePosition(pos_rec,sample);
         pos_rec.pdf*=mesh_pdf;
+    }
+
+    void Model::ApplyTransform(const Transform &trans) {
+        dpdf_.Clear();
+        for(auto& mesh:meshes_){
+            mesh->ApplyTransform(trans);
+        }
+        PostProcess();
     }
 }

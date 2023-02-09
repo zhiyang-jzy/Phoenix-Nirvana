@@ -2,21 +2,36 @@
 #include <filesystem>
 #include <spdlog/spdlog.h>
 #include <iostream>
-#include <magic_enum.hpp>
-#include <utility>
 
-#include "ext/toml.hpp"
-#include "phoenix/utils/file_tool_class.h"
+#include <fstream>
+#include "ext/json.hpp"
+
+using json = nlohmann::json;
+
 #include "phoenix/core/object_class.h"
 #include "phoenix/core/emitter_class.h"
 
 namespace Phoenix {
 
+    template<typename T>
+    shared_ptr<T> CreateInstance(string name, const PropertyList &proper) {
+        return std::dynamic_pointer_cast<T>(PhoenixObjectFactory::CreateInstance(name, proper));
+    }
+
+    PropertyList GenPropertyList(const json &info) {
+        PropertyList list;
+        for (auto &[key, value]: info.items()) {
+            list.Set(key, value);
+        }
+        return list;
+    }
+
 
     Vector3f ConvertToVector3f(const vector<double> &v) {
         return Vector3f(v[0], v[1], v[2]);
     }
-    string GenFileName(string name){
+
+    string GenFileName(string name) {
         string outputName = std::move(name);
         size_t lastdot = outputName.find_last_of('.');
         if (lastdot != std::string::npos)
@@ -24,55 +39,24 @@ namespace Phoenix {
         return outputName;
     }
 
-    PropertyList GenProperList(const toml::impl::wrap_node<toml::table> *table) {
-        PropertyList properties;
-        table->for_each([&](auto &key, auto &v) {
-            auto now_key = static_cast<string>(key);
-            if constexpr (toml::is_value<decltype(v)>)
-            {
-                properties.Set(now_key, v.get());
-            }
-            else if constexpr (toml::is_array<decltype(v)>) {
-                vector<double> temp_v;
-                v.for_each([&](auto &v) {
-                    if constexpr (toml::is_number<decltype(v)>)
-                        temp_v.push_back(static_cast<double>(v.get()));
-                });
-                if (v.size() == 3) {
-                    auto value = ConvertToVector3f(temp_v);
-                    properties.Set(now_key, value);
-                } else if (v.size() == 9) {
-
-                }
-            }
-        });
-        return properties;
-    }
-    shared_ptr<Shape> ProcessShape(const toml::impl::wrap_node<toml::table> *table)
-    {
-        PropertyList shape_properties = GenProperList(table);
-        string name = (*table)["type"].value_or("");
+    shared_ptr<Bsdf> Parser::ProcessBsdf(const json &info) {
+        auto property = GenPropertyList(info);
+        auto name = info["type"].get<string>();
         CheckFactoryExist(name);
-        auto shape = std::dynamic_pointer_cast<Shape>(PhoenixObjectFactory::CreateInstance(name, shape_properties));
-        return shape;
+        return CreateInstance<Bsdf>(name, property);
     }
 
-    shared_ptr<Bsdf> ProcessBsdf(const toml::impl::wrap_node<toml::table> *table)
-    {
-        PropertyList bsdf_properties = GenProperList(table);
-        string name = (*table)["type"].value_or("");
+    shared_ptr<Shape> ProcessShape(const json& info){
+        auto property = GenPropertyList(info);
+        auto name = info["type"].get<string>();
         CheckFactoryExist(name);
-        auto bsdf = std::dynamic_pointer_cast<Bsdf>(PhoenixObjectFactory::CreateInstance(name, bsdf_properties));
-        return bsdf;
+        return CreateInstance<Shape>(name, property);
     }
-
-    bool CheckKeyExist(const toml::parse_result &result, const string &key) {
-        if (!result.contains(key)) {
-            spdlog::error("scene file has no key {}", key);
-            return false;
-            //exit(0);
-        }
-        return true;
+    shared_ptr<Emitter> ProcessEmitter(const json& info){
+        auto property = GenPropertyList(info);
+        auto name = info["type"].get<string>();
+        CheckFactoryExist(name);
+        return CreateInstance<Emitter>(name, property);
     }
 
 
@@ -85,104 +69,100 @@ namespace Phoenix {
         file_name_ = GenFileName(file_path.filename().string());
         path_tool_.SetCurrentPath(file_path.parent_path());
         std::filesystem::current_path(file_path.parent_path());
-        spdlog::info("now path: {}",std::filesystem::current_path().string());
+        spdlog::info("now path: {}", std::filesystem::current_path().string());
         spdlog::info("reading scene from {}", absolute(file_path).string());
-        auto scene_config = toml::parse_file(file_path.string());
 
-        render.SetSampleCount(scene_config["sample_count"].value_or(16));
+        std::ifstream file(file_path);
+        json scene_config = json::parse(file);
+
+
+        render.SetSampleCount(scene_config["sample_count"].get<int>());
 
         ProcessCamera(scene_config, render);
         ProcessIntegrator(scene_config, render);
-        ProcessEmitters(scene_config,render);
-        ProcessObjects(scene_config, render);
         ProcessSampler(scene_config, render);
+        ProcessEmitters(scene_config,render);
+        ProcessShapes(scene_config,render);
+
         render.scene()->PostProcess();
 
     }
 
-    void Parser::ProcessCamera(const toml::parse_result &scene_config, Renderer &render) {
-        if(!CheckKeyExist(scene_config, "camera"))
-            return;
-        auto camera_info = scene_config["camera"].as_table();
-        string name = (*camera_info)["type"].value_or("");
-        CheckFactoryExist(name);
-        PropertyList camera_properties = GenProperList(camera_info);
-        auto camera = std::dynamic_pointer_cast<Camera>(PhoenixObjectFactory::CreateInstance(name, camera_properties));
+    void Parser::ProcessCamera(const json &info, Renderer &render) {
+        if (!info.contains("camera")) {
+            spdlog::error("no camera!");
+            exit(0);
+        }
+        auto camera_info = info["camera"];
+        auto camera_type = camera_info["type"].get<string>();
+        CheckFactoryExist(camera_type);
+        auto camera = CreateInstance<Camera>(camera_type, GenPropertyList(camera_info));
         render.SetCamera(camera);
         render.SetPicSize(camera->output_size_);
 
-
     }
 
-    void Parser::ProcessIntegrator(const toml::parse_result &scene_config, Renderer &render) {
-        if(!CheckKeyExist(scene_config, "integrator"))
+    void Parser::ProcessIntegrator(const json &info, Renderer &render) {
+        if (!info.contains("integrator")) {
+            spdlog::error("no integrator!");
             exit(0);
-        auto camera_info = scene_config["integrator"].as_table();
-        string name = (*camera_info)["type"].value_or("");
-        CheckFactoryExist(name);
-        PropertyList integrator_properties = GenProperList(camera_info);
-        auto integrator = std::dynamic_pointer_cast<Integrator>(
-                PhoenixObjectFactory::CreateInstance(name, integrator_properties));
+        }
+        auto camera_info = info["integrator"];
+        auto camera_type = camera_info["type"].get<string>();
+        CheckFactoryExist(camera_type);
+        auto integrator = CreateInstance<Integrator>(camera_type, GenPropertyList(camera_info));
         render.SetIntegrator(integrator);
-
     }
 
-    void Parser::ProcessObjects(const toml::parse_result &scene_config, Renderer &render) {
+    void Parser::ProcessSampler(const json &info, Renderer &render) {
+        if (!info.contains("sampler")) {
+            spdlog::error("no sampler!");
+            exit(0);
+        }
+        auto camera_info = info["sampler"];
+        auto camera_type = camera_info["type"].get<string>();
+        CheckFactoryExist(camera_type);
+        auto sampler = CreateInstance<Sampler>(camera_type, GenPropertyList(camera_info));
+        render.SetSampler(sampler);
+    }
+
+    void Parser::ProcessShapes(const json &info, Renderer &render) {
         auto scene = render.scene();
-        if(!CheckKeyExist(scene_config, "shapes"))
+        if (!info.contains("shapes"))
             return;
-        auto objects = scene_config["shapes"].as_array();
-        objects->for_each([&](auto &v) {
-            auto value = v.as_table();
-            auto shape = ProcessShape(value);
-            if(!value->contains("bsdf"))
+        auto objects = info["shapes"];
+        for (auto& el : objects.items()) {
+            auto shape_info = el.value();
+            auto shape = ProcessShape(shape_info);
+            if(!shape_info.contains("bsdf"))
             {
-                spdlog::error("shape has no bsdf!");
+                spdlog::error("no bsdf!");
                 exit(0);
             }
-            auto bsdf_table = (*value)["bsdf"].as_table();
-            auto bsdf = ProcessBsdf(bsdf_table);
+            auto bsdf = ProcessBsdf(shape_info["bsdf"]);
             shape->AddChild(bsdf);
             scene->AddShape(shape);
-        });
-        scene->FinishAdd();
+        }
     }
 
-    void Parser::ProcessSampler(const toml::parse_result &scene_config, Renderer &render) {
-//        auto sampler = std::dynamic_pointer_cast<Sampler>(PhoenixObjectFactory::CreateInstance("independent", {}));
-//        render.SetSampler(sampler);
-        if(!CheckKeyExist(scene_config,"sampler"))
-            exit(0);
-        auto sampler_info = scene_config["sampler"].as_table();
-        string name = (*sampler_info)["type"].value_or("");
-        CheckFactoryExist(name);
-        PropertyList integrator_properties = GenProperList(sampler_info);
-        auto sampler = std::dynamic_pointer_cast<Sampler>(
-                PhoenixObjectFactory::CreateInstance(name, integrator_properties));
-        render.SetSampler(sampler);
-
-    }
-
-    void Parser::ProcessEmitters(const toml::parse_result &scene_config, Renderer &render) {
+    void Parser::ProcessEmitters(const json &info, Renderer &render) {
         auto scene = render.scene();
-        if(!CheckKeyExist(scene_config, "emitters"))
-            return ;
-        auto emitters = scene_config["emitters"].as_array();
-        emitters->for_each([&](auto &v) {
-            auto value = v.as_table();
-            PropertyList emitter_properties = GenProperList(value);
-            string name = (*value)["type"].value_or("");
-            CheckFactoryExist(name);
-            auto emitter = std::dynamic_pointer_cast<Emitter>(PhoenixObjectFactory::CreateInstance(name, emitter_properties));
-            if(value->contains("shape"))
-            {
-                auto shape_info = (*value)["shape"].as_table();
-                auto shape = ProcessShape(shape_info);
-
+        if(!info.contains("emitters"))
+        {
+            spdlog::error("no emitter");
+            return;
+        }
+        auto emitters = info["emitters"];
+        for (auto& el : emitters.items()) {
+            auto emitter_info = el.value();
+            auto emitter = ProcessEmitter(emitter_info);
+            if(emitter_info.contains("shape")){
+                auto shape = ProcessShape(emitter_info["shape"]);
                 emitter->AddChild(shape);
             }
             scene->AddEmitter(emitter);
-        });
-        scene->FinishAdd();
+        }
     }
+
+
 }

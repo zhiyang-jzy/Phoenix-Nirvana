@@ -2,7 +2,7 @@
 #include "phoenix/core/common.h"
 #include "phoenix/utils/file_tool_class.h"
 #include "render_class.h"
-#include "ext/toml.hpp"
+#include "ext/json.hpp"
 namespace Phoenix{
 
     class Parser{
@@ -15,10 +15,11 @@ namespace Phoenix{
         std::filesystem::path GetParentPath() const{return path_tool_.current_path();};
         string file_name()const{return file_name_;}
     private:
-        void ProcessCamera(const toml::parse_result& scene_config, Renderer& render);
-        void ProcessIntegrator(const toml::parse_result& scene_config, Renderer& render);
-        void ProcessObjects(const toml::parse_result& scene_config, Renderer& render);
-        void ProcessEmitters(const toml::parse_result& scene_config, Renderer& render);
-        void ProcessSampler(const toml::parse_result& scene_config, Renderer& render);
+        void ProcessCamera(const json& info, Renderer& render);
+        void ProcessIntegrator(const json& info,Renderer& render);
+        void ProcessSampler(const json& info,Renderer& render);
+        void ProcessShapes(const json& info, Renderer& render);
+        void ProcessEmitters(const json& info,Renderer& render);
+        shared_ptr<Bsdf> ProcessBsdf(const json& info);
     };
 }

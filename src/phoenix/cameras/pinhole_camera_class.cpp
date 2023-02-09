@@ -17,9 +17,9 @@ namespace Phoenix {
             inv_output_size_ = {1.f / output_size_.x(), 1.f / output_size_.y()};
 
 
-            orig_ = properties.Get<Vector3f>("orig").value();
-            target_ = properties.Get<Vector3f>("target").value();
-            up_ = properties.Get<Vector3f>("up").value();
+            orig_ = properties.Get<vector<float>>("orig").value();
+            target_ = properties.Get<vector<float>>("target").value();
+            up_ = properties.Get<vector<float>>("up").value();
 
             look_at_ = CalcLookAt(orig_, target_, up_);
 

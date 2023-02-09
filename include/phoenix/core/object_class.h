@@ -3,16 +3,20 @@
 #include <spdlog/spdlog.h>
 #include <any>
 #include <optional>
+#include "ext/json.hpp"
+using json = nlohmann::json;
 namespace Phoenix{
+
+
+
 
     class PropertyList
     {
     private:
-        std::map<string,std::any> properties_;
+        std::map<string,json> properties_;
 
     public:
-        template<typename T>
-        void Set(string name,T value)
+        void Set(string name,json value)
         {
             properties_[name] = value;
         }
@@ -20,7 +24,7 @@ namespace Phoenix{
         std::optional<T> Get(string name)
         {
             if(properties_.count(name))
-                return std::any_cast<T>(properties_[name]);
+                return properties_[name].get<T>();
             return std::nullopt;
         }
     };

@@ -6,7 +6,7 @@ namespace Phoenix{
         shared_ptr<Shape> shape_;
     public:
         explicit AreaEmitter(PropertyList properties){
-            radiance_ = properties.Get<Vector3f>("radiance").value_or(Vector3f(1,1,1));
+            radiance_ = properties.Get<vector<float>>("radiance").value_or(vector<float>{1,1,1});
         }
 
         float area() override{

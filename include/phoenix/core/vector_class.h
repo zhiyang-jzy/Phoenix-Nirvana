@@ -35,6 +35,11 @@ namespace Phoenix {
             this->Base::operator=(p);
             return *this;
         }
+        TVector &operator=(const std::vector<float> &p) {
+            for(int i=0;i<Dimension;i++)
+                this->coeffRef(i) = p[i];
+            return *this;
+        }
 
 
         std::string toString() const {
@@ -81,6 +86,11 @@ namespace Phoenix {
         template<typename Derived>
         TPoint &operator=(const Eigen::MatrixBase <Derived> &p) {
             this->Base::operator=(p);
+            return *this;
+        }
+        TPoint &operator=(const std::vector<float> &p) {
+            for(int i=0;i<Dimension;i++)
+                this->coeffRef(i) = p[i];
             return *this;
         }
 
@@ -145,6 +155,11 @@ namespace Phoenix {
 
         template <typename Derived> Color3f &operator=(const Eigen::ArrayBase<Derived>& p) {
             this->Base::operator=(p);
+            return *this;
+        }
+        Color3f &operator=(const std::vector<float> &p) {
+            for(int i=0;i<3;i++)
+                this->coeffRef(i) = p[i];
             return *this;
         }
 

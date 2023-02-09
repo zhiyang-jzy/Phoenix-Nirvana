@@ -7,7 +7,7 @@ namespace Phoenix {
     private:
     public:
         explicit Diffuse(PropertyList properties) {
-            base_color_ = properties.Get<Vector3f>("basecolor").value_or(Vector3f(1, 1, 1));
+            base_color_ = properties.Get<vector<float>>("basecolor").value_or(vector<float>{1, 1, 1});
 
         }
 

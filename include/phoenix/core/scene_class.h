@@ -15,7 +15,7 @@ namespace Phoenix{
         std::vector<shared_ptr<Emitter>> emitters_;
         std::map<uint,shared_ptr<Shape>> shape_dict_;
         std::map<uint,shared_ptr<Emitter>> emitter_dict_;
-        DiscretePdf dpdf_;
+        DiscretePdf emitter_dpdf_;
 
     public:
         Scene();
@@ -34,7 +34,7 @@ namespace Phoenix{
         shared_ptr<Emitter> SampleEmitter(float& pdf, float sample)const ;
         [[nodiscard]] Interaction Trace(const Ray &ray)const ;
         void PostProcess();
-        [[nodiscard]] float EmitterPdf()const{return dpdf_.normalization();}
+        [[nodiscard]] float EmitterPdf()const{return emitter_dpdf_.normalization();}
 
     };
 }

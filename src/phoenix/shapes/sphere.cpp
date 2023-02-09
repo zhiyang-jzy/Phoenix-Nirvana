@@ -9,7 +9,7 @@ namespace Phoenix {
         float radius_;
     public:
         explicit Sphere(PropertyList properties) {
-            center_ = properties.Get<Vector3f>("center").value_or(Vector3f(0, 0, 0));
+            center_ = properties.Get<vector<float>>("center").value_or(vector<float>{0, 0, 0});
             radius_ = properties.Get<double>("radius").value_or(1.);
             area_ = 4.f * kPi * radius_ * radius_;
         }

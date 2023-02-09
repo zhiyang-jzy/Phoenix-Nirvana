@@ -45,7 +45,7 @@ namespace Phoenix {
     void Scene::AddEmitter(const shared_ptr<Emitter>& emitter) {
         emitters_.push_back(emitter);
         auto area = emitter->area();
-        dpdf_.Append(area);
+        emitter_dpdf_.Append(area);
         emitter->AddToScene(*this);
     }
 
@@ -59,16 +59,17 @@ namespace Phoenix {
             pdf=0.f;
             return nullptr;
         }
-        auto index = dpdf_.Sample(sample,pdf);
-        pdf = dpdf_.normalization();
+        auto index = emitter_dpdf_.Sample(sample, pdf);
+        pdf = emitter_dpdf_.normalization();
         return emitters_[index];
     }
 
     Scene::Scene() {
-        dpdf_.Clear();
+        emitter_dpdf_.Clear();
     }
 
     void Scene::PostProcess() {
-        dpdf_.Normalize();
+        FinishAdd();
+        emitter_dpdf_.Normalize();
     }
 }

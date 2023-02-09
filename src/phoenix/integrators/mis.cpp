@@ -49,6 +49,10 @@ namespace Phoenix {
                     EmitterQueryRecord emitter_rec(hit.basic.point);
                     float nee_pdf;
                     auto emitter = scene->SampleEmitter(nee_pdf, sampler->Next1D());
+                    if(!emitter)
+                    {
+
+                    }
 
                     BSDFQueryRecord nee_bsdf_rec(hit.frame.ToLocal(-now_ray.dir), hit.frame.ToLocal(-emitter_rec.wi));
                     float nee_bsdf_pdf = bsdf->Pdf(nee_bsdf_rec);

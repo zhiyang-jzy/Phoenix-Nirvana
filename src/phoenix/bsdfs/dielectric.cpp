@@ -50,9 +50,11 @@ namespace Phoenix {
         float int_ior_, ext_ior_;
     public:
         explicit Dielectric(PropertyList propers) {
-            int_ior_ = 1.5f;
-            ext_ior_ = 1.02f;
-            base_color_ = {1, 1, 1};
+            int_ior_ = propers.Get<float>("intIOR").value_or(1.f);
+            ext_ior_ = propers.Get<float>("extIOR").value_or(1.5f);
+
+
+            base_color_ = Color3f(1, 1, 1);
         }
 
         [[nodiscard]] string ToString() const override { return "conduct"; }
@@ -115,19 +117,18 @@ namespace Phoenix {
 
             bool isTReflec = cons > 1;
 
-            if(isTReflec){
-                if(isRefl){
-                    return {1,1,1};
+            if (isTReflec) {
+                if (isRefl) {
+                    return {1, 1, 1};
                 }
-                return {0,0,0};
-            }
-            else{
-                if(isRefl)
+                return {0, 0, 0};
+            } else {
+                if (isRefl)
                     return Color3f(1.f) * F;
-                else if(isRefr)
+                else if (isRefr)
                     return snell * snell * Color3f(1.f) * (1 - F);
                 else
-                    return {0,0,0};
+                    return {0, 0, 0};
             }
 
 
@@ -156,22 +157,20 @@ namespace Phoenix {
             bool isRefr = rec.wo.isApprox(refrac);
 
 
-
             float cons = sqrt(1.0f - (snell * snell) * (1.0f - cosT * cosT));
 
             bool isTReflec = cons > 1;
 
-            if(isTReflec){
-                if(isRefl){
-                   return 1.f;
+            if (isTReflec) {
+                if (isRefl) {
+                    return 1.f;
                 }
                 return 0.f;
-            }
-            else{
-                if(isRefl)
+            } else {
+                if (isRefl)
                     return F;
-                else if(isRefr)
-                    return 1-F;
+                else if (isRefr)
+                    return 1 - F;
                 else
                     return 0.f;
             }

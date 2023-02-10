@@ -2,7 +2,7 @@
 	"sampler": {
 		"type": "pcg_random"
 	},
-	"sample_count": 4,
+	"sample_count": 512,
 	"integrator": {
 		"type": "mis"
 	},
@@ -1212,7 +1212,7 @@
 			-0.0,
 			1.0
 		],
-		"width": 800,
+		"width": 1270,
 		"height": 800
 	}
 }

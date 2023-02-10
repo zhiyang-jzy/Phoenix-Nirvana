@@ -36,6 +36,7 @@ namespace Phoenix {
 
 
         explicit Transform(const Eigen::Matrix4f &trafo):m_transform(trafo),m_inverse(trafo.inverse()){}
+        explicit Transform(vector<float>& vector);
 
 
         Transform(Eigen::Matrix4f trafo, Eigen::Matrix4f inv)

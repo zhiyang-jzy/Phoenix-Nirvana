@@ -17,7 +17,7 @@ namespace Phoenix{
     }
 
     Bitmap3f Bitmap::ConvertTo3f() {
-        Bitmap3f res(height_,width_);
+        Bitmap3f res(width_,height_);
         for(int i=0;i<height_;i++){
             for(int j=0;j<width_;j++){
                 auto pre = coeff(i,j);

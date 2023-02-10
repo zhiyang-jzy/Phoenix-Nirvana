@@ -1,0 +1,1218 @@
+{
+	"sampler": {
+		"type": "pcg_random"
+	},
+	"sample_count": 4,
+	"integrator": {
+		"type": "mis"
+	},
+	"shapes": [
+		{
+			"type": "obj",
+			"filename": "models/Mesh050.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "Backdrop"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh042.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh044.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "Leather"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh038.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh040.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh072.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh033.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughSteel"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh028.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "Leather"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh055.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RedLeather"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh053.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "DarkPlastic"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh036.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RedLeather"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh035.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "PinkLeather"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh031.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RedLeather"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh030.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "PinkLeather"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh027.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh064.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughSteel"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh058.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughSteel"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh080.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "Black"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh067.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh060.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh026.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughSteel"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh047.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughSteel"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh061.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "DarkPlastic"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh063.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "DarkRubber"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh065.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh048.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh066.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh068.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "DarkRubber"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh071.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughSteel"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh046.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh076.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh059.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh057.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh062.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh074.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh075.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh078.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh081.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh034.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh084.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh085.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh073.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh077.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh087.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh052.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh025.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh024.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh086.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh023.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh021.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh039.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh020.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh032.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh019.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughSteel"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh018.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh070.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh016.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh015.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh054.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh013.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh079.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh041.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh012.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh011.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh083.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh010.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh069.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh009.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh007.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh017.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh006.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughSteel"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh037.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh008.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughSteel"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh045.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughSteel"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh005.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh004.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh049.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughSteel"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh082.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughSteel"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh014.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughSteel"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh003.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughSteel"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh002.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh051.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughSteel"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh001.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "Glass"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh056.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RoughAluminium"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh000.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "BrightPinkLeather"
+			}
+		}, {
+			"type": "obj",
+			"filename": "models/Mesh022.obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "RedLeather"
+			}
+		}, {
+			"filename": "models/rectangle.obj",
+			"type": "obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					39.236, 0.0, 0.0, 0.0, 0.0, -39.236, -3.43012e-06, 39.2, 0.0, 3.43012e-06, -39.236, -30.208, 0.0,
+					0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "Backdrop"
+			}
+		}
+	],
+	"emitters": [
+		{
+			"type": "area",
+			"radiance": [
+				20.0, 3.0, 3.0
+			],
+			"shape": {
+				"type": "obj",
+				"filename": "models/Mesh043.obj",
+				"transform": {
+					"type": "matrix",
+					"value": [
+						1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+					]
+				}
+			}
+		}, {
+			"type": "area",
+			"radiance": [
+				3.88628, 3.77255, 3.43137
+			],
+			"shape": {
+				"type": "obj",
+				"filename": "models/Mesh029.obj",
+				"transform": {
+					"type": "matrix",
+					"value": [
+						1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+					]
+				}
+			}
+		}, {
+			"type": "area",
+			"radiance": [
+				9.0, 9.0, 10.0
+			],
+			"shape": {
+				"filename": "models/rectangle.obj",
+				"type": "obj",
+				"transform": {
+					"type": "matrix",
+					"value": [
+						2.04973, -9.60975e-08, 9.60975e-08, 0.0, 3.09501e-07, 2.7819e-08, -0.636425, 5.14472,
+						3.09501e-07, 0.636425, 2.7819e-08, 1.61079, 0.0, 0.0, 0.0, 1.0
+					]
+				}
+			}
+		}, {
+			"type": "area",
+			"radiance": [
+				9.0, 9.0, 10.0
+			],
+			"shape": {
+				"filename": "models/rectangle.obj",
+				"type": "obj",
+				"transform": {
+					"type": "matrix",
+					"value": [
+						2.04973, -9.60975e-08, 9.60975e-08, 0.0, 3.09501e-07, 2.7819e-08, -0.636425, 5.14472,
+						3.09501e-07, 0.636425, 2.7819e-08, -1.61079, 0.0, 0.0, 0.0, 1.0
+					]
+				}
+			}
+		}
+	],
+	"bsdfs": [
+		{
+			"id": "Backdrop",
+			"type": "diffuse",
+			"basecolor": [
+				0.5, 0.5, 0.5
+			]
+		}, {
+			"id": "RoughAluminium",
+			"type": "diffuse",
+			"basecolor": [
+				0.5, 0.5, 0.5
+			]
+		}, {
+			"id": "RoughSteel",
+			"type": "diffuse",
+			"basecolor": [
+				0.5, 0.5, 0.5
+			]
+		}, {
+			"id": "DarkPlastic",
+			"type": "diffuse",
+			"basecolor": [
+				0.5, 0.5, 0.5
+			]
+		}, {
+			"id": "PinkLeather",
+			"type": "diffuse",
+			"basecolor": [
+				0.5, 0.5, 0.5
+			]
+		}, {
+			"id": "Leather",
+			"type": "diffuse",
+			"basecolor": [
+				0.5, 0.5, 0.5
+			]
+		}, {
+			"id": "RedLeather",
+			"type": "diffuse",
+			"basecolor": [
+				0.5, 0.5, 0.5
+			]
+		}, {
+			"id": "BrightPinkLeather",
+			"type": "diffuse",
+			"basecolor": [
+				0.5, 0.5, 0.5
+			]
+		}, {
+			"id": "Glass",
+			"type": "dielectric",
+			"basecolor": [
+				0.5, 0.5, 0.5
+			]
+		}, {
+			"id": "DarkRubber",
+			"type": "diffuse",
+			"basecolor": [
+				0.5, 0.5, 0.5
+			]
+		}, {
+			"id": "Black",
+			"type": "diffuse",
+			"basecolor": [
+				0.5, 0.5, 0.5
+			]
+		}
+	],
+	"camera": {
+		"type": "pinhole",
+		"fov": 60.0,
+		"orig": [-0.519664, 0.817007, 3.82439],
+		"up": [0.007035, 0.998664, -0.0511957],
+		"target": [-0.383711, 0.76533, 2.83502],
+		"matrix": [
+			0.99069,
+			0.007035,
+			-0.135953,
+			-0.519664,
+			-9.40074e-10,
+			0.998664,
+			0.0516768,
+			0.817007,
+			0.136134,
+			-0.0511957,
+			0.989367,
+			3.82439,
+			-0.0,
+			0.0,
+			-0.0,
+			1.0
+		],
+		"width": 800,
+		"height": 800
+	}
+}

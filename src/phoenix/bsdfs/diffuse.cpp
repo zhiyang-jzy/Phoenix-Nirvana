@@ -15,18 +15,23 @@ namespace Phoenix {
 
         void Sample(BSDFQueryRecord &rec, float &pdf, const Vector2f &sample) const override {
             rec.wo = SquareToCosineHemisphere(sample);
+            rec.wo.normalize();
             pdf = SquareToCosineHemispherePdf(rec.wo);
         };
 
-        Color3f Eval(const BSDFQueryRecord &rec)const  override {
-            if (Frame::CosTheta(rec.wo) < 0 || Frame::CosTheta(rec.wi) < 0)
-                return 0.f;
-            return kInvPi * base_color_*Frame::CosTheta(rec.wo);
+        Color3f Eval(const BSDFQueryRecord &rec) const override {
+//            if (Frame::CosTheta(rec.wo) < 0 || Frame::CosTheta(rec.wi) < 0)
+//                return 0.f;
+            return kInvPi * base_color_ * abs(Frame::CosTheta(rec.wo));
 
         }
-        float Pdf(const BSDFQueryRecord &rec) const override{
-            if (Frame::CosTheta(rec.wo) < 0 || Frame::CosTheta(rec.wi) < 0)
-                return 0.f;
+
+        float Pdf(const BSDFQueryRecord &rec) const override {
+//            if (Frame::CosTheta(rec.wo) < 0 || Frame::CosTheta(rec.wi) < 0)
+//                return 0.f;
+            Vector3f s = rec.wo;
+            s.z() = abs(s.z());
+            s.normalize();
             return SquareToCosineHemispherePdf(rec.wo);
         }
 

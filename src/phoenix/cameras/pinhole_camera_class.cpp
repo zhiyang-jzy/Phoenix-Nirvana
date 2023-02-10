@@ -17,11 +17,18 @@ namespace Phoenix {
             inv_output_size_ = Vector2f(1.f / output_size_.x(), 1.f / output_size_.y());
 
 
-            orig_ = properties.Get<vector<float>>("orig").value();
-            target_ = properties.Get<vector<float>>("target").value();
-            up_ = properties.Get<vector<float>>("up").value();
+            if(!properties.Get<vector<float>>("matrix").has_value()){
+                orig_ = properties.Get<vector<float>>("orig").value();
+                target_ = properties.Get<vector<float>>("target").value();
+                up_ = properties.Get<vector<float>>("up").value();
+                look_at_ = CalcLookAt(orig_, target_, up_);
+            }
+            else{
+                auto vec = properties.Get<vector<float>>("matrix").value();
+                look_at_ = Transform(vec);
+            }
 
-            look_at_ = CalcLookAt(orig_, target_, up_);
+
 
 
         }

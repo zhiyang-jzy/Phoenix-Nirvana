@@ -1,0 +1,153 @@
+{
+	"sampler": {
+		"type": "pcg_random"
+	},
+	"sample_count": 16,
+	"integrator": {
+		"type": "mis"
+	},
+	"shapes": [
+		{
+			"filename": "models/cube.obj",
+			"type": "obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					0.805757, 0.0961775, 0.0, 0.264069, -0.673242, 0.115108, 0.0, 4.09801, 0.0, 0.0, 4.0, 0.0, 0.0, 0.0,
+					0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "Smooth"
+			}
+		}, {
+			"filename": "models/cube.obj",
+			"type": "obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					0.972057, 0.0567134, 0.0, 3.06163, -0.396994, 0.138865, 0.0, 2.71702, 0.0, 0.0, 4.0, 0.0, 0.0, 0.0,
+					0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "Glossy"
+			}
+		}, {
+			"filename": "models/cube.obj",
+			"type": "obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.03191, 0.0277252, 0.0, 7.09981, -0.194077, 0.147415, 0.0, 1.81891, 0.0, 0.0, 4.0, 0.0, 0.0, 0.0,
+					0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "Rough"
+			}
+		}, {
+			"filename": "models/rectangle.obj",
+			"type": "obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					9.9, 0.0, 0.0, 4.9, 0.0, -4.32743e-07, 9.9, 0.0, 0.0, -23.76, -1.03858e-06, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "Diffuse"
+			}
+		}, {
+			"filename": "models/rectangle.obj",
+			"type": "obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					-4.32743e-07, -4.32743e-07, 9.9, -5.0, -9.9, 1.89158e-14, -4.32743e-07, 9.9, 0.0, -23.76,
+					-1.03858e-06, 0.0, 0.0, 0.0, 0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "Diffuse"
+			}
+		}, {
+			"filename": "models/cube.obj",
+			"type": "obj",
+			"transform": {
+				"type": "matrix",
+				"value": [
+					1.04217, 0.0182831, 0.0, 10.6769, -0.127982, 0.148882, 0.0, 1.23376, 0.0, 0.0, 4.0, 0.0, 0.0, 0.0,
+					0.0, 1.0
+				]
+			},
+			"bsdf": {
+				"ref": "SuperRough"
+			}
+		}
+	],
+	"emitters": [
+		{
+			"type": "area",
+			"radiance": [7.59909, 7.59909, 7.59909],
+			"shape": {
+				"type": "sphere",
+				"radius": 1.0,
+				"center": [0.0, 6.5, -2.8]
+			}
+		}, {
+			"type": "area",
+			"radiance": [30.3964, 30.3964, 30.3964],
+			"shape": {
+				"type": "sphere",
+				"radius": 0.5,
+				"center": [0.0, 6.5, 0.0]
+			}
+		}, {
+			"type": "area",
+			"radiance": [3039.64, 3039.64, 3039.64],
+			"shape": {
+				"type": "sphere",
+				"radius": 0.05,
+				"center": [0.0, 6.5, 2.7]
+			}
+		}
+	],
+	"bsdfs": [
+		{
+			"id": "Diffuse",
+			"type": "diffuse",
+			"basecolor": [0.5, 0.5, 0.5]
+		}, {
+			"id": "Smooth",
+			"type": "diffuse",
+			"basecolor": [0.5, 0.5, 0.5]
+		}, {
+			"id": "Glossy",
+			"type": "diffuse",
+			"basecolor": [0.5, 0.5, 0.5]
+		}, {
+			"id": "Rough",
+			"type": "diffuse",
+			"basecolor": [0.5, 0.5, 0.5]
+		}, {
+			"id": "Null",
+			"type": "diffuse",
+			"basecolor": [0.5, 0.5, 0.5]
+		}, {
+			"id": "SuperRough",
+			"type": "diffuse",
+			"basecolor": [0.5, 0.5, 0.5]
+		}
+	],
+	"camera": {
+		"type": "pinhole",
+		"fov": 35.0,
+		"matrix": [
+			4.37113e-08, 0.0, 1.0, 28.2792, -0.0, 1.0, -0.0, 3.5, -1.0, 0.0, 4.37113e-08, 1.23612e-06, -0.0, 0.0, -0.0,
+			1.0
+		],
+		"width": 1270,
+		"height": 800
+	}
+}

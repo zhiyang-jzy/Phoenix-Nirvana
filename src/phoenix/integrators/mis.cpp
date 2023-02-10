@@ -5,8 +5,8 @@ namespace Phoenix {
 
     class Mis : public Integrator {
     private:
-        float russian_ = 0.99;
-        size_t mi_recur_ = 50;
+        float russian_ = 0.95;
+        size_t mi_recur_ = 10;
     public:
 
         Mis(PropertyList properties) {

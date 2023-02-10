@@ -9,6 +9,7 @@ namespace Phoenix{
     private:
         PathTool path_tool_;
         string file_name_;
+        map<string,shared_ptr<Bsdf>> bsdf_dic;
 
     public:
         void Parse(const string& filename, Renderer& render);
@@ -20,6 +21,7 @@ namespace Phoenix{
         void ProcessSampler(const json& info,Renderer& render);
         void ProcessShapes(const json& info, Renderer& render);
         void ProcessEmitters(const json& info,Renderer& render);
+        void ProcessBsdfs(const json& info);
         shared_ptr<Bsdf> ProcessBsdf(const json& info);
     };
 }

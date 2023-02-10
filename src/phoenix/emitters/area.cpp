@@ -20,9 +20,9 @@ namespace Phoenix{
         }
 
         [[nodiscard]] Color3f Eval(const EmitterQueryRecord& rec) const override{
-            float v = rec.n.dot(rec.wi);
-            if(v<=0.f)
-                return {0,0,0};
+//            float v = rec.n.dot(rec.wi);
+//            if(v<=0.f)
+//                return {0,0,0};
             return radiance_;
         }
 
@@ -37,7 +37,8 @@ namespace Phoenix{
             rec.shadow_ray = Ray(rec.ref,-rec.wi);
 
             if(rec.n.dot(rec.wi)<=0)
-                return {0,0,0};
+//                return {0,0,0};
+                rec.n  = - rec.n;
             return radiance_;
 
         }

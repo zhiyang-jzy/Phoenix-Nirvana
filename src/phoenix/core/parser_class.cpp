@@ -41,6 +41,11 @@ namespace Phoenix {
     }
 
     shared_ptr<Bsdf> Parser::ProcessBsdf(const json &info) {
+        if(info.contains("ref"))
+        {
+            auto name = info.at("ref").get<string>();
+            return bsdf_dic[name];
+        }
         auto property = GenPropertyList(info);
         auto name = info["type"].get<string>();
         CheckFactoryExist(name);
@@ -49,7 +54,10 @@ namespace Phoenix {
 
     Transform ProcessMatrix(const json &info) {
         auto vec = info["value"].get<vector<float>>();
-        Eigen::Matrix4f mat =  Eigen::Map<Eigen::Matrix4f>(vec.data());
+        Eigen::Matrix4f mat ;
+        for(int i=0;i<4;i++)
+            for(int j=0;j<4;j++)
+                mat.coeffRef(i,j) = vec[i*4+j];
         return Transform(mat);
 
     }
@@ -133,6 +141,7 @@ namespace Phoenix {
         render.SetSampleCount(scene_config["sample_count"].get<int>());
 
         ProcessCamera(scene_config, render);
+        ProcessBsdfs(scene_config);
         ProcessIntegrator(scene_config, render);
         ProcessSampler(scene_config, render);
         ProcessEmitters(scene_config, render);
@@ -213,6 +222,20 @@ namespace Phoenix {
                 emitter->AddChild(shape);
             }
             scene->AddEmitter(emitter);
+        }
+    }
+
+    void Parser::ProcessBsdfs(const json &info) {
+        if(!info.contains("bsdfs")){
+            spdlog::warn("no bsdfs!");
+            return;
+        }
+        auto bsdf_info = info["bsdfs"];
+        for (auto &el: bsdf_info.items()) {
+            auto bsdf_info = el.value();
+            auto bsdf = ProcessBsdf(bsdf_info);
+            auto name = bsdf_info.at("id").get<string>();
+            bsdf_dic[name] = bsdf;
         }
     }
 

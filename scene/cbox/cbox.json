@@ -1,5 +1,5 @@
 {
-	"sample_count": 16,
+	"sample_count": 256,
 	"bsdfs": [
 		{
 			"id": "white",
@@ -12,8 +12,8 @@
 	"camera": {
 		"type": "pinhole",
 		"fov": 39.3077,
-		"width": 1270,
-		"height": 800,
+		"width": 256,
+		"height": 256,
 		"orig": [
 			0, 0, 4
 		],
@@ -25,7 +25,7 @@
 		]
 	},
 	"integrator": {
-		"type": "mis"
+		"type": "base"
 	},
 	"sampler": {
 		"type": "pcg_random"
@@ -57,30 +57,24 @@
 				"basecolor": [
 					0.105421, 0.37798, 0.076425
 				]
-			},
-			"transform": {
-				"type": "to_world",
-				"scale": [1, 0.5, 0.1],
-				"rotation": [90, 0, 0],
-				"translate": [0.5, 0.3, 0]
 			}
 		}, {
 			"type": "obj",
 			"filename": "meshes/cbox_back.obj",
 			"bsdf": {
-				"ref" : "white"
+				"ref": "white"
 			}
 		}, {
 			"type": "obj",
 			"filename": "meshes/cbox_floor.obj",
 			"bsdf": {
-				"ref" : "white"
+				"ref": "white"
 			}
 		}, {
 			"type": "obj",
 			"filename": "meshes/cbox_ceiling.obj",
 			"bsdf": {
-				"ref" : "white"
+				"ref": "white"
 			}
 		}, {
 			"type": "obj",

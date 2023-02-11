@@ -58,3 +58,4 @@ inline float Fresnel(float cosThetaI, float extIOR, float intIOR) {
 
     return (Rs * Rs + Rp * Rp) / 2.0f;
 }
+

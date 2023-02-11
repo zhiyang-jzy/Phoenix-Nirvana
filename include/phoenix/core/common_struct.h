@@ -119,6 +119,9 @@ namespace Phoenix {
         static float CosTheta(const Vector3f &v) {
             return v.z();
         }
+        static float cosTheta2(const Vector3f &v) {
+            return v.z() * v.z();
+        }
 
         static float SinTheta(const Vector3f &v) {
             float temp = SinTheta2(v);

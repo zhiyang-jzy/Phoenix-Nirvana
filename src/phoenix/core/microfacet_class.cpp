@@ -1,41 +1,32 @@
 #include "phoenix/core/microfacet_class.h"
+#include "phoenix/core/utils.h"
 
 namespace Phoenix {
 
     float MicrofacetDistribution::Eval(const Vector3f &m) {
         if (Frame::CosTheta(m) <= 0)
-            return 0.f;
-        float cos_theta2 = Frame::cosTheta2(m);
-        float sin_theta2 = Frame::SinTheta2(m);
-        float beckmann = (sin_theta2 / cos_theta2) / (alpha_ * alpha_);
-        float root = (1.f + beckmann) * cos_theta2;
-        float res = 1.f / (kPi * alpha_ * alpha_ * root * root);
-        if (res * Frame::CosTheta(m) < 1e-20f)
-            res = 0;
-        return res;
+            return 0.0f;
+
+        float cosTheta2 = Frame::cosTheta2(m);
+        float beckmannExponent = ((m.x() * m.x()) / (alpha_ * alpha_)
+                                  + (m.y() * m.y()) / (alpha_ * alpha_)) / cosTheta2;
+
+        float result;
+        /* GGX / Trowbridge-Reitz distribution function for rough surfaces */
+        float root = ((float) 1 + beckmannExponent) * cosTheta2;
+        result = (float) 1 / (kPi * alpha_ * alpha_ * root * root);
+
+
+        /* Prevent potential numerical issues in other stages of the model */
+        if (result * Frame::CosTheta(m) < 1e-20f)
+            result = 0;
+
+        return result;
     }
 
     Normal3f MicrofacetDistribution::Sample(const Vector3f &wi_, const Vector2f &sample, float &pdf) {
-
-        Vector3f wi = Vector3f(alpha_ * wi.x(), alpha_ * wi.y(), wi.z()).normalized();
-        float theta = 0, phi = 0;
-        if (wi.z() < 0.99999f) {
-            theta = acos(wi.z());
-            phi = atan2(wi.y(), wi.x());
-        }
-        float sin_phi, cos_phi;
-        sin_phi = sin(phi);
-        cos_phi = cos(phi);
-
-        Vector2f slope = Sample11(theta, sample);
-        slope = Vector2f(cos_phi * slope.x() - sin_phi * slope.y(), sin_phi * slope.x() + cos_phi * slope.y());
-        slope.x() *= alpha_;
-        slope.y() *= alpha_;
-
-        float norm = 1.f / sqrt(slope.x() * slope.x()
-                                + slope.y() * slope.y() + 1.f);
-
-        auto m = Normal3f(-slope.x() * norm, -slope.y() * norm, norm).normalized();
+        Normal3f m;
+        m = SampleVisible(wi_, sample).normalized();
         pdf = Pdf(wi_, m);
         return m;
 
@@ -46,31 +37,34 @@ namespace Phoenix {
         return (x > 0) - (x < 0);
     }
 
-    Vector2f MicrofacetDistribution::Sample11(float theta, Vector2f sample) {
-        const float sqrt_pi_inv = 1.f / sqrt(kPi);
+    Vector2f MicrofacetDistribution::Sample11(float thetaI, Vector2f sample) const {
+        const float SQRT_PI_INV = 1 / std::sqrt(kPi);
         Vector2f slope;
-        if (theta < 1e-4f) {
-            float sin_phi, cos_phi;
-            float r = sqrt(sample.x() / (1 - sample.x()));
-            sin_phi = sin(2 * kPi * sample.y());
-            cos_phi = cos(2 * kPi * sample.y());
-            return {r * cos_phi, r * sin_phi};
+        /* Special case (normal incidence) */
+        if (thetaI < 1e-4f) {
+            float sinPhi, cosPhi;
+            float r = safe_sqrt(sample.x() / (1 - sample.x()));
+            sincos(2 * kPi * sample.y(), &sinPhi, &cosPhi);
+            return Vector2f(r * cosPhi, r * sinPhi);
         }
 
-        float tan_theta_i = tan(theta);
-        float a = 1.f / tan_theta_i;
-        float G1 = 2.f / (1.f + sqrt(1.f + 1.f / (a * a)));
+        /* Precomputations */
+        float tanThetaI = std::tan(thetaI);
+        float a = 1 / tanThetaI;
+        float G1 = 2.0f / (1.0f + safe_sqrt(1.0f + 1.0f / (a * a)));
 
-        float A = 2.f * sample.x() / G1 - 1.f;
-        if (abs(A) == 1)
+        /* Simulate X component */
+        float A = 2.0f * sample.x() / G1 - 1.0f;
+        if (std::abs(A) == 1)
             A -= sig_num(A) * kEpsilon;
-        float tmp = 1.f / (A * A - 1.f);
-        float B = tan_theta_i;
-        float D = sqrt(B * B * tmp * tmp - (A * A - B * B) * tmp);
+        float tmp = 1.0f / (A * A - 1.0f);
+        float B = tanThetaI;
+        float D = safe_sqrt(B * B * tmp * tmp - (A * A - B * B) * tmp);
         float slope_x_1 = B * tmp - D;
         float slope_x_2 = B * tmp + D;
-        slope.x() = (A < 0.0f || slope_x_2 > 1.0f / tan_theta_i) ? slope_x_1 : slope_x_2;
+        slope.x() = (A < 0.0f || slope_x_2 > 1.0f / tanThetaI) ? slope_x_1 : slope_x_2;
 
+        /* Simulate Y component */
         float S;
         if (sample.y() > 0.5f) {
             S = 1.0f;
@@ -89,31 +83,34 @@ namespace Phoenix {
                                 (float) 0.232500544458471) + (float) 1) - (float) 0.539825872510702);
 
         slope.y() = S * z * std::sqrt(1.0f + slope.x() * slope.x());
-
         return slope;
+
 
     }
 
     float MicrofacetDistribution::Pdf(const Vector3f &wi, const Normal3f &m) {
         if (Frame::CosTheta(wi) == 0)
             return 0.0f;
-        return SmithG1(wi, m) * abs(wi.dot(m)) * Eval(m) /  abs(Frame::CosTheta(wi));
+        return SmithG1(wi, m) * abs(wi.dot(m)) * Eval(m) / std::abs(Frame::CosTheta(wi));
     }
 
     float MicrofacetDistribution::SmithG1(const Vector3f &v, const Vector3f &m) const {
         if (v.dot(m) * Frame::CosTheta(v) <= 0)
-            return 0.f;
-        float tan_theta = abs(Frame::TanTheta(v));
-        if (tan_theta == 0.f)
-            return 1.f;
+            return 0.0f;
+
+        /* Perpendicular incidence -- no shadowing/masking */
+        float tanTheta = std::abs(Frame::TanTheta(v));
+        if (tanTheta == 0.0f)
+            return 1.0f;
+
         float alpha = ProjectRoughness(v);
-        float root = alpha * tan_theta;
-        return 2.0f / (1.0f + sqrt(1 + root * root));
+        float root = alpha * tanTheta;
+        return 2.0f / (1.0f + hypot2((float) 1.0f, root));
 
     }
 
     float MicrofacetDistribution::ProjectRoughness(const Vector3f &v) const {
-        float invSinTheta2 = 1.f / Frame::SinTheta2(v);
+        float invSinTheta2 = 1 / Frame::SinTheta2(v);
 
         if (invSinTheta2 <= 0)
             return alpha_;
@@ -126,6 +123,45 @@ namespace Phoenix {
 
     float MicrofacetDistribution::G(const Vector3f &wi, const Vector3f &wo, const Normal3f &m) const {
         return SmithG1(wi, m) * SmithG1(wo, m);
+    }
+
+    Normal3f MicrofacetDistribution::SampleVisible(const Vector3f &_wi, const Vector2f &sample) const {
+        Vector3f wi = Vector3f(
+                alpha_ * _wi.x(),
+                alpha_ * _wi.y(),
+                _wi.z()
+        ).normalized();
+
+        /* Get polar coordinates */
+        float theta = 0, phi = 0;
+        if (wi.z() < (float) 0.99999) {
+            theta = std::acos(wi.z());
+            phi = std::atan2(wi.y(), wi.x());
+        }
+        float sinPhi, cosPhi;
+        sincos(phi, &sinPhi, &cosPhi);
+
+        /* Step 2: simulate P22_{wi}(slope.x, slope.y, 1, 1) */
+        Vector2f slope = Sample11(theta, sample);
+
+        /* Step 3: rotate */
+        slope = Vector2f(
+                cosPhi * slope.x() - sinPhi * slope.y(),
+                sinPhi * slope.x() + cosPhi * slope.y());
+
+        /* Step 4: unstretch */
+        slope.x() *= alpha_;
+        slope.y() *= alpha_;
+
+        /* Step 5: compute normal */
+        float normalization = (float) 1 / std::sqrt(slope.x() * slope.x()
+                                                    + slope.y() * slope.y() + (float) 1.0);
+
+        return Normal3f(
+                -slope.x() * normalization,
+                -slope.y() * normalization,
+                normalization
+        ).normalized();
     }
 
 }

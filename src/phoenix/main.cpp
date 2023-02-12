@@ -8,7 +8,7 @@ int main() {
 
     Renderer render;
     Parser parser;
-    parser.Parse("scene/cbox/cbox.json",render);
+    parser.Parse("scene/mis/scene_v0.6.json",render);
 
     render.SetMultiThread(true);
     render.Render();

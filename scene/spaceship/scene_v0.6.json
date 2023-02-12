@@ -2,13 +2,13 @@
     "sampler":{
         "type":"pcg_random"
     },
-    "sample_count":16,
+    "sample_count":128,
     "integrator":{
-        "type":"mis"
+        "type":"base"
     },
     "camera":{
         "type":"pinhole",
-        "fov":60.0,
+        "fov":30.0,
         "matrix":[
             0.99069,
             0.007035,
@@ -42,20 +42,44 @@
         },
         {
             "id":"RoughAluminium",
-            "type":"diffuse",
-            "basecolor":[
-                0.5,
-                0.5,
-                0.5
+            "type":"roughconductor",
+            "alpha":0.1,
+            "extEta":1.0,
+            "specularReflectance":[
+                0.578596,
+                0.578596,
+                0.578596
+            ],
+            "eta":[
+                1.65746,
+                0.880369,
+                0.521229
+            ],
+            "k":[
+                9.22387,
+                6.26952,
+                4.837
             ]
         },
         {
             "id":"RoughSteel",
-            "type":"diffuse",
-            "basecolor":[
-                0.5,
-                0.5,
-                0.5
+            "type":"roughconductor",
+            "alpha":0.1,
+            "extEta":1.0,
+            "specularReflectance":[
+                1.0,
+                1.0,
+                1.0
+            ],
+            "eta":[
+                2.0,
+                2.0,
+                2.0
+            ],
+            "k":[
+                0.0,
+                0.0,
+                0.0
             ]
         },
         {
@@ -105,12 +129,10 @@
         },
         {
             "id":"Glass",
-            "type":"diffuse",
-            "basecolor":[
-                0.5,
-                0.5,
-                0.5
-            ]
+            "type":"dielectric",
+            "alpha":0.01,
+            "intIOR":1.5,
+            "extIOR":1.0
         },
         {
             "id":"DarkRubber",

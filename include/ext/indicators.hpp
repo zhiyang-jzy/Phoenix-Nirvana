@@ -2,6 +2,10 @@
 #ifndef INDICATORS_COLOR
 #define INDICATORS_COLOR
 
+#ifdef _MSC_VER
+#pragma execution_character_set("utf-8")
+#endif
+
 namespace indicators {
     enum class Color { grey, red, green, yellow, blue, magenta, cyan, white, unspecified };
 }

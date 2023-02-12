@@ -92,5 +92,6 @@ namespace Phoenix {
             return albedo_->ToBitmap();
         if (res_type == ResType::Normal)
             return normal_->ToBitmap();
+        return nullptr;
     }
 }

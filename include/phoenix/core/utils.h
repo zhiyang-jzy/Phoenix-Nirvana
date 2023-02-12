@@ -36,4 +36,31 @@ namespace Phoenix {
         return 0.5f * (Rp2 + Rs2);
     }
 
+    inline float MiWeight(float pdf_a, float pdf_b) {
+        pdf_a *= pdf_a;
+        pdf_b *= pdf_b;
+        return pdf_a / (pdf_b + pdf_a);
+    }
+    inline float hypot2(float a, float b) {
+        float r;
+        if (std::abs(a) > std::abs(b)) {
+            r = b / a;
+            r = std::abs(a) * std::sqrt(1.0f + r*r);
+        } else if (b != 0.0f) {
+            r = a / b;
+            r = std::abs(b) * std::sqrt(1.0f + r*r);
+        } else {
+            r = 0.0f;
+        }
+        return r;
+    }
+
+    inline void sincos(float theta, float *_sin, float *_cos) {
+        *_sin = sinf(theta);
+        *_cos = cosf(theta);
+    }
+    inline float safe_sqrt(float value) {
+        return std::sqrt(std::max(0.0f, value));
+    }
+
 }

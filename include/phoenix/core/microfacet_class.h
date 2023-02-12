@@ -7,7 +7,8 @@ namespace Phoenix
     private:
         float alpha_;
     private:
-        Vector2f Sample11(float theta,Vector2f sample);
+        Vector2f Sample11(float theta,Vector2f sample) const;
+        Normal3f SampleVisible(const Vector3f &_wi, const Vector2f &sample) const ;
 
         float ProjectRoughness(const Vector3f& v)const;
     public:

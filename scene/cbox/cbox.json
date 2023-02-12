@@ -25,7 +25,7 @@
 		]
 	},
 	"integrator": {
-		"type": "base"
+		"type": "mis"
 	},
 	"sampler": {
 		"type": "pcg_random"
@@ -101,7 +101,9 @@
 				"type": "dielectric",
 				"basecolor": [
 					1, 1, 1
-				]
+				],
+				"intIOR": 1.5,
+				"extIOR": 1.0
 			}
 		}, {
 			"type": "sphere",
@@ -113,7 +115,9 @@
 				"type": "dielectric",
 				"basecolor": [
 					1, 1, 1
-				]
+				],
+				"intIOR": 1.5,
+				"extIOR": 1.0
 			}
 		}
 	]

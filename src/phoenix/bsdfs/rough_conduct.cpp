@@ -22,27 +22,30 @@ namespace Phoenix {
 
         [[nodiscard]] string ToString() const override { return "rough_conductor"; }
 
-        void Sample(BSDFQueryRecord &rec, float &pdf, const Vector2f &sample) const override {
-            if (Frame::CosTheta(rec.wi) < 0){
+        Color3f Sample(BSDFQueryRecord &rec, float &pdf, const Vector2f &sample) const override {
+            if (Frame::CosTheta(rec.wi) < 0) {
                 pdf = 0.f;
-                return;
+                return {0, 0, 0};
             }
 
 
             Normal3f m = distribution_->Sample(rec.wi, sample, pdf);
 
             if (pdf == 0)
-                return ;
+                return {0, 0, 0};
 
             /* Perfect specular reflection based on the microfacet normal */
             rec.wo = Reflect(rec.wi, m);
 
             /* Side check */
-            if (Frame::CosTheta(rec.wo) <= 0)
-            {
+            if (Frame::CosTheta(rec.wo) <= 0) {
                 pdf = 0.f;
-                return;
+                return {0, 0, 0};
             }
+            const Color3f F = FresnelConductorExact(rec.wi.dot(m), eta_, k_) *
+                              specular_reflectance_;
+            float weight = distribution_->SmithG1(rec.wo, m);
+            return F * weight;
 
 
         }

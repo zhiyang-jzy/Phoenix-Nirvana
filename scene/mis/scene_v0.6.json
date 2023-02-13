@@ -2,9 +2,9 @@
     "sampler":{
         "type":"pcg_random"
     },
-    "sample_count":64,
+    "sample_count":512,
     "integrator":{
-        "type":"base"
+        "type":"mis"
     },
     "camera":{
         "type":"pinhole",

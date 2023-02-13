@@ -30,12 +30,12 @@ namespace Phoenix {
             BSDFQueryRecord rec(hit.frame.ToLocal(-ray.dir).normalized());
 
             float pdf;
-            bsdf->Sample(rec, pdf, sampler->Next2D());
+            auto color = bsdf->Sample(rec, pdf, sampler->Next2D());
             auto bsdf_v = bsdf->Eval(rec);
             Ray light_ray(hit.basic.point, hit.frame.ToWorld(rec.wo).normalized());
 
             if (sampler->Next1D() < russian_)
-                res += Li(scene, sampler, light_ray).cwiseProduct(bsdf_v)/ pdf / russian_;
+                res += Li(scene, sampler, light_ray).cwiseProduct(color) / russian_;
             if (res.isValid())
                 return res;
             return {0, 0, 0};

@@ -1,5 +1,5 @@
 {
-	"sample_count": 256,
+	"sample_count": 128,
 	"bsdfs": [
 		{
 			"id": "white",
@@ -12,8 +12,8 @@
 	"camera": {
 		"type": "pinhole",
 		"fov": 39.3077,
-		"width": 256,
-		"height": 256,
+		"width": 720,
+		"height": 720,
 		"orig": [
 			0, 0, 4
 		],

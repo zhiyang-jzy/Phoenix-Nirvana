@@ -8,6 +8,7 @@ namespace Phoenix {
     private:
         float russian_ = 0.95;
         size_t mi_recur_ = 10;
+        size_t m_maxDepth = 50;
     public:
 
         Mis(PropertyList properties) {
@@ -18,119 +19,143 @@ namespace Phoenix {
             return "base integrator";
         }
 
-        [[nodiscard]] Color3f Li(shared_ptr<Scene> scene, shared_ptr<Sampler> sampler, const Ray &ray) const override {
-            Color3f res(0, 0, 0);
+        [[nodiscard]] Color3f Li(shared_ptr<Scene> scene, shared_ptr<Sampler> sampler, const Ray &_ray) const override {
+
+            Interaction its;
+            its = scene->Trace(_ray);
+            Ray ray(_ray);
+            Color3f Li(0.0f);
+            bool scattered = false;
             Color3f throughput(1.0f);
-            size_t now_count = 0;
-            Color3f weight(0.f);
-            float le_weight = 1.0, ne_weight = 0.0;
-            auto now_ray = ray;
-            Interaction hit = scene->Trace(now_ray);
-            while (now_count < mi_recur_ || sampler->Next1D() < russian_) {
-                now_count++;
-                if (!hit.basic.is_hit) {
+            float eta = 1.0f;
+
+            size_t depth = 0;
+
+            while (true) {
+                if (!its.basic.is_hit) {
+                    break;
+                }
+                depth += 1;
+
+                /* Possibly include emitted radiance if requested */
+                if (its.hit_type == HitType::Emitter) {
+
+                    EmitterQueryRecord erec(ray.orig, its.basic.point, its.basic.normal);
+                    Li += throughput * its.emitter->Eval(erec);
                     break;
                 }
 
-                if (hit.hit_type == HitType::Emitter) {
-                    EmitterQueryRecord rec(now_ray.orig, hit.basic.point, hit.basic.normal);
-                    if (now_count == 1)
-                        res += throughput.cwiseProduct(hit.emitter->Eval(rec));
-                    break;
-                }
+                auto bsdf = its.shape->bsdf();
 
-                auto bsdf = hit.shape->bsdf();
+                /* ==================================================================== */
+                /*                     Direct illumination sampling                     */
+                /* ==================================================================== */
 
-                auto b_is_specular = bsdf->IsSpecular();
+                /* Estimate the direct illumination if this is requested */
 
-                BSDFQueryRecord basic_bsdf_rec(hit.frame.ToLocal(-now_ray.dir).normalized());
-
-                float bsdf_pdf;
-                float emitter_pdf;
-                bsdf->Sample(basic_bsdf_rec, bsdf_pdf, sampler->Next2D());
-                if (!b_is_specular) {
-                    EmitterQueryRecord emitter_rec(hit.basic.point);
-
+                if (!bsdf->IsSpecular()) {
+                    float emitter_pdf;
                     auto emitter = scene->SampleEmitter(emitter_pdf, sampler->Next1D());
-                    auto emitter_color = emitter->Sample(emitter_rec, sampler->Next2D());
+                    EmitterQueryRecord e_rec(its.basic.point);
+                    auto value = emitter->Sample(e_rec, sampler->Next2D());
+                    auto emitter_its = scene->Trace(e_rec.shadow_ray);
 
-                    BSDFQueryRecord nee_bsdf_rec(hit.frame.ToLocal(-now_ray.dir).normalized(),
-                                                 hit.frame.ToLocal(-emitter_rec.wi).normalized());
-                    float nee_bsdf_pdf = bsdf->Pdf(nee_bsdf_rec);
+                    if (emitter_its.basic.is_hit && emitter_its.hit_type == HitType::Emitter &&
+                        (emitter_its.basic.point - e_rec.p).norm() < kEpsilon) {
 
-                    ne_weight = MiWeight(emitter_pdf, nee_bsdf_pdf);
+                        /* Allocate a record for querying the BSDF */
+                        BSDFQueryRecord bRec(emitter_its.frame.ToLocal(-ray.dir).normalized(),
+                                             emitter_its.frame.ToLocal(-e_rec.wi).normalized());
 
+                        /* Evaluate BSDF * cos(theta) */
+                        Color3f bsdfVal = bsdf->Eval(bRec);
 
-                    float cos_theta1 = (emitter_rec.wi).dot(emitter_rec.n);
+                        /* Prevent light leaks due to the use of shading normals */
 
-                    //BSDFQueryRecord bsdf_rec(hit.frame.ToLocal(-emitter_rec.wi), hit.frame.ToLocal(-now_ray.dir));
-                    BSDFQueryRecord bsdf_rec(hit.frame.ToLocal(-now_ray.dir).normalized(),
-                                             hit.frame.ToLocal(-emitter_rec.wi).normalized());
-                    auto bsdf_v = bsdf->Eval(bsdf_rec);
-                    auto shadow_hit = scene->Trace(emitter_rec.shadow_ray);
-                    if (shadow_hit.basic.is_hit) {
-                        if (shadow_hit.emitter == emitter &&
-                            (shadow_hit.basic.point - emitter_rec.p).norm() <= kEpsilon) {
-                            auto dis = (emitter_rec.ref - emitter_rec.p).squaredNorm();
-                            res += emitter_color.cwiseProduct(bsdf_v).cwiseProduct(throughput) * cos_theta1 /
-                                   emitter_pdf / (dis) * ne_weight;
-                            if (now_count == 1)
-                                weight.x() += ne_weight;
-                        }
+                        /* Calculate prob. of having generated that direction
+                           using BSDF sampling */
+                        float bsdfPdf = bsdf->Pdf(bRec);
+                        emitter_pdf *= (e_rec.ref - e_rec.p).squaredNorm();
+                        emitter_pdf /= abs(e_rec.wi.dot(e_rec.n));
+
+                        /* Weight using the power heuristic */
+                        float weight = MiWeight(emitter_pdf, bsdfPdf);
+                        //spdlog::info("hit");
+                        Li += throughput * value * bsdfVal * weight / emitter_pdf;
                     }
-
-
                 }
-                {
 
+                /* ==================================================================== */
+                /*                            BSDF sampling                             */
+                /* ==================================================================== */
 
-                    auto bsdf_v = bsdf->Eval(basic_bsdf_rec);
-                    throughput *= bsdf_v;
-                    throughput /= bsdf_pdf;
+                /* Sample BSDF * cos(theta) */
+                float bsdfPdf;
+                BSDFQueryRecord bRec(its.frame.ToLocal(-ray.dir).normalized());
+                Color3f bsdfWeight = bsdf->Sample(bRec, bsdfPdf, sampler->Next2D());
+                if (bsdfWeight.isZero())
+                    break;
 
-                    now_ray = Ray(hit.basic.point, hit.frame.ToWorld(basic_bsdf_rec.wo).normalized());
-                    bool hitEmitter = false;
+//                scattered |= bRec.sampledType != BSDF::ENull;
 
-                    hit = scene->Trace(now_ray);
+                /* Prevent light leaks due to the use of shading normals */
+                const Vector3f wo = its.frame.ToWorld(bRec.wo).normalized();
 
-                    if (hit.basic.is_hit) {
-                        if (!b_is_specular) {
-                            if (hit.hit_type == HitType::Emitter) {
-                                le_weight = MiWeight(bsdf_pdf, scene->EmitterPdf());
-                                //le_weight = 1 - ne_weight;
-                                EmitterQueryRecord rec(now_ray.orig, hit.basic.point, hit.basic.normal);
-                                auto value = hit.emitter->Eval(rec);
-                                res += value * le_weight * throughput;
-                                if (now_count == 1)
-                                    weight.y() += le_weight;
-                                break;
+                bool hitEmitter = false;
+                Color3f value(0.f);
 
-                            } else {
+                /* Trace a ray in this direction */
+                ray = Ray(its.basic.point, wo);
+                its = scene->Trace(ray);
+                if (its.basic.is_hit) {
+                    /* Intersected something - check if it was a luminaire */
+                    if (its.hit_type == HitType::Emitter) {
+                        EmitterQueryRecord erec(ray.orig, its.basic.point, its.basic.normal);
+                        value = its.emitter->Eval(erec);
+                        hitEmitter = true;
+                    }
+                } else {
+                }
 
-                            }
-                        } else {
-                            if (hit.hit_type == HitType::Emitter) {
-                                EmitterQueryRecord rec(now_ray.orig, hit.basic.point, hit.basic.normal);
-                                auto value = hit.emitter->Eval(rec);
-                                res += value * throughput;
-                                if (now_count == 1)
-                                    weight.y() += 1;
-                                break;
-                            }
-                        }
-                    } else {
+                /* Keep track of the throughput and relative
+                   refractive index along the path */
+                throughput *= bsdfWeight;
+
+                /* If a luminaire was hit, estimate the local illumination and
+                   weight using the power heuristic */
+                if (hitEmitter) {
+                    float emitter_pdf = scene->EmitterPdf();
+                    emitter_pdf *= (ray.orig - its.basic.point).squaredNorm();
+                    emitter_pdf /= abs((-ray.dir).dot(its.basic.normal));
+
+                    const float lumPdf = bsdf->IsSpecular() ?
+                                         0 : emitter_pdf;
+                    Li += throughput * value * MiWeight(bsdfPdf, lumPdf);
+                    break;
+                }
+
+                /* ==================================================================== */
+                /*                         Indirect illumination                        */
+                /* ==================================================================== */
+
+                /* Set the recursive query type. Stop if no surface was hit by the
+                   BSDF sample or if indirect illumination was not requested */
+                if (!its.basic.is_hit)
+                    break;
+
+                if (depth >= mi_recur_) {
+                    /* Russian roulette: try to keep path weights equal to one,
+                       while accounting for the solid angle compression at refractive
+                       index boundaries. Stop with at least some probability to avoid
+                       getting stuck (e.g. due to total internal reflection) */
+
+                    if (sampler->Next1D() > russian_)
                         break;
-                    }
-
-
-                    if (now_count >= mi_recur_) {
-                        throughput /= russian_;
-                    }
+                    throughput /= russian_;
                 }
             }
-            //return weight;
-            if (res.isValid())
-                return res;
+            if (Li.isValid())
+                return Li;
             return {0, 0, 0};
 
 

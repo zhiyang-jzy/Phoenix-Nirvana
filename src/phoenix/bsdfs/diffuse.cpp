@@ -13,13 +13,14 @@ namespace Phoenix {
 
         [[nodiscard]] string ToString() const override { return "diffuse"; }
 
-        void Sample(BSDFQueryRecord &rec, float &pdf, const Vector2f &sample) const override {
+        Color3f Sample(BSDFQueryRecord &rec, float &pdf, const Vector2f &sample) const override {
 
             rec.wo = SquareToCosineHemisphere(sample);
             rec.wo.normalize();
             pdf = SquareToCosineHemispherePdf(rec.wo);
             if(Frame::CosTheta(rec.wi)<0.f)
                 rec.wo.z()*=-1;
+            return base_color_;
 
         };
 

@@ -9,9 +9,10 @@ namespace Phoenix {
 
         [[nodiscard]] string ToString() const override { return "conduct"; }
 
-        void Sample(BSDFQueryRecord &rec, float &pdf, const Vector2f &sample) const override {
+        Color3f Sample(BSDFQueryRecord &rec, float &pdf, const Vector2f &sample) const override {
             rec.wo = Vector3f(-rec.wi.x(), -rec.wi.y(), rec.wi.z());
             pdf = 1.f;
+            return base_color_;
         }
 
         Color3f Eval(const BSDFQueryRecord &rec) const override {

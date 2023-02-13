@@ -59,7 +59,7 @@ namespace Phoenix {
 
         [[nodiscard]] string ToString() const override { return "conduct"; }
 
-        void Sample(BSDFQueryRecord &rec, float &pdf, const Vector2f &sample) const override {
+        Color3f Sample(BSDFQueryRecord &rec, float &pdf, const Vector2f &sample) const override {
             Vector3f n(0, 0, 1);
             float n1 = ext_ior_;
             float n2 = int_ior_;
@@ -83,13 +83,17 @@ namespace Phoenix {
             if (isTReflec) {
                 rec.wo = GetReflection(rec).normalized();
                 pdf = 1.f;
+                return base_color_ * F;
             } else {
                 if (sample.x() < F) {
                     rec.wo = GetReflection(rec).normalized();
                     pdf = F;
+                    return base_color_;
                 } else {
                     rec.wo = GetRefraction(rec).normalized();
                     pdf = 1 - F;
+                    return base_color_ * snell * snell;
+
                 }
             }
         }

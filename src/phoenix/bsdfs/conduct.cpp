@@ -34,5 +34,5 @@ namespace Phoenix {
         }
     };
 
-    PHOENIX_REGISTER_CLASS(Conduct, "conduct");
+    PHOENIX_REGISTER_CLASS(Conduct, "conductor");
 }

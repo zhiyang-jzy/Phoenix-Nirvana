@@ -41,14 +41,15 @@ namespace Phoenix {
         pdf_b *= pdf_b;
         return pdf_a / (pdf_b + pdf_a);
     }
+
     inline float hypot2(float a, float b) {
         float r;
         if (std::abs(a) > std::abs(b)) {
             r = b / a;
-            r = std::abs(a) * std::sqrt(1.0f + r*r);
+            r = std::abs(a) * std::sqrt(1.0f + r * r);
         } else if (b != 0.0f) {
             r = a / b;
-            r = std::abs(b) * std::sqrt(1.0f + r*r);
+            r = std::abs(b) * std::sqrt(1.0f + r * r);
         } else {
             r = 0.0f;
         }
@@ -59,8 +60,52 @@ namespace Phoenix {
         *_sin = sinf(theta);
         *_cos = cosf(theta);
     }
+
     inline float safe_sqrt(float value) {
         return std::sqrt(std::max(0.0f, value));
+    }
+
+    inline float fresnelDiffuseReflectance(float eta) {
+        /* Fast mode: the following code approximates the
+         * diffuse Frensel reflectance for the eta<1 and
+         * eta>1 cases. An evalution of the accuracy led
+         * to the following scheme, which cherry-picks
+         * fits from two papers where they are best.
+         */
+        if (eta < 1) {
+            /* Fit by Egan and Hilgeman (1973). Works
+               reasonably well for "normal" IOR values (<2).
+
+               Max rel. error in 1.0 - 1.5 : 0.1%
+               Max rel. error in 1.5 - 2   : 0.6%
+               Max rel. error in 2.0 - 5   : 9.5%
+            */
+            return -1.4399f * (eta * eta)
+                   + 0.7099f * eta
+                   + 0.6681f
+                   + 0.0636f / eta;
+        } else {
+            /* Fit by d'Eon and Irving (2011)
+             *
+             * Maintains a good accuracy even for
+             * unrealistic IOR values.
+             *
+             * Max rel. error in 1.0 - 2.0   : 0.1%
+             * Max rel. error in 2.0 - 10.0  : 0.2%
+             */
+            float invEta = 1.0f / eta,
+                    invEta2 = invEta * invEta,
+                    invEta3 = invEta2 * invEta,
+                    invEta4 = invEta3 * invEta,
+                    invEta5 = invEta4 * invEta;
+
+            return 0.919317f - 3.4793f * invEta
+                   + 6.75335f * invEta2
+                   - 7.80989f * invEta3
+                   + 4.98554f * invEta4
+                   - 1.36881f * invEta5;
+        }
+
     }
 
 }

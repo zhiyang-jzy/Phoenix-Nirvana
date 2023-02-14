@@ -2,9 +2,9 @@
     "sampler":{
         "type":"pcg_random"
     },
-    "sample_count":128,
+    "sample_count":512,
     "integrator":{
-        "type":"base"
+        "type":"mis"
     },
     "camera":{
         "type":"pinhole",
@@ -32,16 +32,15 @@
     },
     "bsdfs":[
         {
-            "id":"Backdrop",
             "type":"diffuse",
-            "basecolor":[
-                0.5,
-                0.5,
-                0.5
-            ]
+            "reflectance":[
+                0.1,
+                0.1,
+                0.1
+            ],
+            "id":"Backdrop"
         },
         {
-            "id":"RoughAluminium",
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
@@ -59,10 +58,10 @@
                 9.22387,
                 6.26952,
                 4.837
-            ]
+            ],
+            "id":"RoughAluminium"
         },
         {
-            "id":"RoughSteel",
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
@@ -80,52 +79,68 @@
                 0.0,
                 0.0,
                 0.0
-            ]
+            ],
+            "id":"RoughSteel"
         },
         {
-            "id":"DarkPlastic",
-            "type":"diffuse",
-            "basecolor":[
-                0.5,
-                0.5,
-                0.5
-            ]
+            "type":"plastic",
+            "alpha":0.2,
+            "intIOR":1.5,
+            "extIOR":1.0,
+            "diffuseReflectance":[
+                0.01,
+                0.01,
+                0.01
+            ],
+            "id":"DarkPlastic"
         },
         {
-            "id":"PinkLeather",
-            "type":"diffuse",
-            "basecolor":[
-                0.5,
-                0.5,
-                0.5
-            ]
+            "type":"plastic",
+            "alpha":0.4,
+            "intIOR":1.5,
+            "extIOR":1.0,
+            "diffuseReflectance":[
+                0.256,
+                0.013,
+                0.08
+            ],
+            "id":"PinkLeather"
         },
         {
-            "id":"Leather",
-            "type":"diffuse",
-            "basecolor":[
-                0.5,
-                0.5,
-                0.5
-            ]
+            "type":"plastic",
+            "alpha":0.4,
+            "intIOR":1.5,
+            "extIOR":1.0,
+            "diffuseReflectance":[
+                0.034,
+                0.014,
+                0.008
+            ],
+            "id":"Leather"
         },
         {
-            "id":"RedLeather",
-            "type":"diffuse",
-            "basecolor":[
-                0.5,
-                0.5,
-                0.5
-            ]
+            "type":"plastic",
+            "alpha":0.4,
+            "intIOR":1.5,
+            "extIOR":1.0,
+            "diffuseReflectance":[
+                0.163,
+                0.03,
+                0.037
+            ],
+            "id":"RedLeather"
         },
         {
-            "id":"BrightPinkLeather",
-            "type":"diffuse",
-            "basecolor":[
-                0.5,
-                0.5,
-                0.5
-            ]
+            "type":"plastic",
+            "alpha":0.4,
+            "intIOR":1.5,
+            "extIOR":1.0,
+            "diffuseReflectance":[
+                0.772,
+                0.175,
+                0.262
+            ],
+            "id":"BrightPinkLeather"
         },
         {
             "id":"Glass",
@@ -135,22 +150,25 @@
             "extIOR":1.0
         },
         {
-            "id":"DarkRubber",
-            "type":"diffuse",
-            "basecolor":[
-                0.5,
-                0.5,
-                0.5
-            ]
+            "type":"plastic",
+            "alpha":0.4,
+            "intIOR":1.5,
+            "extIOR":1.0,
+            "diffuseReflectance":[
+                0.025,
+                0.025,
+                0.025
+            ],
+            "id":"DarkRubber"
         },
         {
-            "id":"Black",
             "type":"diffuse",
-            "basecolor":[
-                0.5,
-                0.5,
-                0.5
-            ]
+            "reflectance":[
+                0.0,
+                0.0,
+                0.0
+            ],
+            "id":"Black"
         }
     ],
     "shapes":[

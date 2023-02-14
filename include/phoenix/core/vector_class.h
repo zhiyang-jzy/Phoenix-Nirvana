@@ -1,4 +1,5 @@
 #pragma once
+
 #include <Eigen/Eigen>
 
 namespace Phoenix {
@@ -26,17 +27,18 @@ namespace Phoenix {
 
 
         template<typename Derived>
-        TVector(const Eigen::MatrixBase <Derived> &p)
+        TVector(const Eigen::MatrixBase<Derived> &p)
                 : Base(p) {}
 
 
         template<typename Derived>
-        TVector &operator=(const Eigen::MatrixBase <Derived> &p) {
+        TVector &operator=(const Eigen::MatrixBase<Derived> &p) {
             this->Base::operator=(p);
             return *this;
         }
+
         TVector &operator=(const std::vector<float> &p) {
-            for(int i=0;i<Dimension;i++)
+            for (int i = 0; i < Dimension; i++)
                 this->coeffRef(i) = p[i];
             return *this;
         }
@@ -79,17 +81,18 @@ namespace Phoenix {
 
 
         template<typename Derived>
-        TPoint(const Eigen::MatrixBase <Derived> &p)
+        TPoint(const Eigen::MatrixBase<Derived> &p)
                 : Base(p) {}
 
 
         template<typename Derived>
-        TPoint &operator=(const Eigen::MatrixBase <Derived> &p) {
+        TPoint &operator=(const Eigen::MatrixBase<Derived> &p) {
             this->Base::operator=(p);
             return *this;
         }
+
         TPoint &operator=(const std::vector<float> &p) {
-            for(int i=0;i<Dimension;i++)
+            for (int i = 0; i < Dimension; i++)
                 this->coeffRef(i) = p[i];
             return *this;
         }
@@ -125,12 +128,12 @@ namespace Phoenix {
 
 
         template<typename Derived>
-        Normal3f(const Eigen::MatrixBase <Derived> &p)
+        Normal3f(const Eigen::MatrixBase<Derived> &p)
                 : Base(p) {}
 
 
         template<typename Derived>
-        Normal3f &operator=(const Eigen::MatrixBase <Derived> &p) {
+        Normal3f &operator=(const Eigen::MatrixBase<Derived> &p) {
             this->Base::operator=(p);
             return *this;
         }
@@ -143,28 +146,31 @@ namespace Phoenix {
         typedef Eigen::Array3f Base;
 
 
-        Color3f(float value = 0.f) : Base(value, value, value) { }
+        Color3f(float value = 0.f) : Base(value, value, value) {}
 
 
-        Color3f(float r, float g, float b) : Base(r, g, b) { }
+        Color3f(float r, float g, float b) : Base(r, g, b) {}
 
 
-        template <typename Derived> Color3f(const Eigen::ArrayBase<Derived>& p)
-                : Base(p) { }
+        template<typename Derived>
+        Color3f(const Eigen::ArrayBase<Derived> &p)
+                : Base(p) {}
 
 
-        template <typename Derived> Color3f &operator=(const Eigen::ArrayBase<Derived>& p) {
+        template<typename Derived>
+        Color3f &operator=(const Eigen::ArrayBase<Derived> &p) {
             this->Base::operator=(p);
             return *this;
         }
+
         Color3f &operator=(const std::vector<float> &p) {
-            for(int i=0;i<3;i++)
+            for (int i = 0; i < 3; i++)
                 this->coeffRef(i) = p[i];
             return *this;
         }
 
         template<typename Derived>
-        Color3f &operator=(const Eigen::MatrixBase <Derived> &p) {
+        Color3f &operator=(const Eigen::MatrixBase<Derived> &p) {
             this->Base::operator=(p);
             return *this;
         }
@@ -183,12 +189,14 @@ namespace Phoenix {
         const float &b() const { return z(); }
 
 
-        Color3f clamp() const { return Color3f(std::max(r(), 0.0f),
-                                               std::max(g(), 0.0f), std::max(b(), 0.0f)); }
+        Color3f clamp() const {
+            return Color3f(std::max(r(), 0.0f),
+                           std::max(g(), 0.0f), std::max(b(), 0.0f));
+        }
 
 
-        bool isValid() const{
-            for (int i=0; i<3; ++i) {
+        bool isValid() const {
+            for (int i = 0; i < 3; ++i) {
                 float value = coeff(i);
                 if (value < 0 || !std::isfinite(value))
                     return false;
@@ -203,7 +211,9 @@ namespace Phoenix {
         Color3f toSRGB() const;
 
 
-        float getLuminance() const;
+        float getLuminance() const {
+            return coeff(0) * 0.212671f + coeff(1) * 0.715160f + coeff(2) * 0.072169f;
+        }
 
 
     };
@@ -218,20 +228,22 @@ namespace Phoenix {
         typedef Eigen::Array4f Base;
 
 
-        Color4f() : Base(0.0f, 0.0f, 0.0f, 0.0f) { }
+        Color4f() : Base(0.0f, 0.0f, 0.0f, 0.0f) {}
 
 
-        Color4f(const Color3f &c) : Base(c.r(), c.g(), c.b(), 1.0f) { }
+        Color4f(const Color3f &c) : Base(c.r(), c.g(), c.b(), 1.0f) {}
 
 
-        Color4f(float r, float g, float b, float w) : Base(r, g, b, w) { }
+        Color4f(float r, float g, float b, float w) : Base(r, g, b, w) {}
 
 
-        template <typename Derived> Color4f(const Eigen::ArrayBase<Derived>& p)
-                : Base(p) { }
+        template<typename Derived>
+        Color4f(const Eigen::ArrayBase<Derived> &p)
+                : Base(p) {}
 
 
-        template <typename Derived> Color4f &operator=(const Eigen::ArrayBase<Derived>& p) {
+        template<typename Derived>
+        Color4f &operator=(const Eigen::ArrayBase<Derived> &p) {
             this->Base::operator=(p);
             return *this;
         }
@@ -247,27 +259,27 @@ namespace Phoenix {
 
     };
 
-    typedef TVector<float, 1>       Vector1f;
-    typedef TVector<float, 2>       Vector2f;
-    typedef TVector<float, 3>       Vector3f;
-    typedef TVector<float, 4>       Vector4f;
-    typedef TVector<double, 1>      Vector1d;
-    typedef TVector<double, 2>      Vector2d;
-    typedef TVector<double, 3>      Vector3d;
-    typedef TVector<double, 4>      Vector4d;
-    typedef TVector<int, 1>         Vector1i;
-    typedef TVector<int, 2>         Vector2i;
-    typedef TVector<int, 3>         Vector3i;
-    typedef TVector<int, 4>         Vector4i;
-    typedef TPoint<float, 1>        Point1f;
-    typedef TPoint<float, 2>        Point2f;
-    typedef TPoint<float, 3>        Point3f;
-    typedef TPoint<float, 4>        Point4f;
-    typedef TPoint<double, 1>       Point1d;
-    typedef TPoint<double, 2>       Point2d;
-    typedef TPoint<double, 3>       Point3d;
-    typedef TPoint<double, 4>       Point4d;
-    typedef TPoint<int, 1>          Point1i;
-    typedef TPoint<int, 2>          Point2i;
+    typedef TVector<float, 1> Vector1f;
+    typedef TVector<float, 2> Vector2f;
+    typedef TVector<float, 3> Vector3f;
+    typedef TVector<float, 4> Vector4f;
+    typedef TVector<double, 1> Vector1d;
+    typedef TVector<double, 2> Vector2d;
+    typedef TVector<double, 3> Vector3d;
+    typedef TVector<double, 4> Vector4d;
+    typedef TVector<int, 1> Vector1i;
+    typedef TVector<int, 2> Vector2i;
+    typedef TVector<int, 3> Vector3i;
+    typedef TVector<int, 4> Vector4i;
+    typedef TPoint<float, 1> Point1f;
+    typedef TPoint<float, 2> Point2f;
+    typedef TPoint<float, 3> Point3f;
+    typedef TPoint<float, 4> Point4f;
+    typedef TPoint<double, 1> Point1d;
+    typedef TPoint<double, 2> Point2d;
+    typedef TPoint<double, 3> Point3d;
+    typedef TPoint<double, 4> Point4d;
+    typedef TPoint<int, 1> Point1i;
+    typedef TPoint<int, 2> Point2i;
 
 }

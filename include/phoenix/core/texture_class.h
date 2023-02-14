@@ -9,7 +9,7 @@ namespace Phoenix {
     };
     class Texture {
     public:
-        [[nodiscard]] virtual Color4f GetColor(const Vector2f &uv) const { return {1, 1, 0, 1}; }
+        [[nodiscard]] virtual Color3f GetColor(const Vector2f &uv) const = 0;
     };
 
     class ImageTexture : public Texture {
@@ -18,6 +18,14 @@ namespace Phoenix {
     public:
         explicit ImageTexture(shared_ptr<Bitmap> bitmap) : bitmap_(std::move(bitmap)) {};
 
-        [[nodiscard]] Color4f GetColor(const Vector2f &uv) const override;
+        [[nodiscard]] Color3f GetColor(const Vector2f &uv) const override;
+    };
+
+    class SingleColorTexture : public Texture{
+    private:
+        Color3f color_;
+    public:
+        explicit SingleColorTexture(Color3f color): color_(color){}
+        Color3f GetColor(const Vector2f &uv) const override;
     };
 }

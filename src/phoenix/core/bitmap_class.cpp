@@ -26,4 +26,9 @@ namespace Phoenix{
         }
         return res;
     }
+
+    Color3f Bitmap::GetColor3f(uint x, uint y) const {
+        auto c = this->coeff(x,y);
+        return {c.x(), c.y(), c.z()};
+    }
 }

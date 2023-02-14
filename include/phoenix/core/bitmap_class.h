@@ -28,6 +28,7 @@ namespace Phoenix{
         void SetColor(uint x,uint y,Color4f color);
         void SetColor(uint x,uint y,Color3f color);
         Color4f GetColor(uint x,uint y) const;
+        Color3f GetColor3f(uint x,uint y) const;
         Bitmap3f ConvertTo3f();
     };
 }

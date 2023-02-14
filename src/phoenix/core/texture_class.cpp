@@ -2,7 +2,7 @@
 
 namespace Phoenix {
 
-    Color4f ImageTexture::GetColor(const Vector2f &uv) const {
+    Color3f ImageTexture::GetColor(const Vector2f &uv) const {
         float u = uv.x(), v = uv.y();
         int width = bitmap_->width(), height = bitmap_->height();
         u = Clamp(u, 0, 1);
@@ -12,6 +12,10 @@ namespace Phoenix {
         if (i >= width) i = width - 1;
         if (j >= height) j = height - 1;
 
-        return bitmap_->GetColor(i,j);
+        return bitmap_->GetColor3f(i, j);
+    }
+
+    Color3f SingleColorTexture::GetColor(const Vector2f &uv) const {
+        return color_;
     }
 }

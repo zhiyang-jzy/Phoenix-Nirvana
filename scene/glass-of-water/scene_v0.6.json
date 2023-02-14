@@ -4,11 +4,11 @@
     },
     "sample_count":256,
     "integrator":{
-        "type":"mis"
+        "type":"base"
     },
     "camera":{
         "type":"pinhole",
-        "fov":20.0,
+        "fov":17.5,
         "matrix":[
             0.999993,
             -5.92355e-05,
@@ -33,20 +33,44 @@
     "bsdfs":[
         {
             "id":"Backdrop",
-            "type":"diffuse",
-            "basecolor":[
-                0.5,
-                0.5,
-                0.5
+            "type":"roughconductor",
+            "alpha":0.1,
+            "extEta":1.0,
+            "specularReflectance":[
+                0.578596,
+                0.578596,
+                0.578596
+            ],
+            "eta":[
+                4.27751,
+                3.51315,
+                2.76113
+            ],
+            "k":[
+                3.49118,
+                2.88936,
+                3.1117
             ]
         },
         {
             "id":"Floor",
-            "type":"diffuse",
-            "basecolor":[
-                0.5,
-                0.5,
-                0.5
+            "type":"roughconductor",
+            "alpha":0.1,
+            "extEta":1.0,
+            "specularReflectance":[
+                0.578596,
+                0.578596,
+                0.578596
+            ],
+            "eta":[
+                1.65746,
+                0.880369,
+                0.521229
+            ],
+            "k":[
+                9.22387,
+                6.26952,
+                4.837
             ]
         },
         {

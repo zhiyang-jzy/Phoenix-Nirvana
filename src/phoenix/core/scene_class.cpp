@@ -78,6 +78,7 @@ namespace Phoenix {
         size_t index = emitter_dpdf_.SampleReuse(sample.x(), emPdf);
         auto emitter = emitters_[index];
         Color3f value = emitter->SampleDirect(dRec, sample_);
+        dRec.emitter = emitter;
 
         if (dRec.pdf != 0) {
             Ray ray(dRec.ref, dRec.dir);

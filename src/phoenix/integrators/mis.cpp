@@ -53,6 +53,18 @@ namespace Phoenix {
 
                 /* Estimate the direct illumination if this is requested */
 
+                DirectSamplingRecord dRec(its.basic.point);
+
+//                if (!bsdf->IsSpecular()) {
+//                    auto value = scene->SampleEmitterDirect(dRec, sampler->Next2D());
+//                    if (!value.isZero()) {
+//                        auto emitter = dRec.emitter;
+//                        BSDFQueryRecord bRec(its.frame.ToLocal(-ray.dir).normalized(),
+////                                             emitter_its.frame.ToLocal(-e_rec.wi).normalized(), its.uv);
+//                    }
+//                }
+
+
                 if (!bsdf->IsSpecular()) {
                     float emitter_pdf;
                     auto emitter = scene->SampleEmitter(emitter_pdf, sampler->Next1D());
@@ -61,11 +73,12 @@ namespace Phoenix {
                     auto emitter_its = scene->Trace(e_rec.shadow_ray);
 
                     if (emitter_its.basic.is_hit && emitter_its.hit_type == HitType::Emitter &&
+                        emitter_its.emitter == emitter &&
                         (emitter_its.basic.point - e_rec.p).norm() <= kEpsilon) {
 
                         /* Allocate a record for querying the BSDF */
-                        BSDFQueryRecord bRec(emitter_its.frame.ToLocal(-ray.dir).normalized(),
-                                             emitter_its.frame.ToLocal(-e_rec.wi).normalized(), its.uv);
+                        BSDFQueryRecord bRec(its.frame.ToLocal(-ray.dir).normalized(),
+                                             its.frame.ToLocal(-e_rec.wi).normalized(), its.uv);
 
                         /* Evaluate BSDF * cos(theta) */
                         Color3f bsdfVal = bsdf->Eval(bRec);
@@ -76,7 +89,11 @@ namespace Phoenix {
                            using BSDF sampling */
                         float bsdfPdf = bsdf->Pdf(bRec);
                         emitter_pdf *= (e_rec.ref - e_rec.p).squaredNorm();
-                        emitter_pdf /= abs(e_rec.wi.dot(e_rec.n));
+                        float dp = abs(e_rec.wi.dot(e_rec.n));
+                        if (dp < kEpsilon)
+                            break;
+
+                        emitter_pdf /= dp;
 
                         /* Weight using the power heuristic */
                         float weight = MiWeight(emitter_pdf, bsdfPdf);

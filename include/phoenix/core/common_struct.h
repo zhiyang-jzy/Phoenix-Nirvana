@@ -196,6 +196,10 @@ namespace Phoenix {
         Point3f ref;
         Vector3f dir;
         float dist;
+        shared_ptr<Emitter> emitter;
+
+        DirectSamplingRecord(Point3f ref_): ref(ref_){}
+
     };
 
 

@@ -43,5 +43,7 @@ namespace Phoenix {
         virtual Color3f radiance() { return radiance_; }
 
         virtual Color3f SampleDirect(DirectSamplingRecord &dRec, const Vector2f &sample) const = 0;
+
+        virtual float PdfPosition(const PositionSampleRecord& pRec)const = 0;
     };
 }

@@ -59,6 +59,12 @@ namespace Phoenix {
                 return Color3f(0.f);
             }
         }
+
+        float PdfPosition(const PositionSampleRecord &pRec) const override {
+            return shape_->PdfPosition(pRec);
+        }
+
+
     };
 
     PHOENIX_REGISTER_CLASS(AreaEmitter, "area");

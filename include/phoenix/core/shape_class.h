@@ -15,7 +15,7 @@ namespace Phoenix {
     private:
         shared_ptr<Bsdf> bsdf_;
     public:
-        float area_;
+        float area_,inv_area_;
 
         [[nodiscard]] PClassType GetClassType() const override { return PClassType::PShape; }
 
@@ -38,6 +38,8 @@ namespace Phoenix {
         virtual void ApplyTransform(const Transform &trans) = 0;
 
         virtual void SampleDirect(DirectSamplingRecord& dRec, const Vector2f& sample);
+
+        virtual float PdfPosition(const PositionSampleRecord& pRec)const = 0;
 
 
     };

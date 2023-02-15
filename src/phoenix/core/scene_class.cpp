@@ -96,7 +96,11 @@ namespace Phoenix {
         }
     }
 
-    float Scene::PdfEmitterDiscrete(const DirectSamplingRecord &dRec) const {
-        return emitter_dpdf_.normalization() * (dRec.dist * dRec.dist) / abs(dRec.normal.dot(dRec.dir));
+    float Scene::PdfEmitterDiscrete(shared_ptr<Emitter> emitter) const {
+        return emitter_dpdf_.normalization();
+    }
+
+    float Scene::PdfEmitterDirect(const DirectSamplingRecord &dRec) const {
+        return dRec.emitter->PdfPosition(dRec) * PdfEmitterDiscrete(dRec.emitter);
     }
 }

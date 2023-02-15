@@ -200,6 +200,14 @@ namespace Phoenix {
 
         DirectSamplingRecord(Point3f ref_): ref(ref_){}
 
+        void SetQuery(const Ray& ray,const Interaction& its){
+            point = its.basic.point;
+            normal = its.basic.normal;
+            emitter = its.emitter;
+            dir = ray.dir;
+            dist = (ray.orig-point).norm();
+        }
+
     };
 
 

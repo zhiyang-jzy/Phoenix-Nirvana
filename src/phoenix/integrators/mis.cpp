@@ -140,6 +140,7 @@ namespace Phoenix {
                     if (its.hit_type == HitType::Emitter) {
                         EmitterQueryRecord erec(ray.orig, its.basic.point, its.basic.normal);
                         value = its.emitter->Eval(erec);
+                        dRec.SetQuery(ray, its);
                         hitEmitter = true;
                     }
                 } else {
@@ -152,7 +153,7 @@ namespace Phoenix {
                 /* If a luminaire was hit, estimate the local illumination and
                    weight using the power heuristic */
                 if (hitEmitter) {
-                    float emitter_pdf = scene->PdfEmitterDiscrete(dRec);
+                    float emitter_pdf = scene->PdfEmitterDirect(dRec);
 
                     const float lumPdf = bsdf->IsSpecular() ?
                                          0 : emitter_pdf;
@@ -184,9 +185,14 @@ namespace Phoenix {
                     throughput /= russian_;
                 }
             }
-//            if (Li.isValid())
-//                return Li;
-            return {temp, 0, 0};
+
+            if (Li.isValid())
+                return Li;
+            return {0, 0, 0};
+
+            if (temp < kEpsilon || abs(temp - 1) < kEpsilon)
+                return {0, 0, 0};
+            return {abs(1 - temp), 0, 0};
 
 
         }

@@ -45,7 +45,7 @@ namespace Phoenix {
     void Scene::AddEmitter(const shared_ptr<Emitter> &emitter) {
         emitters_.push_back(emitter);
         auto area = emitter->area();
-        emitter_dpdf_.Append(area);
+        emitter_dpdf_.Append(1.f);
         emitter->AddToScene(*this);
     }
 
@@ -96,7 +96,7 @@ namespace Phoenix {
         }
     }
 
-    float Scene::PdfEmitterDiscrete() const {
-        return emitter_dpdf_.normalization();
+    float Scene::PdfEmitterDiscrete(const DirectSamplingRecord &dRec) const {
+        return emitter_dpdf_.normalization() * (dRec.dist * dRec.dist) / abs(dRec.normal.dot(dRec.dir));
     }
 }

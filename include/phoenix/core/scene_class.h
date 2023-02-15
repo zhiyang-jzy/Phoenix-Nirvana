@@ -54,7 +54,7 @@ namespace Phoenix {
 
         [[nodiscard]] float EmitterPdf() const { return emitter_dpdf_.normalization(); }
 
-        float PdfEmitterDiscrete()const;
+        float PdfEmitterDiscrete(const DirectSamplingRecord &dRec) const;
 
     };
 }

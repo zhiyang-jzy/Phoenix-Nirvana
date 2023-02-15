@@ -29,12 +29,15 @@ namespace Phoenix {
             Color3f throughput(1.0f);
             float eta = 1.0f;
 
+            float temp = 0.f;
             size_t depth = 0;
+            size_t m = 1;
 
-            while (true) {
+            while (m--) {
                 if (!its.basic.is_hit) {
                     break;
                 }
+                //temp = 0.f;
                 depth += 1;
 
                 /* Possibly include emitted radiance if requested */
@@ -55,52 +58,60 @@ namespace Phoenix {
 
                 DirectSamplingRecord dRec(its.basic.point);
 
-//                if (!bsdf->IsSpecular()) {
-//                    auto value = scene->SampleEmitterDirect(dRec, sampler->Next2D());
-//                    if (!value.isZero()) {
-//                        auto emitter = dRec.emitter;
-//                        BSDFQueryRecord bRec(its.frame.ToLocal(-ray.dir).normalized(),
-////                                             emitter_its.frame.ToLocal(-e_rec.wi).normalized(), its.uv);
-//                    }
-//                }
-
-
                 if (!bsdf->IsSpecular()) {
-                    float emitter_pdf;
-                    auto emitter = scene->SampleEmitter(emitter_pdf, sampler->Next1D());
-                    EmitterQueryRecord e_rec(its.basic.point);
-                    auto value = emitter->Sample(e_rec, sampler->Next2D());
-                    auto emitter_its = scene->Trace(e_rec.shadow_ray);
-
-                    if (emitter_its.basic.is_hit && emitter_its.hit_type == HitType::Emitter &&
-                        emitter_its.emitter == emitter &&
-                        (emitter_its.basic.point - e_rec.p).norm() <= kEpsilon) {
-
-                        /* Allocate a record for querying the BSDF */
+                    auto value = scene->SampleEmitterDirect(dRec, sampler->Next2D());
+                    if (!value.isZero()) {
+                        auto emitter = dRec.emitter;
                         BSDFQueryRecord bRec(its.frame.ToLocal(-ray.dir).normalized(),
-                                             its.frame.ToLocal(-e_rec.wi).normalized(), its.uv);
+                                             its.frame.ToLocal(dRec.dir).normalized(), its.uv);
+                        auto bsdf_val = bsdf->Eval(bRec);
+                        if (!bsdf_val.isZero()) {
+                            float bsdf_pdf = bsdf->Pdf(bRec);
+                            float weight = MiWeight(dRec.pdf, bsdf_pdf);
+                            temp += weight;
+                            Li += throughput * value * bsdf_val * weight;
+                        }
 
-                        /* Evaluate BSDF * cos(theta) */
-                        Color3f bsdfVal = bsdf->Eval(bRec);
-
-                        /* Prevent light leaks due to the use of shading normals */
-
-                        /* Calculate prob. of having generated that direction
-                           using BSDF sampling */
-                        float bsdfPdf = bsdf->Pdf(bRec);
-                        emitter_pdf *= (e_rec.ref - e_rec.p).squaredNorm();
-                        float dp = abs(e_rec.wi.dot(e_rec.n));
-                        if (dp < kEpsilon)
-                            break;
-
-                        emitter_pdf /= dp;
-
-                        /* Weight using the power heuristic */
-                        float weight = MiWeight(emitter_pdf, bsdfPdf);
-                        //spdlog::info("hit");
-                        Li += throughput * value * bsdfVal * weight / emitter_pdf;
                     }
                 }
+
+
+//                if (!bsdf->IsSpecular()) {
+//                    float emitter_pdf;
+//                    auto emitter = scene->SampleEmitter(emitter_pdf, sampler->Next1D());
+//                    EmitterQueryRecord e_rec(its.basic.point);
+//                    auto value = emitter->Sample(e_rec, sampler->Next2D());
+//                    auto emitter_its = scene->Trace(e_rec.shadow_ray);
+//
+//                    if (emitter_its.basic.is_hit && emitter_its.hit_type == HitType::Emitter &&
+//                        emitter_its.emitter == emitter &&
+//                        (emitter_its.basic.point - e_rec.p).norm() <= kEpsilon) {
+//
+//                        /* Allocate a record for querying the BSDF */
+//                        BSDFQueryRecord bRec(its.frame.ToLocal(-ray.dir).normalized(),
+//                                             its.frame.ToLocal(-e_rec.wi).normalized(), its.uv);
+//
+//                        /* Evaluate BSDF * cos(theta) */
+//                        Color3f bsdfVal = bsdf->Eval(bRec);
+//
+//                        /* Prevent light leaks due to the use of shading normals */
+//
+//                        /* Calculate prob. of having generated that direction
+//                           using BSDF sampling */
+//                        float bsdfPdf = bsdf->Pdf(bRec);
+//                        emitter_pdf *= (e_rec.ref - e_rec.p).squaredNorm();
+//                        float dp = abs(e_rec.wi.dot(e_rec.n));
+//                        if (dp < kEpsilon)
+//                            break;
+//
+//                        emitter_pdf /= dp;
+//
+//                        /* Weight using the power heuristic */
+//                        float weight = MiWeight(emitter_pdf, bsdfPdf);
+//                        //spdlog::info("hit");
+//                        Li += throughput * value * bsdfVal * weight / emitter_pdf;
+//                    }
+//                }
 
                 /* ==================================================================== */
                 /*                            BSDF sampling                             */
@@ -141,12 +152,11 @@ namespace Phoenix {
                 /* If a luminaire was hit, estimate the local illumination and
                    weight using the power heuristic */
                 if (hitEmitter) {
-                    float emitter_pdf = scene->EmitterPdf();
-                    emitter_pdf *= (ray.orig - its.basic.point).squaredNorm();
-                    emitter_pdf /= abs((-ray.dir).dot(its.basic.normal));
+                    float emitter_pdf = scene->PdfEmitterDiscrete(dRec);
 
                     const float lumPdf = bsdf->IsSpecular() ?
                                          0 : emitter_pdf;
+                    temp += MiWeight(bsdfPdf, lumPdf);
                     Li += throughput * value * MiWeight(bsdfPdf, lumPdf);
                     break;
                 }
@@ -154,6 +164,9 @@ namespace Phoenix {
                 /* ==================================================================== */
                 /*                         Indirect illumination                        */
                 /* ==================================================================== */
+
+
+                //spdlog::info("{}", temp);
 
                 /* Set the recursive query type. Stop if no surface was hit by the
                    BSDF sample or if indirect illumination was not requested */
@@ -171,9 +184,9 @@ namespace Phoenix {
                     throughput /= russian_;
                 }
             }
-            if (Li.isValid())
-                return Li;
-            return {0, 0, 0};
+//            if (Li.isValid())
+//                return Li;
+            return {temp, 0, 0};
 
 
         }

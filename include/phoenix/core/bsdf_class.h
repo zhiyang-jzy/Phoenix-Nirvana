@@ -1,27 +1,30 @@
 #pragma once
 
+#include <utility>
+
 #include "common.h"
 #include "object_class.h"
 #include "sampler_class.h"
 #include "common_struct.h"
+#include "texture_class.h"
 
 namespace Phoenix {
 
     struct BSDFQueryRecord {
         Vector3f wi;
         Vector3f wo;
+        Vector2f uv;
 
-        explicit BSDFQueryRecord(Vector3f wi)
-                : wi(std::move(wi)) {}
+        BSDFQueryRecord(Vector3f _wi, Vector2f _uv)
+                : wi(std::move(_wi)), uv(std::move(_uv)) {}
 
-        BSDFQueryRecord(Vector3f wi,
-                        Vector3f wo)
-                : wi(std::move(wi)), wo(std::move(wo)) {}
+        BSDFQueryRecord(Vector3f _wi, Vector3f _wo, Vector2f _uv)
+                : wi(std::move(_wi)), wo(std::move(_wo)), uv(std::move(_uv)) {}
     };
 
     class Bsdf : public PhoenixObject {
     public:
-        Color3f base_color_;
+        shared_ptr<Texture> base_color_;
 
         [[nodiscard]] PClassType GetClassType() const override { return PClassType::PBSDF; }
 
@@ -31,9 +34,9 @@ namespace Phoenix {
 
         virtual float Pdf(const BSDFQueryRecord &rec) const = 0;
 
-        virtual Color3f base_color() const { return base_color_; }
+        virtual Color3f base_color(const Vector2f uv) const { return base_color_->GetColor(uv); }
 
-        virtual bool IsSpecular()const{return false;}
+        virtual bool IsSpecular() const { return false; }
 
     };
 }

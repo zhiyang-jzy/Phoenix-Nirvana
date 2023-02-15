@@ -38,7 +38,6 @@ namespace Phoenix {
     }
 
     Vector2f MicrofacetDistribution::Sample11(float thetaI, Vector2f sample) const {
-        const float SQRT_PI_INV = 1 / std::sqrt(kPi);
         Vector2f slope;
         /* Special case (normal incidence) */
         if (thetaI < 1e-4f) {
@@ -50,7 +49,7 @@ namespace Phoenix {
 
         /* Precomputations */
         float tanThetaI = std::tan(thetaI);
-        float a = 1 / tanThetaI;
+        float a = 1.f / tanThetaI;
         float G1 = 2.0f / (1.0f + safe_sqrt(1.0f + 1.0f / (a * a)));
 
         /* Simulate X component */
@@ -110,7 +109,7 @@ namespace Phoenix {
     }
 
     float MicrofacetDistribution::ProjectRoughness(const Vector3f &v) const {
-        float invSinTheta2 = 1 / Frame::SinTheta2(v);
+        float invSinTheta2 = 1.f / Frame::SinTheta2(v);
 
         if (invSinTheta2 <= 0)
             return alpha_;
@@ -142,12 +141,12 @@ namespace Phoenix {
         sincos(phi, &sinPhi, &cosPhi);
 
         /* Step 2: simulate P22_{wi}(slope.x, slope.y, 1, 1) */
-        Vector2f slope = Sample11(theta, sample);
+        Vector2f slope = Sample11(theta, sample).normalized();
 
         /* Step 3: rotate */
         slope = Vector2f(
                 cosPhi * slope.x() - sinPhi * slope.y(),
-                sinPhi * slope.x() + cosPhi * slope.y());
+                sinPhi * slope.x() + cosPhi * slope.y()).normalized();
 
         /* Step 4: unstretch */
         slope.x() *= alpha_;

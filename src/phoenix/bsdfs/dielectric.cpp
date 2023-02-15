@@ -54,7 +54,7 @@ namespace Phoenix {
             ext_ior_ = propers.Get<float>("extIOR").value_or(1.5f);
 
 
-            base_color_ = Color3f(1, 1, 1);
+            base_color_ = make_shared<SingleColorTexture>(Color3f(1, 1, 1), "basecolor");
         }
 
         [[nodiscard]] string ToString() const override { return "conduct"; }
@@ -83,16 +83,16 @@ namespace Phoenix {
             if (isTReflec) {
                 rec.wo = GetReflection(rec).normalized();
                 pdf = 1.f;
-                return base_color_ * F;
+                return base_color_->GetColor(rec.uv) * F;
             } else {
                 if (sample.x() < F) {
                     rec.wo = GetReflection(rec).normalized();
                     pdf = F;
-                    return base_color_;
+                    return base_color_->GetColor(rec.uv);
                 } else {
                     rec.wo = GetRefraction(rec).normalized();
                     pdf = 1 - F;
-                    return base_color_ * snell * snell;
+                    return base_color_->GetColor(rec.uv) * snell * snell;
 
                 }
             }

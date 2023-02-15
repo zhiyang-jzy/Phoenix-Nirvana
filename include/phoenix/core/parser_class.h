@@ -1,6 +1,7 @@
 #pragma once
 #include "phoenix/core/common.h"
 #include "phoenix/utils/file_tool_class.h"
+#include "phoenix/utils/image_tool_class.h"
 #include "render_class.h"
 #include "ext/json.hpp"
 namespace Phoenix{
@@ -10,6 +11,7 @@ namespace Phoenix{
         PathTool path_tool_;
         string file_name_;
         map<string,shared_ptr<Bsdf>> bsdf_dic;
+        shared_ptr<ImageTool> img_tool_;
 
     public:
         void Parse(const string& filename, Renderer& render);
@@ -23,5 +25,6 @@ namespace Phoenix{
         void ProcessEmitters(const json& info,Renderer& render);
         void ProcessBsdfs(const json& info);
         shared_ptr<Bsdf> ProcessBsdf(const json& info);
+        shared_ptr<Texture> ProcessTexture(const json& info);
     };
 }

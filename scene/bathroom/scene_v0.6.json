@@ -33,10 +33,13 @@
     "bsdfs":[
         {
             "type":"diffuse",
-            "reflectance":[
-                0.2,
-                0.2,
-                0.2
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/rug.png",
+                    "filterType":"trilinear"
+                }
             ],
             "id":"Rug"
         },
@@ -45,24 +48,69 @@
             "alpha":0.15,
             "intIOR":1.5,
             "extIOR":1.0,
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"diffuseReflectance",
+                    "filename":"textures/wood.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"Wood"
         },
         {
             "type":"conductor",
+            "textures":[],
             "id":"Mirror"
         },
         {
             "type":"conductor",
+            "extEta":1.0,
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        1.65746,
+                        0.880369,
+                        0.521229
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        9.22387,
+                        6.26952,
+                        4.837
+                    ]
+                }
+            ],
             "id":"StainlessSmooth"
         },
         {
             "type":"plastic",
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.612066,
-                0.612066,
-                0.612066
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.612066,
+                        0.612066,
+                        0.612066
+                    ]
+                }
             ],
             "id":"Bathtube"
         },
@@ -70,116 +118,203 @@
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                1.0,
-                1.0,
-                1.0
-            ],
-            "eta":[
-                1.65746,
-                0.880369,
-                0.521229
-            ],
-            "k":[
-                9.22387,
-                6.26952,
-                4.837
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        1.65746,
+                        0.880369,
+                        0.521229
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        9.22387,
+                        6.26952,
+                        4.837
+                    ]
+                }
             ],
             "id":"StainlessRough"
-        },
-        {
-            "id":"Floor",
-            "type":"diffuse",
-            "reflectance":[
-                0.2,
-                0.2,
-                0.2
-            ]
-        },
-        {
-            "type":"plastic",
-            "alpha":0.1,
-            "intIOR":1.5,
-            "extIOR":1.0,
-            "diffuseReflectance":[
-                0.00631,
-                0.00631,
-                0.00631
-            ],
-            "id":"Pots"
-        },
-        {
-            "type":"diffuse",
-            "id":"Marble"
-        },
-        {
-            "id":"BulbGlass",
-            "type":"dielectric",
-            "intIOR":1.5,
-            "extIOR":1.0
         },
         {
             "type":"plastic",
             "alpha":0.2,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.00631,
-                0.00631,
-                0.00631
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"diffuseReflectance",
+                    "filename":"textures/floor_tiles.png",
+                    "filterType":"trilinear"
+                }
+            ],
+            "id":"Floor"
+        },
+        {
+            "type":"plastic",
+            "alpha":0.1,
+            "intIOR":1.5,
+            "extIOR":1.0,
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.00631,
+                        0.00631,
+                        0.00631
+                    ]
+                }
+            ],
+            "id":"Pots"
+        },
+        {
+            "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/marble.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
+            "id":"Marble"
+        },
+        {
+            "id":"BulbGlass",
+            "type":"dielectric",
+            "intIOR":1.5,
+            "extIOR":1.0,
+            "textures":[]
+        },
+        {
+            "type":"plastic",
+            "alpha":0.2,
+            "intIOR":1.5,
+            "extIOR":1.0,
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.00631,
+                        0.00631,
+                        0.00631
+                    ]
+                }
             ],
             "id":"BlackPlastic"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.893289,
-                0.893289,
-                0.893289
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.893289,
+                        0.893289,
+                        0.893289
+                    ]
+                }
             ],
             "id":"Blinds"
         },
         {
             "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/wood2.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"WoodFrame"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.0581872,
-                0.0342302,
-                0.0179364
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.0581872,
+                        0.0342302,
+                        0.0179364
+                    ]
+                }
             ],
             "id":"Painting3"
         },
         {
             "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/picture1.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"Painting1"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.0477758,
-                0.0209511,
-                0.00715504
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.0477758,
+                        0.0209511,
+                        0.00715504
+                    ]
+                }
             ],
             "id":"Painting4"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.0,
-                0.0,
-                0.0
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ],
             "id":"Light"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.893289,
-                0.893289,
-                0.893289
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.893289,
+                        0.893289,
+                        0.893289
+                    ]
+                }
             ],
             "id":"GreyWall"
         },
@@ -188,41 +323,73 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.893289,
-                0.893289,
-                0.893289
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.893289,
+                        0.893289,
+                        0.893289
+                    ]
+                }
             ],
             "id":"WhiteWood"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.684615,
-                0.684615,
-                0.684615
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.684615,
+                        0.684615,
+                        0.684615
+                    ]
+                }
             ],
             "id":"Ceiling"
         },
         {
             "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/wallpaper-1.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"Wallpaper"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.573159,
-                0.215764,
-                0.022013
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.573159,
+                        0.215764,
+                        0.022013
+                    ]
+                }
             ],
             "id":"Leaves"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.0638149,
-                0.022013,
-                0.00120174
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.0638149,
+                        0.022013,
+                        0.00120174
+                    ]
+                }
             ],
             "id":"LeaveStems"
         },
@@ -230,66 +397,120 @@
             "type":"plastic",
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.612066,
-                0.612066,
-                0.612066
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.612066,
+                        0.612066,
+                        0.612066
+                    ]
+                }
             ],
             "id":"Vase"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.00631,
-                0.00631,
-                0.00631
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.00631,
+                        0.00631,
+                        0.00631
+                    ]
+                }
             ],
             "id":"WindowFrame"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.578596,
-                0.578596,
-                0.578596
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                }
             ],
             "id":"Paper"
         },
         {
             "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/wood.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"WoodDiffuse"
         },
         {
             "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/wallpaper-2.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"Painting2"
         },
         {
             "type":"roughconductor",
             "alpha":0.05,
             "extEta":1.0,
-            "specularReflectance":[
-                0.4259,
-                0.4259,
-                0.4259
-            ],
-            "eta":[
-                1.65746,
-                0.880369,
-                0.521229
-            ],
-            "k":[
-                9.22387,
-                6.26952,
-                4.837
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.4259,
+                        0.4259,
+                        0.4259
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        1.65746,
+                        0.880369,
+                        0.521229
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        9.22387,
+                        6.26952,
+                        4.837
+                    ]
+                }
             ],
             "id":"MetalPlate"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.578596,
-                0.578596,
-                0.578596
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                }
             ],
             "id":"BlindsString"
         },
@@ -297,31 +518,51 @@
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                1.0,
-                1.0,
-                1.0
-            ],
-            "eta":[
-                1.64847,
-                1.15045,
-                1.37978
-            ],
-            "k":[
-                3.36846,
-                1.94349,
-                1.10201
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        1.64847,
+                        1.15045,
+                        1.37978
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        3.36846,
+                        1.94349,
+                        1.10201
+                    ]
+                }
             ],
             "id":"Gold"
         },
         {
-            "id":"Foam",
             "type":"diffuse",
-            "reflectance":[
-                0.2,
-                0.2,
-                0.2
-            ]
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.531049,
+                        0.531049,
+                        0.531049
+                    ]
+                }
+            ],
+            "id":"Foam"
         }
     ],
     "shapes":[

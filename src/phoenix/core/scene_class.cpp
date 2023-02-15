@@ -30,8 +30,8 @@ namespace Phoenix {
             if (shape_dict_.count(basic.geo_id)) {
                 interaction.hit_type = HitType::Shape;
                 interaction.shape = shape_dict_.at(basic.geo_id);
-
                 interaction.frame = Frame(basic.normal);
+                interaction.uv = interaction.shape->GetUv(interaction);
 
             } else {
                 interaction.hit_type = HitType::Emitter;

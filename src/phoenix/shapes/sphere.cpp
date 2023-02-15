@@ -27,7 +27,16 @@ namespace Phoenix {
             rec.normal = v;
             rec.pdf = 1.f / area_;
         }
-        void ApplyTransform(const Transform &trans) override{
+
+        void ApplyTransform(const Transform &trans) override {
+
+        }
+
+        Vector2f GetUv(const Interaction &its) const override {
+            Vector3f n = (its.basic.point - center_).normalized();
+            float u = atan2(n.x(), n.y()) / (kTowPi) + 0.5;
+            float v = n.y() * 0.5 + 0.5;
+            return {u, v};
 
         }
 

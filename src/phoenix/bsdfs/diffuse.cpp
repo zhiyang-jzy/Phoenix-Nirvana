@@ -7,7 +7,8 @@ namespace Phoenix {
     private:
     public:
         explicit Diffuse(PropertyList properties) {
-            base_color_ = properties.Get<vector<float>>("reflectance").value_or(vector<float>{1, 1, 1});
+//            base_color_ = properties.Get<vector<float>>("reflectance").value_or(vector<float>{1, 1, 1});
+            base_color_ = nullptr;
 
         }
 
@@ -18,16 +19,16 @@ namespace Phoenix {
             rec.wo = SquareToCosineHemisphere(sample);
             rec.wo.normalize();
             pdf = SquareToCosineHemispherePdf(rec.wo);
-            if(Frame::CosTheta(rec.wi)<0.f)
-                rec.wo.z()*=-1;
-            return base_color_;
+            if (Frame::CosTheta(rec.wi) < 0.f)
+                rec.wo.z() *= -1;
+            return base_color_->GetColor(rec.uv);
 
         };
 
         Color3f Eval(const BSDFQueryRecord &rec) const override {
 //            if (Frame::CosTheta(rec.wo) < 0 || Frame::CosTheta(rec.wi) < 0)
 //                return 0.f;
-            return kInvPi * base_color_ * abs(Frame::CosTheta(rec.wo));
+            return kInvPi * base_color_->GetColor(rec.uv) * abs(Frame::CosTheta(rec.wo));
 
         }
 
@@ -38,6 +39,16 @@ namespace Phoenix {
             s.z() = abs(s.z());
             s.normalize();
             return SquareToCosineHemispherePdf(rec.wo);
+        }
+
+        void AddChild(shared_ptr<PhoenixObject> child) override {
+            if (child->GetClassType() == PhoenixObject::PClassType::PTexture) {
+                base_color_ = std::dynamic_pointer_cast<Texture>(child);
+            }
+        }
+
+        bool IsSpecular() const override {
+            return true;
         }
 
 

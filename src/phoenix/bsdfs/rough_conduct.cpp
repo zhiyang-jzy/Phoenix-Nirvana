@@ -6,17 +6,13 @@ namespace Phoenix {
     class RoughConductor : public Bsdf {
     private:
         float alpha_;
-        Color3f specular_reflectance_;
-        Color3f eta_, k_;
+        shared_ptr<Texture> specular_reflectance_;
+        shared_ptr<Texture> eta_, k_;
         shared_ptr<MicrofacetDistribution> distribution_;
 
     public:
         RoughConductor(PropertyList propers) {
             alpha_ = propers.Get<float>("alpha").value();
-            base_color_ = propers.Get<vector<float>>("specularReflectance").value();
-            eta_ = propers.Get<vector<float>>("eta").value();
-            k_ = propers.Get<vector<float>>("k").value();
-            specular_reflectance_ = base_color_;
             distribution_ = make_shared<MicrofacetDistribution>(alpha_);
         }
 
@@ -24,27 +20,26 @@ namespace Phoenix {
 
         Color3f Sample(BSDFQueryRecord &rec, float &pdf, const Vector2f &sample) const override {
             if (Frame::CosTheta(rec.wi) < 0) {
-                pdf = 0.f;
                 return {0, 0, 0};
             }
 
 
-            Normal3f m = distribution_->Sample(rec.wi, sample, pdf);
+            Normal3f m = distribution_->Sample(rec.wi, sample, pdf).normalized();
 
             if (pdf == 0)
                 return {0, 0, 0};
 
             /* Perfect specular reflection based on the microfacet normal */
-            rec.wo = Reflect(rec.wi, m);
+            rec.wo = Reflect(rec.wi, m).normalized();
 
             /* Side check */
             if (Frame::CosTheta(rec.wo) <= 0) {
-                pdf = 0.f;
                 return {0, 0, 0};
             }
-            const Color3f F = FresnelConductorExact(rec.wi.dot(m), eta_, k_) *
-                              specular_reflectance_;
+            const Color3f F = FresnelConductorExact(rec.wi.dot(m), eta_->GetColor(rec.uv), k_->GetColor(rec.uv)) *
+                              specular_reflectance_->GetColor(rec.uv);
             float weight = distribution_->SmithG1(rec.wo, m);
+            pdf /= (4.0f * rec.wo.dot(m));
             return F * weight;
 
 
@@ -64,8 +59,8 @@ namespace Phoenix {
                 return Color3f(0.0f);
 
             /* Fresnel factor */
-            const Color3f F = FresnelConductorExact(rec.wi.dot(H), eta_, k_) *
-                              specular_reflectance_;
+            const Color3f F = FresnelConductorExact(rec.wi.dot(H), eta_->GetColor(rec.uv), k_->GetColor(rec.uv)) *
+                              specular_reflectance_->GetColor(rec.uv);
 
             /* Smith's shadow-masking function */
             const float G = distribution_->G(rec.wi, rec.wo, H);
@@ -87,6 +82,25 @@ namespace Phoenix {
             return distribution_->Eval(H) * distribution_->SmithG1(rec.wi, H)
                    / (4.0f * Frame::CosTheta(rec.wi));
 
+        }
+
+        void AddChild(shared_ptr<PhoenixObject> child) override {
+            if (child->GetClassType() == PhoenixObject::PClassType::PTexture) {
+                auto texture = std::dynamic_pointer_cast<Texture>(child);
+                if (texture->name() == "specularReflectance") {
+                    specular_reflectance_ = texture;
+                    base_color_ = specular_reflectance_;
+                } else if (texture->name() == "eta") {
+                    eta_ = texture;
+                } else if (texture->name() == "k") {
+                    k_ = texture;
+                }
+
+            }
+        }
+
+        bool IsSpecular()const override {
+            return true;
         }
     };
 

@@ -3,11 +3,13 @@
 #include <spdlog/spdlog.h>
 
 #include <utility>
+
 namespace Phoenix {
 
-    Mesh::Mesh(vector<Vertex> vertices, vector<uint> indices, map<TextureType,shared_ptr<Texture> > textures) : vertexes_(std::move(vertices)),
-                                                                                             indices_(std::move(indices)),
-                                                                                             textures_(std::move(textures)) {
+    Mesh::Mesh(vector<Vertex> vertices, vector<uint> indices, map<TextureType, shared_ptr<Texture> > textures)
+            : vertexes_(std::move(vertices)),
+              indices_(std::move(indices)),
+              textures_(std::move(textures)) {
         PostProcess();
 
     }
@@ -35,7 +37,7 @@ namespace Phoenix {
 
     void Mesh::SamplePosition(PositionSampleRecord &pos_rec, Vector2f sample) {
         float pdf;
-        auto index = dpdf_.Sample(sample.x(),pdf);
+        auto index = dpdf_.Sample(sample.x(), pdf);
         index *= 3;
 
         float alpha = 1 - sqrt(1 - sample.x());
@@ -44,26 +46,37 @@ namespace Phoenix {
 
         Point3f a(vertices_[indices_[index]]), b(vertices_[indices_[index + 1]]),
                 c(vertices_[indices_[index + 2]]);
-        Normal3f na = vertexes_[indices_[index]].normal,nb = vertexes_[indices_[index+1]].normal,nc = vertexes_[indices_[index+2]].normal;
+        Normal3f na = vertexes_[indices_[index]].normal, nb = vertexes_[indices_[index +
+                                                                                 1]].normal, nc = vertexes_[indices_[
+                index + 2]].normal;
 
         pos_rec.point = a * alpha + b * beta + c * theta;
         pos_rec.pdf = pdf;
-        pos_rec.normal = (na*alpha+nb*beta+nc*theta).normalized();
+        pos_rec.normal = (na * alpha + nb * beta + nc * theta).normalized();
 
     }
 
     void Mesh::ApplyTransform(const Transform &trans) {
         dpdf_.Clear();
         vertices_.clear();
-        for(auto& vertex:vertexes_){
-            vertex.position = trans*vertex.position;
-            vertex.normal = trans*vertex.normal;
-            vertex.tangent = trans*vertex.tangent;
-            vertex.b_tangent = trans*vertex.b_tangent;
+        for (auto &vertex: vertexes_) {
+            vertex.position = trans * vertex.position;
+            vertex.normal = trans * vertex.normal;
+            vertex.tangent = trans * vertex.tangent;
+            vertex.b_tangent = trans * vertex.b_tangent;
         }
         PostProcess();
 
 
+    }
+
+    Vector2f Mesh::GetUv(uint prim_id, Vector2f uv) {
+        if (prim_id * 3 + 2 >= indices_.size()) {
+            return {0, 0};
+        }
+        auto ind1 = indices_[prim_id * 3], ind2 = indices_[prim_id * 3 + 1], ind3 = indices_[prim_id * 3 + 2];
+        auto coord1 = vertexes_[ind1].texcoord, coord2 = vertexes_[ind2].texcoord, coord3 = vertexes_[ind3].texcoord;
+        return (1 - uv.x() - uv.y()) * coord1 + uv.x() * coord2 + uv.y() * coord3;
     }
 
     Model::Model() {
@@ -71,7 +84,7 @@ namespace Phoenix {
 
     }
 
-    void Model::AddMesh(const shared_ptr<Mesh>& mesh) {
+    void Model::AddMesh(const shared_ptr<Mesh> &mesh) {
         meshes_.push_back(mesh);
     }
 
@@ -80,7 +93,7 @@ namespace Phoenix {
         dpdf_.Clear();
         std::for_each(meshes_.begin(), meshes_.end(), [&](const auto &item) {
             auto area = item->area();
-            area_+=area;
+            area_ += area;
             dpdf_.Append(area);
         });
         dpdf_.Normalize();
@@ -88,15 +101,15 @@ namespace Phoenix {
 
     void Model::SamplePosition(PositionSampleRecord &pos_rec, Vector2f sample) {
         float mesh_pdf;
-        auto mesh_index = dpdf_.Sample(sample.x(),mesh_pdf);
+        auto mesh_index = dpdf_.Sample(sample.x(), mesh_pdf);
         auto mesh = meshes_[mesh_index];
-        mesh->SamplePosition(pos_rec,sample);
-        pos_rec.pdf*=mesh_pdf;
+        mesh->SamplePosition(pos_rec, sample);
+        pos_rec.pdf *= mesh_pdf;
     }
 
     void Model::ApplyTransform(const Transform &trans) {
         dpdf_.Clear();
-        for(auto& mesh:meshes_){
+        for (auto &mesh: meshes_) {
             mesh->ApplyTransform(trans);
         }
         PostProcess();

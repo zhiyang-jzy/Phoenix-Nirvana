@@ -4,7 +4,7 @@ namespace Phoenix {
     class Conduct : public Bsdf {
     public:
         explicit Conduct(PropertyList propers) {
-            base_color_ = {1, 1, 1};
+            base_color_ = make_shared<SingleColorTexture>(Color3f(1, 1, 1), "basecolor");
         }
 
         [[nodiscard]] string ToString() const override { return "conduct"; }
@@ -12,7 +12,7 @@ namespace Phoenix {
         Color3f Sample(BSDFQueryRecord &rec, float &pdf, const Vector2f &sample) const override {
             rec.wo = Vector3f(-rec.wi.x(), -rec.wi.y(), rec.wi.z());
             pdf = 1.f;
-            return base_color_;
+            return base_color_->GetColor(rec.uv);
         }
 
         Color3f Eval(const BSDFQueryRecord &rec) const override {
@@ -29,7 +29,8 @@ namespace Phoenix {
                 return 1.f;
             return 0.f;
         }
-        bool IsSpecular() const override{
+
+        bool IsSpecular() const override {
             return true;
         }
     };

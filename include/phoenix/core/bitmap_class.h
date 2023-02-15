@@ -21,12 +21,14 @@ namespace Phoenix{
         typedef Eigen::Array<Color4f, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> Base;
     private:
         int width_,height_;
+
     public:
         Bitmap(int width,int height):Base(height,width),width_(width),height_(height){}
         [[nodiscard]] int width() const{return width_;}
         [[nodiscard]] int height() const{return height_;}
         void SetColor(uint x,uint y,Color4f color);
         void SetColor(uint x,uint y,Color3f color);
+        Color3f GetAverage()const;
         Color4f GetColor(uint x,uint y) const;
         Color3f GetColor3f(uint x,uint y) const;
         Bitmap3f ConvertTo3f();

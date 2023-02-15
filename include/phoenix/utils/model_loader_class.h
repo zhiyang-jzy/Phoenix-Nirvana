@@ -16,7 +16,8 @@ namespace Phoenix{
         shared_ptr<Model> LoadModel(const aiScene* scene);
         void ProcessNode(const aiNode* node,const aiScene* scene,shared_ptr<Model> model);
         shared_ptr<Mesh> ProcessMesh(const aiMesh *mesh, const aiScene* scene);
-        shared_ptr<Texture> LoadMaterialTexture(const aiMaterial* mat,const aiTextureType type,const aiScene* scene);
+        shared_ptr<Texture> LoadMaterialTexture(const aiMaterial *mat, const aiTextureType type, const aiScene *scene,
+                                                const TextureType tex_type);
 
 
     };

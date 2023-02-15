@@ -89,7 +89,7 @@ namespace Phoenix{
         free(header.requested_pixel_types);
     }
 
-    std::shared_ptr<Bitmap> ImageTool::LoadImage(const std::string& filename) {
+    std::shared_ptr<Bitmap> ImageTool::PhoenixLoadImage(const std::string& filename) {
         auto file_path = current_path_/filename;
         int channels,width,height;
         auto data = stbi_load(file_path.string().c_str(),&width,&height,&channels,STBI_default);

@@ -11,6 +11,7 @@ using json = nlohmann::json;
 #include "phoenix/core/object_class.h"
 #include "phoenix/core/emitter_class.h"
 #include "phoenix/utils/tool_function.h"
+#include "phoenix/utils/image_tool_class.h"
 
 namespace Phoenix {
 
@@ -41,8 +42,7 @@ namespace Phoenix {
     }
 
     shared_ptr<Bsdf> Parser::ProcessBsdf(const json &info) {
-        if(info.contains("ref"))
-        {
+        if (info.contains("ref")) {
             auto name = info.at("ref").get<string>();
             return bsdf_dic[name];
         }
@@ -54,37 +54,34 @@ namespace Phoenix {
 
     Transform ProcessMatrix(const json &info) {
         auto vec = info["value"].get<vector<float>>();
-        Eigen::Matrix4f mat ;
-        for(int i=0;i<4;i++)
-            for(int j=0;j<4;j++)
-                mat.coeffRef(i,j) = vec[i*4+j];
+        Eigen::Matrix4f mat;
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
+                mat.coeffRef(i, j) = vec[i * 4 + j];
         return Transform(mat);
 
     }
 
     Transform ProcessToWorld(const json &info) {
         Eigen::Affine3f af = Eigen::Affine3f::Identity();
-        if(info.contains("scale"))
-        {
+        if (info.contains("scale")) {
             auto vec = info["scale"].get<vector<float>>();
             Vector3f rot;
             rot = vec;
             af.prescale(rot);
         }
 
-        if(info.contains("rotation"))
-        {
+        if (info.contains("rotation")) {
             auto vec = info["rotation"].get<vector<float>>();
             std::for_each(vec.begin(), vec.end(), [&](auto &item) {
                 item = DegToRad(item);
             });
-            af.prerotate(Eigen::AngleAxisf(vec[2],Vector3f::UnitZ()));
-            af.prerotate(Eigen::AngleAxisf(vec[1],Vector3f::UnitY()));
-            af.prerotate(Eigen::AngleAxisf(vec[0],Vector3f::UnitX()));
+            af.prerotate(Eigen::AngleAxisf(vec[2], Vector3f::UnitZ()));
+            af.prerotate(Eigen::AngleAxisf(vec[1], Vector3f::UnitY()));
+            af.prerotate(Eigen::AngleAxisf(vec[0], Vector3f::UnitX()));
 
         }
-        if(info.contains("translate"))
-        {
+        if (info.contains("translate")) {
             auto vec = info["translate"].get<vector<float>>();
             Vector3f rot;
             rot = vec;
@@ -130,6 +127,7 @@ namespace Phoenix {
         }
         file_name_ = GenFileName(file_path.filename().string());
         path_tool_.SetCurrentPath(file_path.parent_path());
+        img_tool_ = make_shared<ImageTool>(path_tool_.current_path());
         std::filesystem::current_path(file_path.parent_path());
         spdlog::info("now path: {}", std::filesystem::current_path().string());
         spdlog::info("reading scene from {}", absolute(file_path).string());
@@ -226,7 +224,7 @@ namespace Phoenix {
     }
 
     void Parser::ProcessBsdfs(const json &info) {
-        if(!info.contains("bsdfs")){
+        if (!info.contains("bsdfs")) {
             spdlog::warn("no bsdfs!");
             return;
         }
@@ -234,9 +232,37 @@ namespace Phoenix {
         for (auto &el: bsdf_info.items()) {
             auto bsdf_info = el.value();
             auto bsdf = ProcessBsdf(bsdf_info);
+
+            if (bsdf_info.contains("textures")) {
+                auto textures = bsdf_info.at("textures");
+                for (auto &tex: textures.items()) {
+                    auto texture_info = tex.value();
+                    auto texture = ProcessTexture(texture_info);
+                    bsdf->AddChild(texture);
+                }
+            }
+            bsdf->Active();
+
             auto name = bsdf_info.at("id").get<string>();
             bsdf_dic[name] = bsdf;
         }
+    }
+
+    shared_ptr<Texture> Parser::ProcessTexture(const json &info) {
+        string tex_type = info.at("type").get<string>();
+        string name = info.at("name").get<string>();
+        if (tex_type == "single_color") {
+            Color3f color;
+            color = info.at("value").get<vector<float>>();
+            return make_shared<SingleColorTexture>(color, name);
+        } else if (tex_type == "file") {
+            auto filename = info.at("filename").get<string>();
+            auto bitmap = img_tool_->PhoenixLoadImage(filename);
+            return make_shared<ImageTexture>(bitmap, name);
+        }
+        return nullptr;
+
+
     }
 
 

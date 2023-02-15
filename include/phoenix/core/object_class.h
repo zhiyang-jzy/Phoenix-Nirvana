@@ -41,7 +41,8 @@ namespace Phoenix{
             PShape,
             PFilm,
             PFilter,
-            PBSDF
+            PBSDF,
+            PTexture
         };
 
         virtual void AddChild(shared_ptr<PhoenixObject> child) {}

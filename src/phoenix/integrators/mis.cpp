@@ -61,11 +61,11 @@ namespace Phoenix {
                     auto emitter_its = scene->Trace(e_rec.shadow_ray);
 
                     if (emitter_its.basic.is_hit && emitter_its.hit_type == HitType::Emitter &&
-                        (emitter_its.basic.point - e_rec.p).norm() < kEpsilon) {
+                        (emitter_its.basic.point - e_rec.p).norm() <= kEpsilon) {
 
                         /* Allocate a record for querying the BSDF */
                         BSDFQueryRecord bRec(emitter_its.frame.ToLocal(-ray.dir).normalized(),
-                                             emitter_its.frame.ToLocal(-e_rec.wi).normalized());
+                                             emitter_its.frame.ToLocal(-e_rec.wi).normalized(), its.uv);
 
                         /* Evaluate BSDF * cos(theta) */
                         Color3f bsdfVal = bsdf->Eval(bRec);
@@ -91,7 +91,7 @@ namespace Phoenix {
 
                 /* Sample BSDF * cos(theta) */
                 float bsdfPdf;
-                BSDFQueryRecord bRec(its.frame.ToLocal(-ray.dir).normalized());
+                BSDFQueryRecord bRec(its.frame.ToLocal(-ray.dir).normalized(), its.uv);
                 Color3f bsdfWeight = bsdf->Sample(bRec, bsdfPdf, sampler->Next2D());
                 if (bsdfWeight.isZero())
                     break;

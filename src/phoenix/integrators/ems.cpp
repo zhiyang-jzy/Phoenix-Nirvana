@@ -39,7 +39,7 @@ namespace Phoenix {
                 float cos_theta1 = (rec.wi).dot(rec.n);
                 float cos_theta = (-rec.wi).dot(hit.basic.normal);
 
-                BSDFQueryRecord bsdf_rec(hit.frame.ToLocal(-rec.wi), hit.frame.ToLocal(-ray.dir));
+                BSDFQueryRecord bsdf_rec(hit.frame.ToLocal(-rec.wi), hit.frame.ToLocal(-ray.dir), Phoenix::Vector2f());
                 auto bsdf_v = bsdf->Eval(bsdf_rec);
                 auto shadow_hit = scene->Trace(rec.shadow_ray);
                 if (shadow_hit.basic.is_hit) {
@@ -51,7 +51,7 @@ namespace Phoenix {
 
             }
 
-            BSDFQueryRecord rec(hit.frame.ToLocal(-ray.dir).normalized());
+            BSDFQueryRecord rec(hit.frame.ToLocal(-ray.dir).normalized(), Phoenix::Vector2f());
 
             float pdf;
             bsdf->Sample(rec, pdf, sampler->Next2D());

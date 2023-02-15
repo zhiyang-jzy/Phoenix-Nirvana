@@ -182,6 +182,8 @@ namespace Phoenix {
         shared_ptr<Emitter> emitter;
         HitType hit_type;
         Frame frame;
+        Vector2f uv;
+        Normal3f normal;
     };
 
 

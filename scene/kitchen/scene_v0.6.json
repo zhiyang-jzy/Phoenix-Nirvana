@@ -8,7 +8,7 @@
     },
     "camera":{
         "type":"pinhole",
-        "fov":60.0,
+        "fov":40.0,
         "matrix":[
             0.89874,
             -0.0182716,
@@ -33,55 +33,91 @@
     "bsdfs":[
         {
             "type":"diffuse",
-            "reflectance":[
-                0.64,
-                0.64,
-                0.64
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.64,
+                        0.64,
+                        0.64
+                    ]
+                }
             ],
             "id":"ChromeHandle"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.389509,
-                0.372589,
-                0.293747
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.389509,
+                        0.372589,
+                        0.293747
+                    ]
+                }
             ],
             "id":"RadioHandle"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.015078,
-                0.015078,
-                0.015078
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.015078,
+                        0.015078,
+                        0.015078
+                    ]
+                }
             ],
             "id":"RadioInside"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.358375,
-                0.300936,
-                0.128617
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.358375,
+                        0.300936,
+                        0.128617
+                    ]
+                }
             ],
             "id":"RadioKnob"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.64,
-                0.600153,
-                0.43449
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.64,
+                        0.600153,
+                        0.43449
+                    ]
+                }
             ],
             "id":"RadioPlastic"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.066822,
-                0.028495,
-                0.013827
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.066822,
+                        0.028495,
+                        0.013827
+                    ]
+                }
             ],
             "id":"RadioSurround"
         },
@@ -89,20 +125,34 @@
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                0.578596,
-                0.578596,
-                0.578596
-            ],
-            "eta":[
-                1.65746,
-                0.880369,
-                0.521229
-            ],
-            "k":[
-                9.22387,
-                6.26952,
-                4.837
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        1.65746,
+                        0.880369,
+                        0.521229
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        9.22387,
+                        6.26952,
+                        4.837
+                    ]
+                }
             ],
             "id":"SteelPot"
         },
@@ -111,10 +161,16 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.0399472,
-                0.14198,
-                0.0033027
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.0399472,
+                        0.14198,
+                        0.0033027
+                    ]
+                }
             ],
             "id":"KettleGreen"
         },
@@ -122,26 +178,41 @@
             "id":"RadioGlass",
             "type":"dielectric",
             "intIOR":1.5,
-            "extIOR":1.0
+            "extIOR":1.0,
+            "textures":[]
         },
         {
             "type":"roughconductor",
             "alpha":0.05,
             "extEta":1.0,
-            "specularReflectance":[
-                0.578596,
-                0.578596,
-                0.578596
-            ],
-            "eta":[
-                4.36968,
-                2.9167,
-                1.6547
-            ],
-            "k":[
-                5.20643,
-                4.23136,
-                3.75495
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        4.36968,
+                        2.9167,
+                        1.6547
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        5.20643,
+                        4.23136,
+                        3.75495
+                    ]
+                }
             ],
             "id":"Utensils"
         },
@@ -149,20 +220,34 @@
             "type":"roughconductor",
             "alpha":0.075,
             "extEta":1.0,
-            "specularReflectance":[
-                0.510193,
-                0.510193,
-                0.510193
-            ],
-            "eta":[
-                4.36968,
-                2.9167,
-                1.6547
-            ],
-            "k":[
-                5.20643,
-                4.23136,
-                3.75495
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.510193,
+                        0.510193,
+                        0.510193
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        4.36968,
+                        2.9167,
+                        1.6547
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        5.20643,
+                        4.23136,
+                        3.75495
+                    ]
+                }
             ],
             "id":"MetalHandles"
         },
@@ -171,35 +256,63 @@
             "alpha":0.04,
             "intIOR":1.5,
             "extIOR":1.0,
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"diffuseReflectance",
+                    "filename":"textures/Worktopt-light.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"SmallWorktop"
         },
         {
             "type":"roughconductor",
             "alpha":0.08,
             "extEta":1.0,
-            "specularReflectance":[
-                0.578596,
-                0.578596,
-                0.578596
-            ],
-            "eta":[
-                4.36968,
-                2.9167,
-                1.6547
-            ],
-            "k":[
-                5.20643,
-                4.23136,
-                3.75495
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        4.36968,
+                        2.9167,
+                        1.6547
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        5.20643,
+                        4.23136,
+                        3.75495
+                    ]
+                }
             ],
             "id":"ExtractorHood"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                1.0,
-                1.0,
-                1.0
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                }
             ],
             "id":"Walls"
         },
@@ -207,10 +320,16 @@
             "type":"plastic",
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.578596,
-                0.578596,
-                0.578596
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                }
             ],
             "id":"Plates"
         },
@@ -218,34 +337,63 @@
             "id":"WineGlasses",
             "type":"dielectric",
             "intIOR":1.5,
-            "extIOR":1.0
+            "extIOR":1.0,
+            "textures":[]
         },
         {
             "type":"plastic",
             "alpha":0.025,
             "intIOR":1.5,
             "extIOR":1.0,
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"diffuseReflectance",
+                    "filename":"textures/Tabletop-light.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"Tabletop"
         },
         {
             "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/Chopping-Board.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"ChoppingBoard"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.547857,
-                0.547857,
-                0.547857
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.547857,
+                        0.547857,
+                        0.547857
+                    ]
+                }
             ],
             "id":"CupboardUnits"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.0805638,
-                0.081309,
-                0.0801467
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.0805638,
+                        0.081309,
+                        0.0801467
+                    ]
+                }
             ],
             "id":"BookCover"
         },
@@ -254,6 +402,14 @@
             "alpha":0.05,
             "intIOR":1.5,
             "extIOR":1.0,
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"diffuseReflectance",
+                    "filename":"textures/Kitchen-book-leftpage.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"LeftPage"
         },
         {
@@ -261,10 +417,26 @@
             "alpha":0.05,
             "intIOR":1.5,
             "extIOR":1.0,
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"diffuseReflectance",
+                    "filename":"textures/Kitchen-bookpage-large.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"BookPages"
         },
         {
             "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/Kitchen-carrot-uv.png",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"Carrots"
         },
         {
@@ -272,10 +444,16 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.592438,
-                0.0,
-                0.00293232
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.592438,
+                        0.0,
+                        0.00293232
+                    ]
+                }
             ],
             "id":"Tomatoes"
         },
@@ -284,10 +462,16 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.0302565,
-                0.197516,
-                0.0
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.0302565,
+                        0.197516,
+                        0.0
+                    ]
+                }
             ],
             "id":"Pepper-Green"
         },
@@ -296,10 +480,16 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                1.0,
-                0.20471,
-                0.0
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        0.20471,
+                        0.0
+                    ]
+                }
             ],
             "id":"Pepper-Yellow"
         },
@@ -308,44 +498,78 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.476177,
-                0.0,
-                0.0
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.476177,
+                        0.0,
+                        0.0
+                    ]
+                }
             ],
             "id":"Pepper-Red"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.300837,
-                0.281435,
-                0.243189
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.300837,
+                        0.281435,
+                        0.243189
+                    ]
+                }
             ],
             "id":"Mushrooms"
         },
         {
             "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/Kitchen-mushroom-texture.png",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"SlicedMushroms"
         },
         {
             "type":"roughconductor",
             "alpha":0.02,
             "extEta":1.0,
-            "specularReflectance":[
-                1.0,
-                1.0,
-                1.0
-            ],
-            "eta":[
-                4.36968,
-                2.9167,
-                1.6547
-            ],
-            "k":[
-                5.20643,
-                4.23136,
-                3.75495
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        4.36968,
+                        2.9167,
+                        1.6547
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        5.20643,
+                        4.23136,
+                        3.75495
+                    ]
+                }
             ],
             "id":"ChoppingKnifeBlade"
         },
@@ -354,10 +578,16 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.028991,
-                0.028991,
-                0.028991
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.028991,
+                        0.028991,
+                        0.028991
+                    ]
+                }
             ],
             "id":"ChoppingKnifeHandle"
         },
@@ -365,20 +595,34 @@
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                1.0,
-                1.0,
-                1.0
-            ],
-            "eta":[
-                1.65746,
-                0.880369,
-                0.521229
-            ],
-            "k":[
-                9.22387,
-                6.26952,
-                4.837
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        1.65746,
+                        0.880369,
+                        0.521229
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        9.22387,
+                        6.26952,
+                        4.837
+                    ]
+                }
             ],
             "id":"ChoppingKnifeEdge"
         },
@@ -386,10 +630,16 @@
             "type":"plastic",
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.578596,
-                0.578596,
-                0.578596
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                }
             ],
             "id":"WhitePot"
         },
@@ -398,27 +648,55 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"diffuseReflectance",
+                    "filename":"textures/Worktopt-light.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"Worktops"
         },
         {
             "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/Tea-Towel.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"Towel"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.394083,
-                0.325037,
-                0.263175
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.394083,
+                        0.325037,
+                        0.263175
+                    ]
+                }
             ],
             "id":"Tiles"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.571765,
-                0.563535,
-                0.559972
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.571765,
+                        0.563535,
+                        0.559972
+                    ]
+                }
             ],
             "id":"WallSocket"
         },
@@ -427,10 +705,16 @@
             "alpha":0.08,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.015396,
-                0.015396,
-                0.015396
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.015396,
+                        0.015396,
+                        0.015396
+                    ]
+                }
             ],
             "id":"CookerBlack"
         },
@@ -439,10 +723,16 @@
             "alpha":0.02,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.001373,
-                0.001373,
-                0.001373
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.001373,
+                        0.001373,
+                        0.001373
+                    ]
+                }
             ],
             "id":"CookerIron"
         },
@@ -450,26 +740,51 @@
             "id":"CookerGlass",
             "type":"dielectric",
             "intIOR":1.5,
-            "extIOR":1.0
+            "extIOR":1.0,
+            "textures":[
+                {
+                    "name":"specularTransmittance",
+                    "type":"single_color",
+                    "value":[
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ]
         },
         {
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                1.0,
-                1.0,
-                1.0
-            ],
-            "eta":[
-                4.36968,
-                2.9167,
-                1.6547
-            ],
-            "k":[
-                5.20643,
-                4.23136,
-                3.75495
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        4.36968,
+                        2.9167,
+                        1.6547
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        5.20643,
+                        4.23136,
+                        3.75495
+                    ]
+                }
             ],
             "id":"CookerChrome"
         },
@@ -477,20 +792,34 @@
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                1.0,
-                1.0,
-                1.0
-            ],
-            "eta":[
-                1.65746,
-                0.880369,
-                0.521229
-            ],
-            "k":[
-                9.22387,
-                6.26952,
-                4.837
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        1.65746,
+                        0.880369,
+                        0.521229
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        9.22387,
+                        6.26952,
+                        4.837
+                    ]
+                }
             ],
             "id":"BushLogo"
         },
@@ -498,55 +827,103 @@
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                1.0,
-                1.0,
-                1.0
-            ],
-            "eta":[
-                4.36968,
-                2.9167,
-                1.6547
-            ],
-            "k":[
-                5.20643,
-                4.23136,
-                3.75495
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        4.36968,
+                        2.9167,
+                        1.6547
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        5.20643,
+                        4.23136,
+                        3.75495
+                    ]
+                }
             ],
             "id":"RadioMetalRing"
         },
         {
             "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/radio-dial-idea.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"RadioDialBack"
         },
         {
             "type":"conductor",
+            "textures":[],
             "id":"RadioDialLine"
         },
         {
             "id":"MicrowaveGlass",
             "type":"dielectric",
             "intIOR":1.5,
-            "extIOR":1.0
+            "extIOR":1.0,
+            "textures":[
+                {
+                    "name":"specularTransmittance",
+                    "type":"single_color",
+                    "value":[
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ]
         },
         {
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                0.578596,
-                0.578596,
-                0.578596
-            ],
-            "eta":[
-                1.65746,
-                0.880369,
-                0.521229
-            ],
-            "k":[
-                9.22387,
-                6.26952,
-                4.837
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        1.65746,
+                        0.880369,
+                        0.521229
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        9.22387,
+                        6.26952,
+                        4.837
+                    ]
+                }
             ],
             "id":"Microwave"
         },
@@ -554,20 +931,34 @@
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                0.578596,
-                0.578596,
-                0.578596
-            ],
-            "eta":[
-                1.65746,
-                0.880369,
-                0.521229
-            ],
-            "k":[
-                9.22387,
-                6.26952,
-                4.837
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        1.65746,
+                        0.880369,
+                        0.521229
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        9.22387,
+                        6.26952,
+                        4.837
+                    ]
+                }
             ],
             "id":"MicrowaveBack"
         },
@@ -575,54 +966,96 @@
             "id":"MicrowaveDigital",
             "type":"dielectric",
             "intIOR":1.5,
-            "extIOR":1.0
+            "extIOR":1.0,
+            "textures":[
+                {
+                    "name":"specularTransmittance",
+                    "type":"single_color",
+                    "value":[
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ]
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.572423,
-                0.572423,
-                0.572423
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.572423,
+                        0.572423,
+                        0.572423
+                    ]
+                }
             ],
             "id":"WindowFrame"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.2,
-                0.2,
-                0.2
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.612066,
+                        0.499505,
+                        0.378676
+                    ]
+                }
             ],
             "id":"Blinds"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.578596,
-                0.578596,
-                0.578596
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                }
             ],
             "id":"BlindStringKnob"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.217638,
-                0.217638,
-                0.217638
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.217638,
+                        0.217638,
+                        0.217638
+                    ]
+                }
             ],
             "id":"BlindString"
         },
         {
             "type":"conductor",
+            "textures":[],
             "id":"WindowLock"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.047366,
-                0.047366,
-                0.047366
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.047366,
+                        0.047366,
+                        0.047366
+                    ]
+                }
             ],
             "id":"TableMats"
         },
@@ -630,50 +1063,79 @@
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                1.0,
-                1.0,
-                1.0
-            ],
-            "eta":[
-                4.36968,
-                2.9167,
-                1.6547
-            ],
-            "k":[
-                5.20643,
-                4.23136,
-                3.75495
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        4.36968,
+                        2.9167,
+                        1.6547
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        5.20643,
+                        4.23136,
+                        3.75495
+                    ]
+                }
             ],
             "id":"Cutlery"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.578596,
-                0.578596,
-                0.578596
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                }
             ],
             "id":"Home"
         },
         {
-            "id":"Cushion1",
             "type":"diffuse",
-            "reflectance":[
-                0.2,
-                0.2,
-                0.2
-            ]
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/cushion-red.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
+            "id":"Cushion1"
         },
         {
             "type":"plastic",
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.612066,
-                0.612066,
-                0.612066
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.612066,
+                        0.612066,
+                        0.612066
+                    ]
+                }
             ],
             "id":"TableCross"
         },
@@ -682,10 +1144,16 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.00631,
-                0.00631,
-                0.00631
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.00631,
+                        0.00631,
+                        0.00631
+                    ]
+                }
             ],
             "id":"PotHandles"
         },
@@ -693,20 +1161,34 @@
             "type":"roughconductor",
             "alpha":0.05,
             "extEta":1.0,
-            "specularReflectance":[
-                1.0,
-                1.0,
-                1.0
-            ],
-            "eta":[
-                4.36968,
-                2.9167,
-                1.6547
-            ],
-            "k":[
-                5.20643,
-                4.23136,
-                3.75495
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        4.36968,
+                        2.9167,
+                        1.6547
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        5.20643,
+                        4.23136,
+                        3.75495
+                    ]
+                }
             ],
             "id":"Kettle"
         },
@@ -715,10 +1197,16 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.00631,
-                0.00631,
-                0.00631
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.00631,
+                        0.00631,
+                        0.00631
+                    ]
+                }
             ],
             "id":"KettleHandle"
         },
@@ -726,20 +1214,34 @@
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                0.578596,
-                0.578596,
-                0.578596
-            ],
-            "eta":[
-                1.65746,
-                0.880369,
-                0.521229
-            ],
-            "k":[
-                9.22387,
-                6.26952,
-                4.837
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        1.65746,
+                        0.880369,
+                        0.521229
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        9.22387,
+                        6.26952,
+                        4.837
+                    ]
+                }
             ],
             "id":"Burners"
         },
@@ -748,10 +1250,16 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.00631,
-                0.00631,
-                0.00631
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.00631,
+                        0.00631,
+                        0.00631
+                    ]
+                }
             ],
             "id":"BurnersTop"
         },
@@ -759,38 +1267,71 @@
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                1.0,
-                1.0,
-                1.0
-            ],
-            "eta":[
-                4.36968,
-                2.9167,
-                1.6547
-            ],
-            "k":[
-                5.20643,
-                4.23136,
-                3.75495
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        4.36968,
+                        2.9167,
+                        1.6547
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        5.20643,
+                        4.23136,
+                        3.75495
+                    ]
+                }
             ],
             "id":"BreadBinHandle"
         },
         {
-            "id":"BreadBinFront",
             "type":"diffuse",
-            "reflectance":[
-                0.2,
-                0.2,
-                0.2
-            ]
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/Worktopt-light.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
+            "id":"BreadBinFront"
         },
         {
             "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/Worktopt-light.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"BreadBinSides"
         },
         {
             "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/Worktopt-light.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"BreadBinTop"
         },
         {
@@ -798,10 +1339,26 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"diffuseReflectance",
+                    "filename":"textures/Tabletop-light.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"WoodTop"
         },
         {
             "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/cushion-red.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"CushionTies"
         },
         {
@@ -809,10 +1366,16 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.612066,
-                0.612066,
-                0.612066
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.612066,
+                        0.612066,
+                        0.612066
+                    ]
+                }
             ],
             "id":"Cable"
         },
@@ -821,10 +1384,16 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.578596,
-                0.578596,
-                0.578596
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                }
             ],
             "id":"CeilingLightFitting"
         },
@@ -833,54 +1402,100 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"diffuseReflectance",
+                    "filename":"textures/wood.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"Floor"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.612066,
-                0.612066,
-                0.612066
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.612066,
+                        0.612066,
+                        0.612066
+                    ]
+                }
             ],
             "id":"Ceiling"
         },
         {
             "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/Kitchen-mushroom-texture.png",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"MushroomEnds"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.136099,
-                0.284452,
-                0.00552174
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.136099,
+                        0.284452,
+                        0.00552174
+                    ]
+                }
             ],
             "id":"PepperStems"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.0,
-                0.0,
-                0.0
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ],
             "id":"Bulb"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.79311,
-                0.79311,
-                0.79311
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.79311,
+                        0.79311,
+                        0.79311
+                    ]
+                }
             ],
             "id":"Grout"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.479179,
-                0.479179,
-                0.479179
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.479179,
+                        0.479179,
+                        0.479179
+                    ]
+                }
             ],
             "id":"LampCable"
         },
@@ -889,60 +1504,97 @@
             "alpha":0.1,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.541798,
-                0.297653,
-                0.0528416
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.541798,
+                        0.297653,
+                        0.0528416
+                    ]
+                }
             ],
             "id":"Lamp"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.578596,
-                0.578596,
-                0.578596
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                }
             ],
             "id":"LampInside"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.571765,
-                0.563535,
-                0.559972
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.571765,
+                        0.563535,
+                        0.559972
+                    ]
+                }
             ],
             "id":"Window"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.578913,
-                0.578913,
-                0.578913
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578913,
+                        0.578913,
+                        0.578913
+                    ]
+                }
             ],
             "id":"Skirting"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.047366,
-                0.047366,
-                0.047366
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.047366,
+                        0.047366,
+                        0.047366
+                    ]
+                }
             ],
             "id":"BlindEnds"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.578596,
-                0.578596,
-                0.578596
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                }
             ],
             "id":"BlindWoodStrip"
         },
         {
             "type":"conductor",
+            "textures":[],
             "id":"RadioEdges"
         }
     ],

@@ -27,7 +27,7 @@ namespace Phoenix {
             }
             auto bsdf = hit.shape->bsdf();
 
-            BSDFQueryRecord rec(hit.frame.ToLocal(-ray.dir).normalized());
+            BSDFQueryRecord rec(hit.frame.ToLocal(-ray.dir).normalized(), hit.uv);
 
             float pdf;
             auto color = bsdf->Sample(rec, pdf, sampler->Next2D());

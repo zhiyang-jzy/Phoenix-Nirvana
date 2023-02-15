@@ -18,7 +18,7 @@ namespace Phoenix {
 
     }
 
-    shared_ptr<Model> ModelLoader::Load(const string& filename) {
+    shared_ptr<Model> ModelLoader::Load(const string &filename) {
         auto file_path = path_tool_.GetFilePath(filename);
         if (!exists(file_path)) {
             spdlog::error("no such model file: {}", file_path.string());
@@ -27,19 +27,19 @@ namespace Phoenix {
         path_tool_.SetCurrentPath(file_path.parent_path());
 
         Assimp::Importer importer;
-        auto scene = importer.ReadFile(file_path.string(), aiProcess_Triangulate|aiProcess_GenNormals);
+        auto scene = importer.ReadFile(file_path.string(), aiProcess_Triangulate | aiProcess_GenNormals);
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
             spdlog::error("load model file failed {}", file_path.string());
             exit(0);
         }
-        spdlog::warn("load model : {}",file_path.string());
+        spdlog::warn("load model : {}", file_path.string());
         return LoadModel(scene);
 
     }
 
     shared_ptr<Model> ModelLoader::LoadModel(const aiScene *scene) {
         auto model = make_shared<Model>();
-        ProcessNode(scene->mRootNode,scene,model);
+        ProcessNode(scene->mRootNode, scene, model);
         model->PostProcess();
         return model;
 
@@ -52,7 +52,7 @@ namespace Phoenix {
             model->AddMesh(mesh_res);
         }
         for (unsigned int i = 0; i < node->mNumChildren; i++) {
-            ProcessNode(node->mChildren[i], scene,model);
+            ProcessNode(node->mChildren[i], scene, model);
         }
     }
 
@@ -60,7 +60,7 @@ namespace Phoenix {
 
         std::vector<Vertex> vertices;
         std::vector<uint> indices;
-        std::map<TextureType,shared_ptr<Texture>> textures;
+        std::map<TextureType, shared_ptr<Texture>> textures;
         for (uint i = 0; i < mesh->mNumVertices; i++) {
             Vertex vertex;
             vertex.normal = Normal3f(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z);
@@ -84,8 +84,8 @@ namespace Phoenix {
         if (mesh->mMaterialIndex >= 0) {
             auto material = scene->mMaterials[mesh->mMaterialIndex];
             if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
-               auto texture = LoadMaterialTexture(material, aiTextureType_DIFFUSE, scene);
-               textures[TextureType::Diffuse] = texture;
+                auto texture = LoadMaterialTexture(material, aiTextureType_DIFFUSE, scene, TextureType::Diffuse);
+                textures[TextureType::Diffuse] = texture;
             }
         }
         return make_shared<Mesh>(vertices, indices, textures);
@@ -93,7 +93,8 @@ namespace Phoenix {
     }
 
     shared_ptr<Texture>
-    ModelLoader::LoadMaterialTexture(const aiMaterial *mat, const aiTextureType type, const aiScene *scene) {
+    ModelLoader::LoadMaterialTexture(const aiMaterial *mat, const aiTextureType type, const aiScene *scene,
+                                     const TextureType tex_type) {
         aiString name;
         mat->GetTexture(type, 0, &name);
         auto tex_path = path_tool_.GetFilePath(name.C_Str());
@@ -126,7 +127,7 @@ namespace Phoenix {
             spdlog::info("load texture from {}", tex_path.string());
         }
         auto bitmap = ImageTool::LoadImage(image_data, width, height, channels);
-        return make_shared<ImageTexture>(bitmap);
+        return make_shared<ImageTexture>(bitmap, "diffuse");
     }
 
 }

@@ -2,7 +2,7 @@
     "sampler":{
         "type":"pcg_random"
     },
-    "sample_count":256,
+    "sample_count":64,
     "integrator":{
         "type":"mis"
     },
@@ -35,45 +35,78 @@
             "id":"Glass",
             "type":"dielectric",
             "intIOR":1.5,
-            "extIOR":1.0
+            "extIOR":1.0,
+            "textures":[]
         },
         {
-            "type":"diffuse",
-            "reflectance":[
-                0.2,
-                0.2,
-                0.2
+            "type":"plastic",
+            "alpha":0.1,
+            "intIOR":1.5,
+            "extIOR":1.0,
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"diffuseReflectance",
+                    "filename":"textures/wood5.jpg",
+                    "filterType":"trilinear"
+                }
             ],
             "id":"Wood"
         },
         {
-            "type":"diffuse",
-            "reflectance":[
-                0.2,
-                0.2,
-                0.2
+            "type":"plastic",
+            "alpha":0.01,
+            "intIOR":1.5,
+            "extIOR":1.0,
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"diffuseReflectance",
+                    "filename":"textures/Tiles.jpg",
+                    "filterType":"trilinear"
+                }
             ],
             "id":"FloorTiles"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.893289,
-                0.893289,
-                0.893289
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.893289,
+                        0.893289,
+                        0.893289
+                    ]
+                }
             ],
             "id":"Wall"
         },
         {
             "type":"diffuse",
+            "textures":[
+                {
+                    "type":"file",
+                    "name":"reflectance",
+                    "filename":"textures/Wallpaper.jpg",
+                    "filterType":"trilinear"
+                }
+            ],
             "id":"Wallpaper"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                1.0,
-                1.0,
-                1.0
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                }
             ],
             "id":"SpotHolder"
         },
@@ -81,20 +114,34 @@
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                1.0,
-                1.0,
-                1.0
-            ],
-            "eta":[
-                1.65746,
-                0.880369,
-                0.521229
-            ],
-            "k":[
-                9.22387,
-                6.26952,
-                4.837
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        1.65746,
+                        0.880369,
+                        0.521229
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        9.22387,
+                        6.26952,
+                        4.837
+                    ]
+                }
             ],
             "id":"Metal"
         },
@@ -102,20 +149,34 @@
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                1.0,
-                1.0,
-                1.0
-            ],
-            "eta":[
-                4.36968,
-                2.9167,
-                1.6547
-            ],
-            "k":[
-                5.20643,
-                4.23136,
-                3.75495
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        4.36968,
+                        2.9167,
+                        1.6547
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        5.20643,
+                        4.23136,
+                        3.75495
+                    ]
+                }
             ],
             "id":"Chrome"
         }

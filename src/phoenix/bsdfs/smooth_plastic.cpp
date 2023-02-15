@@ -7,7 +7,7 @@ namespace Phoenix {
     class SmoothPlastic : public Bsdf {
     private:
         float int_ior_, ext_ior_;
-        Color3f specular_reflectance_, diffuse_reflectance_;
+        shared_ptr<Texture> specular_reflectance_, diffuse_reflectance_;
         bool has_specular_, has_diffuse_;
         float m_specularSamplingWeight;
         float eta_, fdr_int_, fdr_ext_;
@@ -15,16 +15,11 @@ namespace Phoenix {
 
     public:
         explicit SmoothPlastic(PropertyList properties) {
-            base_color_ = properties.Get<vector<float>>("diffuseReflectance").value_or(vector<float>{1, 1, 1});
-            specular_reflectance_ = properties.Get<vector<float>>("specularReflectance").value_or(
-                    vector<float>{1, 1, 1});
-            diffuse_reflectance_ = properties.Get<vector<float>>("diffuseReflectance").value_or(
-                    vector<float>{0.5, 0.5, 0.5});
+            specular_reflectance_ = nullptr;
+            diffuse_reflectance_ = nullptr;
 
             int_ior_ = properties.Get<float>("intIOR").value_or(1.f);
             ext_ior_ = properties.Get<float>("extIOR").value_or(1.5f);
-            m_specularSamplingWeight = specular_reflectance_.getLuminance() /
-                                       (specular_reflectance_.getLuminance() + diffuse_reflectance_.getLuminance());
             eta_ = int_ior_ / ext_ior_;
             fdr_int_ = fresnelDiffuseReflectance(1. / eta_);
             fdr_ext_ = fresnelDiffuseReflectance(eta_);
@@ -49,7 +44,7 @@ namespace Phoenix {
                 rec.wo = Reflect(rec.wi);
                 pdf = probSpecular;
 
-                return specular_reflectance_
+                return specular_reflectance_->GetColor(rec.uv)
                        * Fi / probSpecular;
             } else {
                 rec.wo = SquareToCosineHemisphere(Vector2f(
@@ -57,7 +52,7 @@ namespace Phoenix {
                         sample.y()));
                 float Fo = Fresnel(Frame::CosTheta(rec.wo), ext_ior_, int_ior_);
 
-                Color3f diff = diffuse_reflectance_;
+                Color3f diff = diffuse_reflectance_->GetColor(rec.uv);
                 diff /= 1 - fdr_int_;
 
                 pdf = (1 - probSpecular) *
@@ -79,10 +74,10 @@ namespace Phoenix {
 
 
             if (Reflect(rec.wi).isApprox(rec.wo))
-                return specular_reflectance_ * Fi;
+                return specular_reflectance_->GetColor(rec.uv) * Fi;
 
             float Fo = Fresnel(Frame::CosTheta(rec.wo), ext_ior_, int_ior_);
-            Color3f diff = diffuse_reflectance_;
+            Color3f diff = diffuse_reflectance_->GetColor(rec.uv);
             diff /= 1 - fdr_int_;
 
             return diff * (SquareToCosineHemispherePdf(rec.wo)
@@ -107,6 +102,36 @@ namespace Phoenix {
                 return SquareToCosineHemispherePdf(rec.wo) * (1 - probSpecular);
             }
 
+        }
+
+        void AddChild(shared_ptr<PhoenixObject> child) override {
+            if (child->GetClassType() == PhoenixObject::PClassType::PTexture) {
+                auto texture = std::dynamic_pointer_cast<Texture>(child);
+                if (texture->name() == "diffuseReflectance") {
+                    diffuse_reflectance_ = texture;
+                    base_color_ = diffuse_reflectance_;
+                } else if (texture->name() == "specularReflectance") {
+                    specular_reflectance_ = texture;
+                }
+            }
+        }
+
+        void Active() override {
+            if (!diffuse_reflectance_) {
+                diffuse_reflectance_ = make_shared<SingleColorTexture>(Color3f(0.5, 0.5, 0.5),"");
+            }
+            if (!specular_reflectance_)
+                specular_reflectance_ = make_shared<SingleColorTexture>(Color3f(1, 1, 1),"");
+            base_color_ = diffuse_reflectance_;
+
+            float d_ave = diffuse_reflectance_->GetAverage().getLuminance(),
+                    s_ave = specular_reflectance_->GetAverage().getLuminance();
+            m_specularSamplingWeight = s_ave / (d_ave + s_ave);
+
+        }
+
+        bool IsSpecular()const override {
+            return true;
         }
 
     };

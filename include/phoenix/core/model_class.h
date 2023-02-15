@@ -27,6 +27,7 @@ namespace Phoenix{
         Mesh(vector<Vertex> vertices,vector<uint> indices,map<TextureType,shared_ptr<Texture> > textures);
         void PostProcess();
         float area() const{return area_;};
+        Vector2f GetUv(uint prim_id, Vector2f uv);
 
     };
 

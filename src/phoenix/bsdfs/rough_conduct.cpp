@@ -100,7 +100,7 @@ namespace Phoenix {
         }
 
         bool IsSpecular()const override {
-            return true;
+            return false;
         }
     };
 

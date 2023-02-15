@@ -30,8 +30,9 @@ namespace Phoenix {
             float eta = 1.0f;
 
             size_t depth = 0;
-
-            while (true) {
+            size_t m = 1;
+            float temp = 0.f;
+            while (m--) {
                 if (!its.basic.is_hit) {
                     break;
                 }
@@ -64,8 +65,8 @@ namespace Phoenix {
                         (emitter_its.basic.point - e_rec.p).norm() <= kEpsilon) {
 
                         /* Allocate a record for querying the BSDF */
-                        BSDFQueryRecord bRec(emitter_its.frame.ToLocal(-ray.dir).normalized(),
-                                             emitter_its.frame.ToLocal(-e_rec.wi).normalized(), its.uv);
+                        BSDFQueryRecord bRec(its.frame.ToLocal(-ray.dir).normalized(),
+                                             its.frame.ToLocal(-e_rec.wi).normalized(), its.uv);
 
                         /* Evaluate BSDF * cos(theta) */
                         Color3f bsdfVal = bsdf->Eval(bRec);
@@ -80,6 +81,7 @@ namespace Phoenix {
 
                         /* Weight using the power heuristic */
                         float weight = MiWeight(emitter_pdf, bsdfPdf);
+                        temp += weight;
                         //spdlog::info("hit");
                         Li += throughput * value * bsdfVal * weight / emitter_pdf;
                     }
@@ -130,6 +132,7 @@ namespace Phoenix {
 
                     const float lumPdf = bsdf->IsSpecular() ?
                                          0 : emitter_pdf;
+                    temp += MiWeight(bsdfPdf, lumPdf);
                     Li += throughput * value * MiWeight(bsdfPdf, lumPdf);
                     break;
                 }
@@ -154,9 +157,11 @@ namespace Phoenix {
                     throughput /= russian_;
                 }
             }
-            if (Li.isValid())
-                return Li;
-            return {0, 0, 0};
+//            if (Li.isValid())
+//                return Li;
+            if (temp < kEpsilon || abs(temp - 1) < kEpsilon)
+                return {0, 0, 0};
+            return {abs(1-temp), 0, 0};
 
 
         }

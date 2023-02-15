@@ -208,7 +208,21 @@ namespace Phoenix {
         Color3f toLinearRGB() const;
 
 
-        Color3f toSRGB() const;
+        Color3f toSRGB() const {
+            Color3f result;
+
+            for (int i = 0; i < 3; ++i) {
+                float value = coeff(i);
+
+                if (value <= 0.0031308f)
+                    result[i] = 12.92f * value;
+                else
+                    result[i] = (1.0f + 0.055f)
+                                * std::pow(value, 1.0f / 2.4f) - 0.055f;
+            }
+
+            return result;
+        }
 
 
         float getLuminance() const {

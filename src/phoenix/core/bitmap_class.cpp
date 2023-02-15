@@ -36,4 +36,15 @@ namespace Phoenix {
         Color4f v = mean();
         return {v.x(), v.y(), v.z()};
     }
+
+    Bitmap3f Bitmap::ConvertToSrgb() {
+        Bitmap3f res(width_, height_);
+        for (int i = 0; i < height_; i++) {
+            for (int j = 0; j < width_; j++) {
+                auto pre = coeff(i, j);
+                res.coeffRef(i, j) = Color3f(pre.x(), pre.y(), pre.z()).toSRGB();
+            }
+        }
+        return res;
+    }
 }

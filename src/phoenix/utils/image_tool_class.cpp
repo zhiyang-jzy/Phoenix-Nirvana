@@ -1,19 +1,25 @@
 #include "phoenix/utils/image_tool_class.h"
+
 #define TINYEXR_USE_MINIZ 0
+
 #include <zlib.h>
+
 #define TINYEXR_IMPLEMENTATION
+
 #include "ext/tinyexr.h"
 #include <spdlog/spdlog.h>
 //#define STB_IMAGE_IMPLEMENTATION
 #include "ext/stb_image.h"
+
 #undef LoadImage
 
-namespace Phoenix{
+namespace Phoenix {
 
-    ImageTool::ImageTool(){
+    ImageTool::ImageTool() {
         current_path_ = std::filesystem::current_path();
     }
-    ImageTool::ImageTool(Path current_path):current_path_(current_path) {
+
+    ImageTool::ImageTool(Path current_path) : current_path_(current_path) {
 
     }
 
@@ -26,8 +32,8 @@ namespace Phoenix{
 
         int width = bitmap.width();
         int height = bitmap.height();
-        auto rgb = reinterpret_cast<const float*>(bitmap.data());
-        auto file_path = current_path_/filename;
+        auto rgb = reinterpret_cast<const float *>(bitmap.data());
+        auto file_path = current_path_ / filename;
 
         image.num_channels = 3;
 
@@ -48,13 +54,13 @@ namespace Phoenix{
         image_ptr[1] = &(images[1].at(0)); // G
         image_ptr[2] = &(images[0].at(0)); // R
 
-        image.images = (unsigned char **)image_ptr;
+        image.images = (unsigned char **) image_ptr;
         image.width = width;
         image.height = height;
 
         header.num_channels = 3;
         header.channels =
-                (EXRChannelInfo *)malloc(sizeof(EXRChannelInfo) * header.num_channels);
+                (EXRChannelInfo *) malloc(sizeof(EXRChannelInfo) * header.num_channels);
         // Must be (A)BGR order, since most of EXR viewers expect this channel order.
         strncpy(header.channels[0].name, "B", 255);
         header.channels[0].name[strlen("B")] = '\0';
@@ -63,9 +69,9 @@ namespace Phoenix{
         strncpy(header.channels[2].name, "R", 255);
         header.channels[2].name[strlen("R")] = '\0';
 
-        header.pixel_types = (int *)malloc(sizeof(int) * header.num_channels);
+        header.pixel_types = (int *) malloc(sizeof(int) * header.num_channels);
         header.requested_pixel_types =
-                (int *)malloc(sizeof(int) * header.num_channels);
+                (int *) malloc(sizeof(int) * header.num_channels);
         for (int i = 0; i < header.num_channels; i++) {
             header.pixel_types[i] =
                     TINYEXR_PIXELTYPE_FLOAT; // pixel type of input image
@@ -77,7 +83,7 @@ namespace Phoenix{
         const char *err = nullptr;
         int ret = SaveEXRImageToFile(&image, &header, file_path.string().c_str(), &err);
         if (ret != TINYEXR_SUCCESS) {
-            spdlog::error("save EXR err: {}",err);
+            spdlog::error("save EXR err: {}", err);
 
             FreeEXRErrorMessage(err); // free's buffer for an error message
             return;
@@ -89,11 +95,11 @@ namespace Phoenix{
         free(header.requested_pixel_types);
     }
 
-    std::shared_ptr<Bitmap> ImageTool::PhoenixLoadImage(const std::string& filename) {
-        auto file_path = current_path_/filename;
-        int channels,width,height;
-        auto data = stbi_load(file_path.string().c_str(),&width,&height,&channels,STBI_default);
-        return LoadImage(data,width,height,channels);
+    std::shared_ptr<Bitmap> ImageTool::PhoenixLoadImage(const std::string &filename) {
+        auto file_path = current_path_ / filename;
+        int channels, width, height;
+        auto data = stbi_load(file_path.string().c_str(), &width, &height, &channels, STBI_default);
+        return LoadImage(data, width, height, channels);
 
     }
 

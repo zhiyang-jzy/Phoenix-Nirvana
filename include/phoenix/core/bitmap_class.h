@@ -32,5 +32,6 @@ namespace Phoenix{
         Color4f GetColor(uint x,uint y) const;
         Color3f GetColor3f(uint x,uint y) const;
         Bitmap3f ConvertTo3f();
+        Bitmap3f ConvertToSrgb();
     };
 }

@@ -32,7 +32,7 @@ namespace Phoenix {
             size_t depth = 0;
             size_t m = 1;
             float temp = 0.f;
-            while (m--) {
+            while (true) {
                 if (!its.basic.is_hit) {
                     break;
                 }
@@ -157,11 +157,12 @@ namespace Phoenix {
                     throughput /= russian_;
                 }
             }
-//            if (Li.isValid())
-//                return Li;
+            if (Li.isValid())
+                return Li;
+            return {0, 0, 0};
             if (temp < kEpsilon || abs(temp - 1) < kEpsilon)
                 return {0, 0, 0};
-            return {abs(1-temp), 0, 0};
+            return {abs(1 - temp), 0, 0};
 
 
         }

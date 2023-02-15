@@ -25,12 +25,30 @@ namespace Phoenix {
     }
 
     void DiscretePdf::Normalize() {
-        sum_ = cdf_[cdf_.size() - 1];
+        sum_ = cdf_[cdf_.size()-1];
         if (sum_ > 0) {
-            normalization_ = 1.f / sum_;
-            std::for_each(cdf_.begin(), cdf_.end(), [&](auto &item) {
-                item *= normalization_;
-            });
+            normalization_ = 1.0f / sum_;
+            for (size_t i=1; i<cdf_.size(); ++i)
+                cdf_[i] *= normalization_;
+            cdf_[cdf_.size()-1] = 1.0f;
+            normalized_ = true;
+        } else {
+            normalization_ = 0.0f;
         }
+    }
+
+    uint DiscretePdf::sampleReuse(float &sampleValue) const {
+        float pdf;
+        size_t index = Sample(sampleValue,pdf);
+        sampleValue = (sampleValue - cdf_[index])
+                      / (cdf_[index + 1] - cdf_[index]);
+        return index;
+    }
+
+    uint DiscretePdf::SampleReuse(float &sampleValue, float &pdf) const {
+        size_t index = Sample(sampleValue, pdf);
+        sampleValue = (sampleValue - cdf_[index])
+                      / (cdf_[index + 1] - cdf_[index]);
+        return index;
     }
 }

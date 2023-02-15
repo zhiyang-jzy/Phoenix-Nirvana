@@ -186,5 +186,17 @@ namespace Phoenix {
         Normal3f normal;
     };
 
+    struct PositionSampleRecord {
+        Vector3f point;
+        Normal3f normal;
+        float pdf;
+    };
+
+    struct DirectSamplingRecord : public PositionSampleRecord{
+        Point3f ref;
+        Vector3f dir;
+        float dist;
+    };
+
 
 }

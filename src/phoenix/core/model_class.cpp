@@ -35,13 +35,15 @@ namespace Phoenix {
 
     }
 
-    void Mesh::SamplePosition(PositionSampleRecord &pos_rec, Vector2f sample) {
+    void Mesh::SamplePosition(PositionSampleRecord &pos_rec, Vector2f sample_) {
         float pdf;
-        auto index = dpdf_.Sample(sample.x(), pdf);
+
+        Vector2f sample(sample_);
+        auto index = dpdf_.SampleReuse(sample.y(), pdf);
         index *= 3;
 
-        float alpha = 1 - sqrt(1 - sample.x());
-        float beta = sample.y() * sqrt(1 - sample.x());
+        float alpha = 1 - sqrt(1 - sample_.x());
+        float beta = sample_.y() * sqrt(1 - sample_.x());
         float theta = 1 - alpha - beta;
 
         Point3f a(vertices_[indices_[index]]), b(vertices_[indices_[index + 1]]),
@@ -101,7 +103,7 @@ namespace Phoenix {
 
     void Model::SamplePosition(PositionSampleRecord &pos_rec, Vector2f sample) {
         float mesh_pdf;
-        auto mesh_index = dpdf_.Sample(sample.x(), mesh_pdf);
+        auto mesh_index = dpdf_.SampleReuse(sample.x(), mesh_pdf);
         auto mesh = meshes_[mesh_index];
         mesh->SamplePosition(pos_rec, sample);
         pos_rec.pdf *= mesh_pdf;

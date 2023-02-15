@@ -11,12 +11,6 @@
 namespace Phoenix {
     class Scene;
 
-    struct PositionSampleRecord {
-        Vector3f point;
-        Normal3f normal;
-        float pdf;
-    };
-
     class Shape : public PhoenixObject {
     private:
         shared_ptr<Bsdf> bsdf_;
@@ -42,6 +36,8 @@ namespace Phoenix {
         }
 
         virtual void ApplyTransform(const Transform &trans) = 0;
+
+        virtual void SampleDirect(DirectSamplingRecord& dRec, const Vector2f& sample);
 
 
     };

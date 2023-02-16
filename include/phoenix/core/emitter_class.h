@@ -20,7 +20,8 @@ namespace Phoenix {
             pdf = .0f;
             wi = (ref - p).normalized();
         }
-        EmitterQueryRecord(const Vector3f& re):ref(re){}
+
+        EmitterQueryRecord(const Vector3f &re) : ref(re) {}
     };
 
 
@@ -32,9 +33,17 @@ namespace Phoenix {
         PClassType GetClassType() const override { return PClassType::PEmitter; }
 
         [[nodiscard]] virtual Color3f Eval(const EmitterQueryRecord &record) const = 0;
-        virtual Color3f Sample(EmitterQueryRecord& rec,Vector2f sample)const = 0;
-        virtual float area() =0;
+
+        virtual Color3f Sample(EmitterQueryRecord &rec, Vector2f sample) const = 0;
+
+        virtual float area() = 0;
+
         virtual void AddToScene(Scene &scene) = 0;
-        virtual Color3f radiance(){return radiance_;}
+
+        virtual Color3f radiance() { return radiance_; }
+
+        virtual Color3f SampleDirect(DirectSamplingRecord &dRec, const Vector2f &sample) const = 0;
+
+        virtual float PdfPosition(const PositionSampleRecord& pRec)const = 0;
     };
 }

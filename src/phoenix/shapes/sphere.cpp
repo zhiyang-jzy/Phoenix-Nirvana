@@ -12,6 +12,7 @@ namespace Phoenix {
             center_ = properties.Get<vector<float>>("center").value_or(vector<float>{0, 0, 0});
             radius_ = properties.Get<double>("radius").value_or(1.);
             area_ = 4.f * kPi * radius_ * radius_;
+            inv_area_ = 1.f / area_;
         }
 
         [[nodiscard]] string ToString() const override { return "sphere"; }
@@ -38,6 +39,10 @@ namespace Phoenix {
             float v = n.y() * 0.5 + 0.5;
             return {u, v};
 
+        }
+
+        float PdfPosition(const PositionSampleRecord &pRec) const override {
+            return inv_area_;
         }
 
 

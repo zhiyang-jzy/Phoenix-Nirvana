@@ -13,7 +13,7 @@ namespace Phoenix {
             ModelLoader m_loader;
             model_ = m_loader.Load(file_name_);
             area_ = model_->area_;
-
+            inv_area_ = 1.f / area_;
         }
 
         string ToString() const override { return "obj"; }
@@ -35,11 +35,17 @@ namespace Phoenix {
         void ApplyTransform(const Transform &trans) override {
             model_->ApplyTransform(trans);
             area_ = model_->area_;
+            inv_area_ = 1.f / area_;
         }
 
         Vector2f GetUv(const Interaction &its) const override {
             auto mesh = mesh_dict_.at(its.basic.geo_id);
             return mesh->GetUv(its.basic.prim_id, its.basic.uv);
+
+        }
+
+        float PdfPosition(const PositionSampleRecord &pRec) const override {
+            return inv_area_;
 
         }
     };

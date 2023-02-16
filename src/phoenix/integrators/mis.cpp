@@ -33,7 +33,7 @@ namespace Phoenix {
             size_t depth = 0;
             size_t m = 1;
 
-            while (m--) {
+            while (true) {
                 if (!its.basic.is_hit) {
                     break;
                 }

@@ -10,6 +10,7 @@ namespace Phoenix {
         dRec.dist = std::sqrt(distSquared);
         dRec.dir /= dRec.dist;
         float dp = abs(dRec.dir.dot(dRec.normal));
+        dRec.pdf = inv_area_;
         dRec.pdf *= dp != 0 ? (distSquared / dp) : 0.0f;
 
     }

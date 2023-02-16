@@ -101,6 +101,6 @@ namespace Phoenix {
     }
 
     float Scene::PdfEmitterDirect(const DirectSamplingRecord &dRec) const {
-        return dRec.emitter->PdfPosition(dRec) * PdfEmitterDiscrete(dRec.emitter);
+        return dRec.emitter->PdfDirect(dRec) * PdfEmitterDiscrete(dRec.emitter);
     }
 }

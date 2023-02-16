@@ -33,6 +33,8 @@ namespace Phoenix {
             size_t depth = 0;
             size_t m = 1;
 
+            float wi1 = 0.f, wi2 = 0.f;
+
             while (true) {
                 if (!its.basic.is_hit) {
                     break;
@@ -69,6 +71,7 @@ namespace Phoenix {
                             float bsdf_pdf = bsdf->Pdf(bRec);
                             float weight = MiWeight(dRec.pdf, bsdf_pdf);
                             temp += weight;
+                            wi1 = weight;
                             Li += throughput * value * bsdf_val * weight;
                         }
 
@@ -157,6 +160,7 @@ namespace Phoenix {
 
                     const float lumPdf = bsdf->IsSpecular() ?
                                          0 : emitter_pdf;
+                    wi2 = MiWeight(bsdfPdf, lumPdf);
                     temp += MiWeight(bsdfPdf, lumPdf);
                     Li += throughput * value * MiWeight(bsdfPdf, lumPdf);
                     break;
@@ -190,9 +194,9 @@ namespace Phoenix {
                 return Li;
             return {0, 0, 0};
 
-            if (temp < kEpsilon || abs(temp - 1) < kEpsilon)
-                return {0, 0, 0};
-            return {abs(1 - temp), 0, 0};
+//            if (temp < kEpsilon || abs(temp - 1) < kEpsilon)
+//                return {0, 0, 0};
+            return {temp, wi1, wi2};
 
 
         }

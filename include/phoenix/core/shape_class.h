@@ -15,7 +15,7 @@ namespace Phoenix {
     private:
         shared_ptr<Bsdf> bsdf_;
     public:
-        float area_,inv_area_;
+        float area_, inv_area_;
 
         [[nodiscard]] PClassType GetClassType() const override { return PClassType::PShape; }
 
@@ -29,7 +29,7 @@ namespace Phoenix {
 
         virtual Color3f base_color(Vector2f uv) { return bsdf_->base_color(uv); }
 
-        virtual Vector2f GetUv(const Interaction& its) const = 0;
+        virtual Vector2f GetUv(const Interaction &its) const = 0;
 
         void AddChild(shared_ptr<PhoenixObject> child) override {
             bsdf_ = std::dynamic_pointer_cast<Bsdf>(child);
@@ -37,9 +37,11 @@ namespace Phoenix {
 
         virtual void ApplyTransform(const Transform &trans) = 0;
 
-        virtual void SampleDirect(DirectSamplingRecord& dRec, const Vector2f& sample);
+        virtual void SampleDirect(DirectSamplingRecord &dRec, const Vector2f &sample);
 
-        virtual float PdfPosition(const PositionSampleRecord& pRec)const = 0;
+        virtual float PdfPosition(const PositionSampleRecord &pRec) const = 0;
+
+        virtual float PdfDirect(const DirectSamplingRecord &dRec) ;
 
 
     };

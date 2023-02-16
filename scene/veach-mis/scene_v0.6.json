@@ -2,13 +2,13 @@
     "sampler":{
         "type":"pcg_random"
     },
-    "sample_count":256,
+    "sample_count":64,
     "integrator":{
         "type":"mis"
     },
     "camera":{
         "type":"pinhole",
-        "fov":35.0,
+        "fov":19.6875,
         "matrix":[
             4.37113e-08,
             0.0,

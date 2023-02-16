@@ -64,6 +64,10 @@ namespace Phoenix {
             return shape_->PdfPosition(pRec);
         }
 
+        float PdfDirect(const DirectSamplingRecord &dRec) const override{
+            return shape_->PdfDirect(dRec);
+        }
+
 
     };
 

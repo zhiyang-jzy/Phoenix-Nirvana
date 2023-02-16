@@ -2,13 +2,13 @@
     "sampler":{
         "type":"pcg_random"
     },
-    "sample_count":512,
+    "sample_count":64,
     "integrator":{
         "type":"mis"
     },
     "camera":{
         "type":"pinhole",
-        "fov":30.0,
+        "fov":33.75,
         "matrix":[
             0.99069,
             0.007035,
@@ -33,10 +33,16 @@
     "bsdfs":[
         {
             "type":"diffuse",
-            "reflectance":[
-                0.1,
-                0.1,
-                0.1
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.1,
+                        0.1,
+                        0.1
+                    ]
+                }
             ],
             "id":"Backdrop"
         },
@@ -44,20 +50,34 @@
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                0.578596,
-                0.578596,
-                0.578596
-            ],
-            "eta":[
-                1.65746,
-                0.880369,
-                0.521229
-            ],
-            "k":[
-                9.22387,
-                6.26952,
-                4.837
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        1.65746,
+                        0.880369,
+                        0.521229
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        9.22387,
+                        6.26952,
+                        4.837
+                    ]
+                }
             ],
             "id":"RoughAluminium"
         },
@@ -65,20 +85,34 @@
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                1.0,
-                1.0,
-                1.0
-            ],
-            "eta":[
-                2.0,
-                2.0,
-                2.0
-            ],
-            "k":[
-                0.0,
-                0.0,
-                0.0
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        2.0,
+                        2.0,
+                        2.0
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ],
             "id":"RoughSteel"
         },
@@ -87,10 +121,16 @@
             "alpha":0.2,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.01,
-                0.01,
-                0.01
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.01,
+                        0.01,
+                        0.01
+                    ]
+                }
             ],
             "id":"DarkPlastic"
         },
@@ -99,10 +139,16 @@
             "alpha":0.4,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.256,
-                0.013,
-                0.08
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.256,
+                        0.013,
+                        0.08
+                    ]
+                }
             ],
             "id":"PinkLeather"
         },
@@ -111,10 +157,16 @@
             "alpha":0.4,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.034,
-                0.014,
-                0.008
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.034,
+                        0.014,
+                        0.008
+                    ]
+                }
             ],
             "id":"Leather"
         },
@@ -123,10 +175,16 @@
             "alpha":0.4,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.163,
-                0.03,
-                0.037
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.163,
+                        0.03,
+                        0.037
+                    ]
+                }
             ],
             "id":"RedLeather"
         },
@@ -135,10 +193,16 @@
             "alpha":0.4,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.772,
-                0.175,
-                0.262
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.772,
+                        0.175,
+                        0.262
+                    ]
+                }
             ],
             "id":"BrightPinkLeather"
         },
@@ -147,26 +211,39 @@
             "type":"dielectric",
             "alpha":0.01,
             "intIOR":1.5,
-            "extIOR":1.0
+            "extIOR":1.0,
+            "textures":[]
         },
         {
             "type":"plastic",
             "alpha":0.4,
             "intIOR":1.5,
             "extIOR":1.0,
-            "diffuseReflectance":[
-                0.025,
-                0.025,
-                0.025
+            "textures":[
+                {
+                    "name":"diffuseReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.025,
+                        0.025,
+                        0.025
+                    ]
+                }
             ],
             "id":"DarkRubber"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.0,
-                0.0,
-                0.0
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ],
             "id":"Black"
         }

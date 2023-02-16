@@ -185,6 +185,8 @@ def process_camera(tree, res):
     film = came_info.find('film')
     for info in film.findall('integer'):
         res['camera'][info.attrib['name']] = int(info.attrib['value'])
+    v = float(res['camera']['height'])/float(res['camera']['width'])
+    res['camera']['fov']*=v
 
 
 def basic_setting(res):

@@ -28,7 +28,6 @@ namespace Phoenix {
     class Emitter : public PhoenixObject {
     public:
         Color3f radiance_;
-        float area_;
 
         PClassType GetClassType() const override { return PClassType::PEmitter; }
 
@@ -44,6 +43,8 @@ namespace Phoenix {
 
         virtual Color3f SampleDirect(DirectSamplingRecord &dRec, const Vector2f &sample) const = 0;
 
-        virtual float PdfPosition(const PositionSampleRecord& pRec)const = 0;
+        virtual float PdfPosition(const PositionSampleRecord &pRec) const = 0;
+
+        virtual float PdfDirect(const DirectSamplingRecord &dRec) const = 0;
     };
 }

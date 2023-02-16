@@ -90,6 +90,11 @@ namespace Phoenix {
     float MicrofacetDistribution::Pdf(const Vector3f &wi, const Normal3f &m) {
         if (Frame::CosTheta(wi) == 0)
             return 0.0f;
+        auto a = SmithG1(wi, m);
+        auto b = abs(wi.dot(m));
+        auto c = Eval(m);
+        auto d = std::abs(Frame::CosTheta(wi));
+        return a * b * c / d;
         return SmithG1(wi, m) * abs(wi.dot(m)) * Eval(m) / std::abs(Frame::CosTheta(wi));
     }
 
@@ -141,12 +146,12 @@ namespace Phoenix {
         sincos(phi, &sinPhi, &cosPhi);
 
         /* Step 2: simulate P22_{wi}(slope.x, slope.y, 1, 1) */
-        Vector2f slope = Sample11(theta, sample).normalized();
+        Vector2f slope = Sample11(theta, sample);
 
         /* Step 3: rotate */
         slope = Vector2f(
                 cosPhi * slope.x() - sinPhi * slope.y(),
-                sinPhi * slope.x() + cosPhi * slope.y()).normalized();
+                sinPhi * slope.x() + cosPhi * slope.y());
 
         /* Step 4: unstretch */
         slope.x() *= alpha_;

@@ -2,7 +2,7 @@
     "sampler":{
         "type":"pcg_random"
     },
-    "sample_count":128,
+    "sample_count":64,
     "integrator":{
         "type":"mis"
     },
@@ -33,81 +33,130 @@
     "bsdfs":[
         {
             "type":"diffuse",
-            "reflectance":[
-                0.63,
-                0.065,
-                0.05
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.63,
+                        0.065,
+                        0.05
+                    ]
+                }
             ],
             "id":"LeftWall"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.14,
-                0.45,
-                0.091
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.14,
+                        0.45,
+                        0.091
+                    ]
+                }
             ],
             "id":"RightWall"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.725,
-                0.71,
-                0.68
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.725,
+                        0.71,
+                        0.68
+                    ]
+                }
             ],
             "id":"Floor"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.725,
-                0.71,
-                0.68
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.725,
+                        0.71,
+                        0.68
+                    ]
+                }
             ],
             "id":"Ceiling"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.725,
-                0.71,
-                0.68
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.725,
+                        0.71,
+                        0.68
+                    ]
+                }
             ],
             "id":"BackWall"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.725,
-                0.71,
-                0.68
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.725,
+                        0.71,
+                        0.68
+                    ]
+                }
             ],
             "id":"ShortBox"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.725,
-                0.71,
-                0.68
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.725,
+                        0.71,
+                        0.68
+                    ]
+                }
             ],
             "id":"TallBox"
         },
         {
             "type":"diffuse",
-            "reflectance":[
-                0.0,
-                0.0,
-                0.0
+            "textures":[
+                {
+                    "name":"reflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ],
             "id":"Light"
         },
         {
+            "id":"Water",
             "type":"dielectric",
             "intIOR":1.8,
             "extIOR":1.0,
-            "id":"Water"
+            "textures":[]
         }
     ],
     "shapes":[

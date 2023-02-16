@@ -48,6 +48,8 @@ namespace Phoenix {
             return inv_area_;
 
         }
+
+
     };
 
     PHOENIX_REGISTER_CLASS(ObjShape, "obj");

@@ -14,4 +14,9 @@ namespace Phoenix {
         dRec.pdf *= dp != 0 ? (distSquared / dp) : 0.0f;
 
     }
+
+    float Shape::PdfDirect(const DirectSamplingRecord &dRec) {
+        float pdfPos = PdfPosition(dRec);
+        return pdfPos * (dRec.dist * dRec.dist) / abs(dRec.dir.dot(dRec.normal));
+    }
 }

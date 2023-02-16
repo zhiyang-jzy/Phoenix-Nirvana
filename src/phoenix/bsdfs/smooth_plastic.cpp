@@ -41,7 +41,7 @@ namespace Phoenix {
 
             /* Importance sample wrt. the Fresnel reflectance */
             if (sample.x() < probSpecular) {
-                rec.wo = Reflect(rec.wi);
+                rec.wo = Reflect(rec.wi).normalized();
                 pdf = probSpecular;
 
                 return specular_reflectance_->GetColor(rec.uv)
@@ -49,11 +49,11 @@ namespace Phoenix {
             } else {
                 rec.wo = SquareToCosineHemisphere(Vector2f(
                         (sample.x() - probSpecular) / (1 - probSpecular),
-                        sample.y()));
+                        sample.y())).normalized();
                 float Fo = Fresnel(Frame::CosTheta(rec.wo), ext_ior_, int_ior_);
 
                 Color3f diff = diffuse_reflectance_->GetColor(rec.uv);
-                diff /= 1 - fdr_int_;
+                diff /= (Color3f(1.0f) - diff*fdr_int_);
 
                 pdf = (1 - probSpecular) *
                       SquareToCosineHemispherePdf(rec.wo);
@@ -73,12 +73,12 @@ namespace Phoenix {
             float Fi = Fresnel(Frame::CosTheta(rec.wi), ext_ior_, int_ior_);
 
 
-            if (Reflect(rec.wi).isApprox(rec.wo))
-                return specular_reflectance_->GetColor(rec.uv) * Fi;
+//            if (Reflect(rec.wi).isApprox(rec.wo))
+//                return specular_reflectance_->GetColor(rec.uv) * Fi;
 
             float Fo = Fresnel(Frame::CosTheta(rec.wo), ext_ior_, int_ior_);
             Color3f diff = diffuse_reflectance_->GetColor(rec.uv);
-            diff /= 1 - fdr_int_;
+            diff /= (Color3f(1.0f) - diff*fdr_int_);
 
             return diff * (SquareToCosineHemispherePdf(rec.wo)
                            * inv_eta2_ * (1 - Fi) * (1 - Fo));
@@ -96,11 +96,11 @@ namespace Phoenix {
                             (1 - Fi) * (1 - m_specularSamplingWeight));
 
 
-            if (rec.wo.isApprox(Reflect(rec.wi))) {
-                return probSpecular;
-            } else {
+//            if (rec.wo.isApprox(Reflect(rec.wi))) {
+//                return probSpecular;
+//            } else {
                 return SquareToCosineHemispherePdf(rec.wo) * (1 - probSpecular);
-            }
+//            }
 
         }
 
@@ -131,7 +131,7 @@ namespace Phoenix {
         }
 
         bool IsSpecular()const override {
-            return false;
+            return true;
         }
 
     };

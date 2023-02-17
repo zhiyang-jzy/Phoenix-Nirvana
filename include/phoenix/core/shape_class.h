@@ -31,6 +31,8 @@ namespace Phoenix {
 
         virtual Vector2f GetUv(const Interaction &its) const = 0;
 
+        virtual Normal3f GetNormal(const Interaction &its) const = 0;
+
         void AddChild(shared_ptr<PhoenixObject> child) override {
             bsdf_ = std::dynamic_pointer_cast<Bsdf>(child);
         }
@@ -41,7 +43,7 @@ namespace Phoenix {
 
         virtual float PdfPosition(const PositionSampleRecord &pRec) const = 0;
 
-        virtual float PdfDirect(const DirectSamplingRecord &dRec) ;
+        virtual float PdfDirect(const DirectSamplingRecord &dRec);
 
 
     };

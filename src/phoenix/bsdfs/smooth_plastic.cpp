@@ -24,6 +24,7 @@ namespace Phoenix {
             fdr_int_ = fresnelDiffuseReflectance(1. / eta_);
             fdr_ext_ = fresnelDiffuseReflectance(eta_);
             inv_eta2_ = 1.f / (eta_ * eta_);
+            is_two_sided_ = properties.Get<bool>("twosided").value_or(true);
 
         }
 

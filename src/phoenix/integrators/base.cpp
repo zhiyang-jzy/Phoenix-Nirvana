@@ -22,7 +22,7 @@ namespace Phoenix {
             if (!hit.basic.is_hit)
                 return {0, 0, 0};
             if (hit.hit_type == HitType::Emitter) {
-                EmitterQueryRecord rec(ray.orig, hit.basic.point, hit.basic.normal);
+                EmitterQueryRecord rec(ray.orig, hit.basic.point, hit.normal);
                 return hit.emitter->Eval(rec);
             }
             auto bsdf = hit.shape->bsdf();

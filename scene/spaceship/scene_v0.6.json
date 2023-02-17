@@ -27,8 +27,8 @@
             -0.0,
             1.0
         ],
-        "width":1280,
-        "height":720
+        "width":2560,
+        "height":1440
     },
     "bsdfs":[
         {
@@ -2751,7 +2751,8 @@
                         1.0
                     ]
                 }
-            }
+            },
+            "twosided":true
         },
         {
             "type":"area",
@@ -2784,7 +2785,8 @@
                         1.0
                     ]
                 }
-            }
+            },
+            "twosided":true
         },
         {
             "type":"area",
@@ -2817,7 +2819,8 @@
                         1.0
                     ]
                 }
-            }
+            },
+            "twosided":true
         }
     ]
 }

@@ -45,6 +45,10 @@ namespace Phoenix {
             return inv_area_;
         }
 
+        Normal3f GetNormal(const Interaction &its) const override {
+            return its.basic.normal;
+        }
+
 
     };
 

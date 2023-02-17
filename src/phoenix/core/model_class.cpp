@@ -63,7 +63,7 @@ namespace Phoenix {
         vertices_.clear();
         for (auto &vertex: vertexes_) {
             vertex.position = trans * vertex.position;
-            vertex.normal = trans * vertex.normal;
+            vertex.normal = (trans * vertex.normal).normalized();
             vertex.tangent = trans * vertex.tangent;
             vertex.b_tangent = trans * vertex.b_tangent;
         }
@@ -79,6 +79,16 @@ namespace Phoenix {
         auto ind1 = indices_[prim_id * 3], ind2 = indices_[prim_id * 3 + 1], ind3 = indices_[prim_id * 3 + 2];
         auto coord1 = vertexes_[ind1].texcoord, coord2 = vertexes_[ind2].texcoord, coord3 = vertexes_[ind3].texcoord;
         return (1 - uv.x() - uv.y()) * coord1 + uv.x() * coord2 + uv.y() * coord3;
+    }
+
+    std::optional<Normal3f> Mesh::GetNormal(uint prim_id, Vector2f uv) {
+        if (prim_id * 3 + 2 >= indices_.size()) {
+            return std::nullopt;
+        }
+        auto ind1 = indices_[prim_id * 3], ind2 = indices_[prim_id * 3 + 1], ind3 = indices_[prim_id * 3 + 2];
+        auto norm1 = vertexes_[ind1].normal, coord2 = vertexes_[ind2].normal, coord3 = vertexes_[ind3].normal;
+        return ((1 - uv.x() - uv.y()) * norm1 + uv.x() * coord2 + uv.y() * coord3).normalized();
+
     }
 
     Model::Model() {

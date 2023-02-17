@@ -52,7 +52,7 @@ namespace Phoenix {
         explicit Dielectric(PropertyList propers) {
             int_ior_ = propers.Get<float>("intIOR").value_or(1.f);
             ext_ior_ = propers.Get<float>("extIOR").value_or(1.5f);
-
+            is_two_sided_ = false;
 
             base_color_ = make_shared<SingleColorTexture>(Color3f(1, 1, 1), "basecolor");
         }

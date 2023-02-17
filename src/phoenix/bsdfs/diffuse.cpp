@@ -9,6 +9,7 @@ namespace Phoenix {
         explicit Diffuse(PropertyList properties) {
 //            base_color_ = properties.Get<vector<float>>("reflectance").value_or(vector<float>{1, 1, 1});
             base_color_ = nullptr;
+            is_two_sided_ = properties.Get<bool>("twosided").value_or(true);
 
         }
 

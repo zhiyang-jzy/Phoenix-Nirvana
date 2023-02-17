@@ -14,6 +14,7 @@ namespace Phoenix {
         RoughConductor(PropertyList propers) {
             alpha_ = propers.Get<float>("alpha").value();
             distribution_ = make_shared<MicrofacetDistribution>(alpha_);
+            is_two_sided_ = propers.Get<bool>("twosided").value_or(true);
         }
 
         [[nodiscard]] string ToString() const override { return "rough_conductor"; }

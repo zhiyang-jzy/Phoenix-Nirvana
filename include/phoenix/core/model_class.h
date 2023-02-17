@@ -28,6 +28,7 @@ namespace Phoenix{
         void PostProcess();
         float area() const{return area_;};
         Vector2f GetUv(uint prim_id, Vector2f uv);
+        std::optional<Normal3f> GetNormal(uint prim_id, Vector2f uv);
 
     };
 

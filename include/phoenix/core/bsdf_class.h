@@ -25,6 +25,7 @@ namespace Phoenix {
     class Bsdf : public PhoenixObject {
     public:
         shared_ptr<Texture> base_color_;
+        bool is_two_sided_;
 
         [[nodiscard]] PClassType GetClassType() const override { return PClassType::PBSDF; }
 
@@ -37,6 +38,9 @@ namespace Phoenix {
         virtual Color3f base_color(const Vector2f uv) const { return base_color_->GetColor(uv); }
 
         virtual bool IsSpecular() const { return false; }
+
+        virtual bool IsTwoSided() const { return is_two_sided_; }
+
 
     };
 }

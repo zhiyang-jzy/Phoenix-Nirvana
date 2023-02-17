@@ -27,7 +27,9 @@ namespace Phoenix {
         path_tool_.SetCurrentPath(file_path.parent_path());
 
         Assimp::Importer importer;
-        auto scene = importer.ReadFile(file_path.string(), aiProcess_Triangulate | aiProcess_GenNormals);
+        auto scene = importer.ReadFile(file_path.string(),
+                                       aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_FixInfacingNormals |
+                                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeMeshes);
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
             spdlog::error("load model file failed {}", file_path.string());
             exit(0);

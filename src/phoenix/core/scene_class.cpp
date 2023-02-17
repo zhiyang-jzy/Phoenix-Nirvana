@@ -26,17 +26,25 @@ namespace Phoenix {
         interaction.basic = basic;
         interaction.shape = nullptr;
         interaction.emitter = nullptr;
+        bool z = (basic.normal.dot(-ray.dir)) > 0.f;
         if (basic.is_hit) {
             if (shape_dict_.count(basic.geo_id)) {
                 interaction.hit_type = HitType::Shape;
                 interaction.shape = shape_dict_.at(basic.geo_id);
-                interaction.frame = Frame(basic.normal);
+
                 interaction.uv = interaction.shape->GetUv(interaction);
+                interaction.normal = interaction.shape->GetNormal(interaction);
+                if (!z && interaction.shape->bsdf()->IsTwoSided())
+                    interaction.normal = -interaction.normal;
+                interaction.frame = Frame(interaction.normal);
 
             } else {
                 interaction.hit_type = HitType::Emitter;
                 interaction.emitter = emitter_dict_.at(basic.geo_id);
-                interaction.frame = Frame(basic.normal);
+                interaction.normal = interaction.emitter->GetNormal(interaction);
+                if (!z && interaction.emitter->IsTwoSided())
+                    interaction.normal = -interaction.normal;
+                interaction.frame = Frame(interaction.normal);
             }
         }
         return interaction;

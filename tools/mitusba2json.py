@@ -67,6 +67,11 @@ def process_shapes_and_emitters(tree, res):
             rgb = emitter.find('rgb')
             emit['radiance'] = str_to_vec(rgb.attrib['value'])
             emit['shape'] = temp
+
+            bsdf = elem.find('bsdf')
+            if bsdf is not None:
+                if bsdf.attrib['type'] == 'twosided':
+                    emit['twosided'] = True
             res['emitters'].append(emit)
         else:
             temp['bsdf'] = {}
@@ -117,20 +122,6 @@ def process_bsdf(bsdf_info):
             bsdf[ele.attrib['name']] = float(ele.attrib['value'])
         process_textures(bsdf_info, bsdf)
 
-    # if bsdf_info.attrib['type'] == 'roughconductor':
-    #     bsdf['type'] = 'roughconductor'
-    #     for ele in bsdf_info.findall('float'):
-    #         bsdf[ele.attrib['name']] = float(ele.attrib['value'])
-    # elif bsdf_info.attrib['type'] == "diffuse":
-    #     bsdf['type'] = 'diffuse'
-    # elif bsdf_info.attrib['type'] == 'dielectric' or bsdf_info.attrib['type'] == 'roughdielectric' or bsdf_info.attrib[
-    #     'type'] == 'thindielectric':
-    #     bsdf['type'] = 'dielectric'
-    # elif bsdf_info.attrib['type'] == 'conductor':
-    #     bsdf['type'] = 'conductor'
-    # elif bsdf_info.attrib['type'] == 'plastic' or bsdf_info.attrib['type'] == 'roughplastic':
-    #     bsdf['type'] = 'plastic'
-
     else:
         bsdf['type'] = 'diffuse'
         bsdf['textures'] = []
@@ -148,16 +139,20 @@ def process_bsdfs(tree, res):
         bsdf = {}
         if elem.find('bsdf') is not None:
             bsdf_info = elem.find('bsdf')
+
             if bsdf_info.find('bsdf') is not None:
                 b_info = bsdf_info.find('bsdf')
-                print(b_info.attrib, b_info.tag)
                 if 'id' in b_info.attrib:
                     bsdf['id'] = b_info.attrib['id']
                 bsdf = process_bsdf(b_info)
                 if 'id' in bsdf_info.attrib:
                     bsdf['id'] = bsdf_info.attrib['id']
+                if b_info.attrib['type'] == 'twosided':
+                    bsdf['twosided'] = True
             else:
                 bsdf = process_bsdf(bsdf_info)
+                if bsdf_info.attrib['type'] == 'twosided':
+                    bsdf['twosided'] = True
         else:
             bsdf = process_bsdf(elem)
         if 'id' in elem.attrib:
@@ -185,14 +180,14 @@ def process_camera(tree, res):
     film = came_info.find('film')
     for info in film.findall('integer'):
         res['camera'][info.attrib['name']] = int(info.attrib['value'])
-    v = float(res['camera']['height'])/float(res['camera']['width'])
-    res['camera']['fov']*=v
+    v = float(res['camera']['height']) / float(res['camera']['width'])
+    res['camera']['fov'] *= v
 
 
 def basic_setting(res):
     res['sampler'] = {}
     res['sampler']['type'] = 'pcg_random'
-    res['sample_count'] = 64
+    res['sample_count'] = 4
     res['integrator'] = {}
     res['integrator']['type'] = 'mis'
 

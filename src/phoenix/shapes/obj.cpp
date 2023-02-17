@@ -49,6 +49,14 @@ namespace Phoenix {
 
         }
 
+        Normal3f GetNormal(const Interaction &its) const override {
+            auto mesh = mesh_dict_.at(its.basic.geo_id);
+            auto normal = mesh->GetNormal(its.basic.prim_id, its.basic.uv);
+            if (normal)
+                return normal.value();
+            return its.basic.normal;
+        }
+
 
     };
 

@@ -2,13 +2,13 @@
     "sampler":{
         "type":"pcg_random"
     },
-    "sample_count":256,
+    "sample_count":64,
     "integrator":{
-        "type":"base"
+        "type":"mis"
     },
     "camera":{
         "type":"pinhole",
-        "fov":17.5,
+        "fov":19.6875,
         "matrix":[
             0.999993,
             -5.92355e-05,
@@ -27,75 +27,107 @@
             -0.0,
             1.0
         ],
-        "width":1280,
-        "height":720
+        "width":2560,
+        "height":1440
     },
     "bsdfs":[
         {
-            "id":"Backdrop",
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                0.578596,
-                0.578596,
-                0.578596
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        4.27751,
+                        3.51315,
+                        2.76113
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        3.49118,
+                        2.88936,
+                        3.1117
+                    ]
+                }
             ],
-            "eta":[
-                4.27751,
-                3.51315,
-                2.76113
-            ],
-            "k":[
-                3.49118,
-                2.88936,
-                3.1117
-            ]
+            "id":"Backdrop"
         },
         {
-            "id":"Floor",
             "type":"roughconductor",
             "alpha":0.1,
             "extEta":1.0,
-            "specularReflectance":[
-                0.578596,
-                0.578596,
-                0.578596
+            "textures":[
+                {
+                    "name":"specularReflectance",
+                    "type":"single_color",
+                    "value":[
+                        0.578596,
+                        0.578596,
+                        0.578596
+                    ]
+                },
+                {
+                    "name":"eta",
+                    "type":"single_color",
+                    "value":[
+                        1.65746,
+                        0.880369,
+                        0.521229
+                    ]
+                },
+                {
+                    "name":"k",
+                    "type":"single_color",
+                    "value":[
+                        9.22387,
+                        6.26952,
+                        4.837
+                    ]
+                }
             ],
-            "eta":[
-                1.65746,
-                0.880369,
-                0.521229
-            ],
-            "k":[
-                9.22387,
-                6.26952,
-                4.837
-            ]
+            "id":"Floor"
         },
         {
             "id":"WaterAir",
             "type":"dielectric",
             "intIOR":1.33,
-            "extIOR":1.0
+            "extIOR":1.0,
+            "textures":[]
         },
         {
             "id":"IceAir",
             "type":"dielectric",
             "intIOR":1.31,
-            "extIOR":1.0
+            "extIOR":1.0,
+            "textures":[]
         },
         {
             "id":"Glass",
             "type":"dielectric",
             "intIOR":1.5,
-            "extIOR":1.0
+            "extIOR":1.0,
+            "textures":[]
         },
         {
             "id":"AirIce",
             "type":"dielectric",
             "intIOR":0.763,
-            "extIOR":1.0
+            "extIOR":1.0,
+            "textures":[]
         }
     ],
     "shapes":[
@@ -580,7 +612,8 @@
                         1.0
                     ]
                 }
-            }
+            },
+            "twosided":true
         }
     ]
 }

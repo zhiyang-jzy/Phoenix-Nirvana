@@ -2,13 +2,13 @@
     "sampler":{
         "type":"pcg_random"
     },
-    "sample_count":16,
+    "sample_count":64,
     "integrator":{
         "type":"mis"
     },
     "camera":{
         "type":"pinhole",
-        "fov":40.0,
+        "fov":33.75,
         "matrix":[
             0.89874,
             -0.0182716,
@@ -27,8 +27,8 @@
             -0.0,
             1.0
         ],
-        "width":1280,
-        "height":720
+        "width":2560,
+        "height":1440
     },
     "bsdfs":[
         {
@@ -9892,7 +9892,8 @@
                         1.0
                     ]
                 }
-            }
+            },
+            "twosided":true
         },
         {
             "type":"area",
@@ -9925,7 +9926,8 @@
                         1.0
                     ]
                 }
-            }
+            },
+            "twosided":true
         },
         {
             "type":"area",
@@ -9958,7 +9960,8 @@
                         1.0
                     ]
                 }
-            }
+            },
+            "twosided":true
         },
         {
             "type":"area",
@@ -9991,7 +9994,8 @@
                         1.0
                     ]
                 }
-            }
+            },
+            "twosided":true
         }
     ]
 }

@@ -202,7 +202,7 @@ namespace Phoenix {
 
         void SetQuery(const Ray& ray,const Interaction& its){
             point = its.basic.point;
-            normal = its.basic.normal;
+            normal = its.normal;
             emitter = its.emitter;
             dir = ray.dir;
             dist = (ray.orig-point).norm();

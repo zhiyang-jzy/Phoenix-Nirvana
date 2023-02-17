@@ -5,6 +5,7 @@ namespace Phoenix {
     public:
         explicit Conduct(PropertyList propers) {
             base_color_ = make_shared<SingleColorTexture>(Color3f(1, 1, 1), "basecolor");
+            is_two_sided_ = false;
         }
 
         [[nodiscard]] string ToString() const override { return "conduct"; }

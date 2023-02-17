@@ -7,6 +7,7 @@ namespace Phoenix {
     public:
         explicit AreaEmitter(PropertyList properties) {
             radiance_ = properties.Get<vector<float>>("radiance").value_or(vector<float>{1, 1, 1});
+            is_two_sided_ = properties.Get<bool>("twosided").value_or(false);
         }
 
         float area() override {
@@ -20,9 +21,9 @@ namespace Phoenix {
         }
 
         [[nodiscard]] Color3f Eval(const EmitterQueryRecord &rec) const override {
-//            float v = rec.n.dot(rec.wi);
-//            if(v<=0.f)
-//                return {0,0,0};
+            float v = rec.n.dot(rec.wi);
+            if (!is_two_sided_ && v <= 0.f)
+                return {0, 0, 0};
             return radiance_;
         }
 
@@ -36,9 +37,11 @@ namespace Phoenix {
             rec.wi = (rec.ref - rec.p).normalized();
             rec.shadow_ray = Ray(rec.ref, -rec.wi);
 
-            if (rec.n.dot(rec.wi) <= 0)
-//                return {0,0,0};
-                rec.n = -rec.n;
+            if (rec.n.dot(rec.wi) <= 0) {
+                if (is_two_sided_)
+                    rec.n = -rec.n;
+                return {0, 0, 0};
+            }
             return radiance_;
 
         }
@@ -64,8 +67,12 @@ namespace Phoenix {
             return shape_->PdfPosition(pRec);
         }
 
-        float PdfDirect(const DirectSamplingRecord &dRec) const override{
+        float PdfDirect(const DirectSamplingRecord &dRec) const override {
             return shape_->PdfDirect(dRec);
+        }
+
+        Normal3f GetNormal(const Interaction &its) const override {
+            return shape_->GetNormal(its);
         }
 
 

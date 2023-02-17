@@ -8,11 +8,18 @@ using namespace Phoenix;
 
 int main(int argc, char const *argv[]) {
 
-    argparse::ArgumentParser program("phoenix-nirvana");
+    argparse::ArgumentParser program("phoenix-nirvana","0.1");
     program.add_argument<std::string>("filepath")
             .help("json file path");
-    program.parse_args(argc, argv);
-
+    try {
+        program.parse_args(argc, argv);
+    }
+    catch (const std::runtime_error& err) {
+        std::cerr << err.what() << std::endl;
+        std::cerr << program;
+        std::exit(1);
+    }
+    
     auto filename = program.get<string>("filepath");
 
     Renderer render;

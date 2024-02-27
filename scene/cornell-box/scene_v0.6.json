@@ -2,7 +2,7 @@
     "sampler":{
         "type":"pcg_random"
     },
-    "sample_count":64,
+    "sample_count":4,
     "integrator":{
         "type":"mis"
     },
@@ -27,8 +27,8 @@
             -0.0,
             1.0
         ],
-        "width":1024,
-        "height":1024
+        "width":256,
+        "height":256
     },
     "bsdfs":[
         {
@@ -92,7 +92,7 @@
             "id":"Ceiling"
         },
         {
-            "type":"diffuse",
+            "type":"conductor",
             "textures":[
                 {
                     "name":"reflectance",
@@ -107,7 +107,7 @@
             "id":"BackWall"
         },
         {
-            "type":"diffuse",
+            "type":"dielectric",
             "textures":[
                 {
                     "name":"reflectance",

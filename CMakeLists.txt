@@ -4,6 +4,8 @@ project(phoenix_nirvana)
 set(CMAKE_CXX_STANDARD 17)
 
 include_directories(include)
+include_directories(${EIGEN_INCLUDE_DIR})
+
 file(GLOB phoenix_src src/phoenix/*.cpp src/phoenix/utils/*.cpp src/phoenix/core/*.cpp src/phoenix/cameras/*.cpp
         src/phoenix/samplers/*.cpp src/phoenix/integrators/*.cpp src/phoenix/shapes/*.cpp src/phoenix/emitters/*.cpp src/phoenix/bsdfs/*.cpp)
 
@@ -14,7 +16,7 @@ message(STATUS "${CMAKE_MODULE_PATH}")
 find_package(ZLIB)
 find_package(Eigen3)
 find_package(spdlog)
-find_package(embree 3 CONFIG REQUIRED)
+find_package(embree 4 CONFIG REQUIRED)
 find_package(magic_enum CONFIG REQUIRED)
 find_package(TBB CONFIG REQUIRED tbb)
 find_package(assimp CONFIG REQUIRED)

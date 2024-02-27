@@ -1,5 +1,5 @@
 #pragma once
-#include <embree3/rtcore.h>
+#include <embree4/rtcore.h>
 #include "phoenix/core/common.h"
 #include "phoenix/core/common_struct.h"
 

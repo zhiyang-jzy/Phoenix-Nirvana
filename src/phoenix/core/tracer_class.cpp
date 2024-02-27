@@ -2,15 +2,17 @@
 #include <spdlog/spdlog.h>
 
 void ErrorFunction(void *userPtr, enum RTCError error, const char *str) {
-    spdlog::error("error {}: {}", error, str);
+    spdlog::error("error: {}", str);
 }
 
 namespace Phoenix {
+#define FEATURE_MASK \
+  RTC_FEATURE_FLAG_TRIANGLE
 
     Tracer::Tracer() {
         device_ = rtcNewDevice(nullptr);
         if (!device_)
-            spdlog::error("error {}: cannot create device", rtcGetDeviceError(nullptr));
+            spdlog::error("error : cannot create device");
         rtcSetDeviceErrorFunction(device_, ErrorFunction, nullptr);
 
         scene_ = rtcNewScene(device_);
@@ -44,8 +46,8 @@ namespace Phoenix {
     }
 
     TracerHit Tracer::TraceRay(const Ray &ray) const {
-        struct RTCIntersectContext context{};
-        rtcInitIntersectContext(&context);
+        struct RTCRayQueryContext context{};
+        rtcInitRayQueryContext(&context);
 
         struct RTCRayHit ray_hit{};
         ray_hit.ray.org_x = ray.orig.x();
@@ -60,8 +62,11 @@ namespace Phoenix {
         ray_hit.ray.flags = 0;
         ray_hit.hit.geomID = RTC_INVALID_GEOMETRY_ID;
         ray_hit.hit.instID[0] = RTC_INVALID_GEOMETRY_ID;
+        RTCIntersectArguments iargs;
+        rtcInitIntersectArguments(&iargs);
+        iargs.feature_mask = (RTCFeatureFlags) (FEATURE_MASK);
 
-        rtcIntersect1(scene_, &context, &ray_hit);
+        rtcIntersect1(scene_,  &ray_hit,&iargs);
 
         return {ray_hit.hit.geomID != RTC_INVALID_GEOMETRY_ID, ray_hit.ray.tfar, {ray_hit.hit.u, ray_hit.hit.v},
                 {ray_hit.hit.Ng_x, ray_hit.hit.Ng_y, ray_hit.hit.Ng_z}, ray.At(ray_hit.ray.tfar), ray_hit.hit.geomID,
